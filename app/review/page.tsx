@@ -3,6 +3,7 @@
 import { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { CheckCircle2 } from 'lucide-react'
 
 interface ReviewQuestion {
   id: number
@@ -147,7 +148,9 @@ function ReviewContent() {
           animate={{ opacity: 1 }}
           className="flex flex-col items-center justify-center py-24 text-center"
         >
-          <div className="text-5xl mb-4">✅</div>
+          <div className="mb-4">
+            <CheckCircle2 size={48} color="var(--green)" />
+          </div>
           <p className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
             No errors to review
           </p>

@@ -4,6 +4,10 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Suspense } from 'react'
+import { Flame, Trophy } from 'lucide-react'
+import confetti from 'canvas-confetti'
+import AnswerButton from '@/components/practice/AnswerButton'
+import { xpForCorrect } from '@/lib/xp'
 
 interface Question {
   id: number
@@ -24,11 +28,18 @@ interface Result {
 }
 
 type Phase = 'loading' | 'question' | 'feedback' | 'complete'
+type AnswerState = 'idle' | 'correct' | 'wrong' | 'reveal' | 'disabled'
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60)
   const s = seconds % 60
   return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+}
+
+function timerColor(elapsed: number): string {
+  if (elapsed >= 60) return '#e83b3b'
+  if (elapsed >= 30) return '#f5a623'
+  return '#58cc02'
 }
 
 function DifficultyDots({ level }: { level: number }) {
@@ -38,13 +49,26 @@ function DifficultyDots({ level }: { level: number }) {
         <div
           key={i}
           className="w-2 h-2 rounded-full"
-          style={{
-            background: i < level ? 'var(--green)' : 'var(--border)',
-          }}
+          style={{ background: i < level ? 'var(--green)' : 'var(--border)' }}
         />
       ))}
     </div>
   )
+}
+
+const LETTER_MAP = ['A', 'B', 'C', 'D'] as const
+type OptionLetter = (typeof LETTER_MAP)[number]
+
+function getButtonState(
+  letter: OptionLetter,
+  isAnswered: boolean,
+  selectedLetter: string | null,
+  correctLetter: string
+): AnswerState {
+  if (!isAnswered) return 'idle'
+  if (letter === correctLetter) return 'correct'
+  if (letter === selectedLetter) return 'wrong'
+  return 'disabled'
 }
 
 function SessionContent() {
@@ -55,7 +79,7 @@ function SessionContent() {
   const [questions, setQuestions] = useState<Question[]>([])
   const [sessionId, setSessionId] = useState<number>(0)
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
+  const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
   const [isAnswered, setIsAnswered] = useState(false)
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
   const [correctAnswer, setCorrectAnswer] = useState<string>('')
@@ -63,8 +87,14 @@ function SessionContent() {
   const [results, setResults] = useState<Result[]>([])
   const [phase, setPhase] = useState<Phase>('loading')
   const [timer, setTimer] = useState(0)
-  const [shakeAnswer, setShakeAnswer] = useState<string | null>(null)
   const [streak, setStreak] = useState(0)
+
+  // Gamification state
+  const [combo, setCombo] = useState(0)
+  const [xp, setXp] = useState(0)
+  const [xpFlash, setXpFlash] = useState<{ amount: number; id: number } | null>(null)
+  const xpFlashId = useRef(0)
+
   const startTimeRef = useRef<number>(Date.now())
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -96,16 +126,30 @@ function SessionContent() {
     }
   }, [phase, currentIndex])
 
+  // Confetti on complete
+  useEffect(() => {
+    if (phase !== 'complete') return
+    const correct = results.filter((r) => r.is_correct).length
+    const accuracy = results.length > 0 ? Math.round((correct / results.length) * 100) : 0
+    if (accuracy >= 60) {
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#58cc02', '#1cb0f6', '#ffd700', '#ff4b4b', '#8b5cf6'],
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase])
+
   const handleAnswer = useCallback(
-    async (choice: string) => {
+    async (letter: OptionLetter) => {
       if (isAnswered) return
-      setSelectedAnswer(choice)
+      setSelectedLetter(letter)
       setIsAnswered(true)
 
       const timeSpent = Math.round((Date.now() - startTimeRef.current) / 1000)
       const question = questions[currentIndex]
-      // The answer is the letter prefix e.g. "A"
-      const letter = choice.charAt(0)
 
       try {
         const res = await fetch('/api/practice/answer', {
@@ -129,25 +173,32 @@ function SessionContent() {
         setExplanation(data.explanation)
         setResults((prev) => [...prev, { question_id: question.id, is_correct: data.is_correct }])
 
-        if (!data.is_correct) {
-          setShakeAnswer(choice)
-          setTimeout(() => setShakeAnswer(null), 500)
+        if (data.is_correct) {
+          const newCombo = combo + 1
+          setCombo(newCombo)
+          const earned = xpForCorrect(newCombo)
+          setXp((prev) => prev + earned)
+          xpFlashId.current += 1
+          setXpFlash({ amount: earned, id: xpFlashId.current })
+          setTimeout(() => setXpFlash(null), 1100)
+        } else {
+          setCombo(0)
         }
 
         setPhase('feedback')
       } catch {
         setIsCorrect(false)
+        setCombo(0)
         setPhase('feedback')
       }
     },
-    [isAnswered, questions, currentIndex, sessionId]
+    [isAnswered, questions, currentIndex, sessionId, combo]
   )
 
   const handleContinue = useCallback(async () => {
     const next = currentIndex + 1
 
     if (next >= questions.length) {
-      // Complete session
       if (sessionId) {
         try {
           await fetch('/api/practice/session', {
@@ -159,7 +210,6 @@ function SessionContent() {
           // ignore
         }
       }
-      // Fetch streak count
       try {
         const res = await fetch('/api/dashboard')
         const d = (await res.json()) as { streak?: number }
@@ -173,7 +223,7 @@ function SessionContent() {
 
     setPhase('question')
     setCurrentIndex(next)
-    setSelectedAnswer(null)
+    setSelectedLetter(null)
     setIsAnswered(false)
     setIsCorrect(null)
     setCorrectAnswer('')
@@ -181,6 +231,7 @@ function SessionContent() {
     startTimeRef.current = Date.now()
   }, [currentIndex, questions.length, sessionId])
 
+  // ── Loading ──────────────────────────────────────────────────────────────
   if (phase === 'loading') {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -197,157 +248,146 @@ function SessionContent() {
     )
   }
 
+  // ── Complete ─────────────────────────────────────────────────────────────
   if (phase === 'complete') {
-    const correctCount = results.filter((r) => r.is_correct).length
-    const accuracy = results.length > 0 ? Math.round((correctCount / results.length) * 100) : 0
-    const xp = correctCount * 10
-    const circumference = 2 * Math.PI * 40
+    const correct = results.filter((r) => r.is_correct).length
+    const total = results.length
+    const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0
 
     return (
-      <div className="flex items-center justify-center min-h-screen px-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="flex flex-col items-center justify-center min-h-screen gap-8 text-center px-8"
+      >
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-          className="w-full max-w-md rounded-3xl p-8 text-center"
-          style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
+          animate={{ rotate: [0, -10, 10, -5, 5, 0] }}
+          transition={{ delay: 0.3, duration: 0.6 }}
         >
-          <div className="text-5xl mb-4">🎉</div>
-          <h1 className="text-2xl font-black mb-1" style={{ color: 'var(--text-primary)' }}>
+          <Trophy size={80} color="var(--gold)" />
+        </motion.div>
+
+        <div>
+          <h1 className="text-4xl font-black" style={{ color: 'var(--text-primary)' }}>
             Session Complete!
           </h1>
-          <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>
-            Great work — keep the streak alive
+          <p className="text-lg mt-2" style={{ color: 'var(--text-muted)' }}>
+            Here&apos;s how you did
           </p>
+        </div>
 
-          {/* Circular progress */}
-          <div className="flex justify-center mb-8">
-            <div className="relative w-28 h-28">
-              <svg className="w-full h-full -rotate-90" viewBox="0 0 96 96">
-                <circle cx="48" cy="48" r="40" fill="none" stroke="var(--border)" strokeWidth="8" />
-                <circle
-                  cx="48"
-                  cy="48"
-                  r="40"
-                  fill="none"
-                  stroke="var(--green)"
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                  strokeDasharray={circumference}
-                  strokeDashoffset={circumference - (accuracy / 100) * circumference}
-                />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-2xl font-black" style={{ color: 'var(--green)' }}>
-                  {accuracy}%
-                </span>
-                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                  accuracy
-                </span>
-              </div>
-            </div>
-          </div>
+        {/* Score cards */}
+        <div className="grid grid-cols-3 gap-4 w-full max-w-lg">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="rounded-2xl p-5 text-center"
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
+          >
+            <p className="text-3xl font-black" style={{ color: 'var(--green)' }}>
+              {correct}/{total}
+            </p>
+            <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+              Score
+            </p>
+          </motion.div>
 
-          <div className="grid grid-cols-3 gap-3 mb-8">
-            <div
-              className="rounded-xl p-4"
-              style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)' }}
-            >
-              <p className="text-xl font-black" style={{ color: 'var(--text-primary)' }}>
-                {correctCount} / {results.length}
-              </p>
-              <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
-                Score
-              </p>
-            </div>
-            <div
-              className="rounded-xl p-4"
-              style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)' }}
-            >
-              <p className="text-xl font-black" style={{ color: 'var(--gold)' }}>
-                +{xp}
-              </p>
-              <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
-                XP earned
-              </p>
-            </div>
-            <div
-              className="rounded-xl p-4"
-              style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)' }}
-            >
-              <p className="text-xl font-black" style={{ color: 'var(--text-primary)' }}>
-                🔥 {streak}
-              </p>
-              <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
-                Day streak
-              </p>
-            </div>
-          </div>
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="rounded-2xl p-5 text-center"
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
+          >
+            <p className="text-3xl font-black" style={{ color: 'var(--blue)' }}>
+              {accuracy}%
+            </p>
+            <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+              Accuracy
+            </p>
+          </motion.div>
 
-          <div className="flex flex-col gap-3">
-            <button
-              onClick={() => router.push('/')}
-              className="w-full py-3 rounded-xl font-bold cursor-pointer transition-all duration-200"
-              style={{ background: 'var(--green)', color: 'var(--bg-base)' }}
-            >
-              Back to Dashboard
-            </button>
-            <button
-              onClick={() => router.push('/errors')}
-              className="w-full py-3 rounded-xl font-semibold cursor-pointer transition-all duration-200"
-              style={{
-                background: 'var(--bg-elevated)',
-                color: 'var(--text-secondary)',
-                border: '1px solid var(--border)',
-              }}
-            >
-              Review Mistakes
-            </button>
-          </div>
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="rounded-2xl p-5 text-center"
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
+          >
+            <p className="text-3xl font-black" style={{ color: 'var(--gold)' }}>
+              {xp}
+            </p>
+            <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+              XP Earned
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Streak pill */}
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.7, type: 'spring' }}
+          className="flex items-center gap-2 px-6 py-3 rounded-full"
+          style={{ background: 'rgba(249,115,22,0.15)', border: '1px solid #f97316' }}
+        >
+          <Flame size={20} color="#f97316" />
+          <span className="font-bold" style={{ color: '#f97316' }}>
+            {streak} day streak
+          </span>
         </motion.div>
-      </div>
+
+        {/* Action buttons */}
+        <div className="flex gap-3">
+          <button
+            onClick={() => router.push('/')}
+            className="px-6 py-3 rounded-xl font-bold cursor-pointer transition-all duration-200"
+            style={{ background: 'var(--green)', color: 'var(--bg-base)' }}
+          >
+            Back to Dashboard
+          </button>
+          <button
+            onClick={() => router.push('/errors')}
+            className="px-6 py-3 rounded-xl font-semibold cursor-pointer transition-all duration-200"
+            style={{
+              background: 'var(--bg-elevated)',
+              color: 'var(--text-secondary)',
+              border: '1px solid var(--border)',
+            }}
+          >
+            Review Mistakes
+          </button>
+        </div>
+      </motion.div>
     )
   }
 
+  // ── Question / Feedback ──────────────────────────────────────────────────
   const question = questions[currentIndex]
-  const correctLetter = correctAnswer || question.answer_text
-
-  const getChoiceStyle = (choice: string): React.CSSProperties => {
-    const letter = choice.charAt(0)
-    if (!isAnswered) {
-      return {
-        background: 'var(--bg-elevated)',
-        border: '1px solid var(--border)',
-        color: 'var(--text-primary)',
-      }
-    }
-    if (letter === correctLetter) {
-      return {
-        background: 'rgba(88,204,2,0.15)',
-        border: '1px solid var(--green)',
-        color: 'var(--green)',
-      }
-    }
-    if (choice === selectedAnswer) {
-      return {
-        background: 'rgba(255,75,75,0.15)',
-        border: '1px solid var(--red)',
-        color: 'var(--red)',
-      }
-    }
-    return {
-      background: 'var(--bg-elevated)',
-      border: '1px solid var(--border)',
-      color: 'var(--text-muted)',
-      opacity: 0.5,
-    }
-  }
+  const correctLetter = (correctAnswer || question.answer_text) as OptionLetter
 
   return (
     <div className="flex flex-col min-h-screen" style={{ background: 'var(--bg-base)' }}>
+      {/* XP burst overlay */}
+      <AnimatePresence>
+        {xpFlash && (
+          <motion.div
+            key={xpFlash.id}
+            initial={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 0, y: -60 }}
+            transition={{ duration: 1, ease: 'easeOut' }}
+            className="fixed pointer-events-none font-bold text-2xl z-50"
+            style={{ color: 'var(--green)', right: 120, top: '40%' }}
+          >
+            +{xpFlash.amount} XP
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Header bar */}
       <div
-        className="fixed top-0 left-0 right-0 z-50 px-6 py-3 flex items-center gap-4"
+        className="fixed top-0 left-0 right-0 z-40 px-6 py-3 flex items-center gap-4"
         style={{ background: 'var(--bg-surface)', borderBottom: '1px solid var(--border)' }}
       >
         <span className="text-sm font-bold" style={{ color: 'var(--green)' }}>
@@ -358,7 +398,10 @@ function SessionContent() {
           <span
             className="text-xs px-2 py-1 rounded-full font-medium"
             style={{
-              background: question.subject === 'ap_precalc' ? 'rgba(28,176,246,0.15)' : 'rgba(88,204,2,0.15)',
+              background:
+                question.subject === 'ap_precalc'
+                  ? 'rgba(28,176,246,0.15)'
+                  : 'rgba(88,204,2,0.15)',
               color: question.subject === 'ap_precalc' ? 'var(--blue)' : 'var(--green)',
               border: `1px solid ${question.subject === 'ap_precalc' ? 'var(--blue)' : 'var(--green)'}33`,
             }}
@@ -380,10 +423,21 @@ function SessionContent() {
           </div>
         </div>
 
-        <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--text-muted)' }}>
-          <span>⏱ {formatTime(timer)}</span>
+        <div className="flex items-center gap-4 text-xs">
+          {/* Color-coded timer */}
+          <motion.span
+            animate={timer >= 60 ? { opacity: [1, 0.5, 1] } : { opacity: 1 }}
+            transition={timer >= 60 ? { repeat: Infinity, duration: 0.8 } : {}}
+            style={{ color: timerColor(timer), fontWeight: 600 }}
+          >
+            ⏱ {formatTime(timer)}
+          </motion.span>
           <span style={{ color: 'var(--text-secondary)' }}>
             {currentIndex + 1} / {questions.length}
+          </span>
+          {/* Session XP */}
+          <span className="font-bold" style={{ color: 'var(--gold)' }}>
+            {xp} XP
           </span>
         </div>
       </div>
@@ -391,6 +445,28 @@ function SessionContent() {
       {/* Main content */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 pt-20 pb-8">
         <div className="w-full max-w-2xl">
+          {/* Combo badge row */}
+          <div className="flex justify-center mb-4 h-9">
+            <AnimatePresence>
+              {combo >= 2 && (
+                <motion.div
+                  key={combo}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 1.5, opacity: 0 }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold"
+                  style={{
+                    background: combo >= 5 ? 'var(--red)' : 'var(--gold)',
+                    color: '#0a0a0f',
+                  }}
+                >
+                  <Flame size={14} />
+                  {combo}x COMBO{combo >= 5 ? ' 🔥 ON FIRE!' : ''}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -401,9 +477,12 @@ function SessionContent() {
             >
               {question && (
                 <>
-                  {/* Subject + question number */}
+                  {/* Subject + difficulty */}
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+                    <span
+                      className="text-xs font-medium uppercase tracking-wider"
+                      style={{ color: 'var(--text-muted)' }}
+                    >
                       {question.subject === 'ap_precalc' ? 'AP Precalculus' : 'SAT Math'}
                       {question.source === 'review' && (
                         <span className="ml-2 text-purple-400">· Review</span>
@@ -416,46 +495,39 @@ function SessionContent() {
                     Question {currentIndex + 1} of {questions.length}
                   </p>
 
-                  {/* Question text */}
+                  {/* Question card */}
                   <div
                     className="rounded-2xl p-6 mb-6"
                     style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
                   >
-                    <p className="text-lg leading-relaxed font-medium" style={{ color: 'var(--text-primary)' }}>
+                    <p
+                      className="text-lg leading-relaxed font-medium"
+                      style={{ color: 'var(--text-primary)' }}
+                    >
                       {question.question_text}
                     </p>
                   </div>
 
-                  {/* Answer choices */}
+                  {/* Kahoot-style answer buttons */}
                   <div className="flex flex-col gap-3 mb-6">
-                    {question.choices.map((choice) => {
-                      const letter = choice.charAt(0)
-                      const isShaking = shakeAnswer === choice
+                    {question.choices.map((choice, idx) => {
+                      const letter = LETTER_MAP[idx]
+                      if (!letter) return null
+                      const btnState = getButtonState(
+                        letter,
+                        isAnswered,
+                        selectedLetter,
+                        correctLetter
+                      )
                       return (
-                        <button
+                        <AnswerButton
                           key={choice}
-                          onClick={() => handleAnswer(choice)}
+                          letter={letter}
+                          text={choice}
+                          state={btnState}
+                          onClick={() => handleAnswer(letter)}
                           disabled={isAnswered}
-                          className={`w-full text-left p-4 rounded-xl font-medium cursor-pointer transition-all duration-200 flex items-center gap-3${isShaking ? ' animate-shake' : ''}`}
-                          style={getChoiceStyle(choice)}
-                        >
-                          <span
-                            className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-                            style={{
-                              background: 'var(--bg-base)',
-                              color: isAnswered && letter === correctLetter ? 'var(--green)' : 'inherit',
-                            }}
-                          >
-                            {letter}
-                          </span>
-                          <span>{choice.substring(3)}</span>
-                          {isAnswered && letter === correctLetter && (
-                            <span className="ml-auto text-green-400">✓</span>
-                          )}
-                          {isAnswered && choice === selectedAnswer && letter !== correctLetter && (
-                            <span className="ml-auto text-red-400">✗</span>
-                          )}
-                        </button>
+                        />
                       )
                     })}
                   </div>
@@ -470,7 +542,9 @@ function SessionContent() {
                         transition={{ duration: 0.2 }}
                         className="rounded-2xl p-5"
                         style={{
-                          background: isCorrect ? 'rgba(88,204,2,0.08)' : 'rgba(255,75,75,0.08)',
+                          background: isCorrect
+                            ? 'rgba(88,204,2,0.08)'
+                            : 'rgba(255,75,75,0.08)',
                           border: `1px solid ${isCorrect ? 'var(--green)' : 'var(--red)'}33`,
                         }}
                       >
@@ -478,7 +552,9 @@ function SessionContent() {
                           className="font-bold mb-2"
                           style={{ color: isCorrect ? 'var(--green)' : 'var(--red)' }}
                         >
-                          {isCorrect ? '✓ Correct!' : `✗ Incorrect — Correct answer: ${correctLetter}`}
+                          {isCorrect
+                            ? '✓ Correct!'
+                            : `✗ Incorrect — Correct answer: ${correctLetter}`}
                         </p>
                         {explanation && (
                           <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)' }}>
@@ -490,7 +566,9 @@ function SessionContent() {
                           className="px-6 py-2 rounded-xl text-sm font-bold cursor-pointer transition-all duration-200"
                           style={{ background: 'var(--green)', color: 'var(--bg-base)' }}
                         >
-                          {currentIndex + 1 < questions.length ? 'Continue →' : 'Finish Session →'}
+                          {currentIndex + 1 < questions.length
+                            ? 'Continue →'
+                            : 'Finish Session →'}
                         </button>
                       </motion.div>
                     )}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { Flame, BookOpen, Zap, Target, Star, AlertTriangle } from 'lucide-react'
 import {
   BarChart,
   Bar,
@@ -132,13 +133,13 @@ export default function StatsPage() {
       : 0
 
   const summaryCards = [
-    { label: 'Longest Streak', value: `${longestStreak} days`, icon: '🔥' },
-    { label: 'Total Problems', value: data.totals.total_attempts, icon: '📚' },
-    { label: 'Total Sessions', value: data.totals.total_sessions, icon: '⚡' },
+    { label: 'Longest Streak', value: `${longestStreak} days`, icon: <Flame size={20} color="#f97316" /> },
+    { label: 'Total Problems', value: data.totals.total_attempts, icon: <BookOpen size={20} color="var(--blue)" /> },
+    { label: 'Total Sessions', value: data.totals.total_sessions, icon: <Zap size={20} color="var(--gold)" /> },
     {
       label: 'Best Accuracy Day',
       value: bestAccuracyDay.acc > 0 ? `${bestAccuracyDay.acc}% (${bestAccuracyDay.date})` : '—',
-      icon: '🎯',
+      icon: <Target size={20} color="var(--green)" />,
     },
   ]
 
@@ -171,7 +172,7 @@ export default function StatsPage() {
             className="rounded-xl p-4"
             style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
           >
-            <p className="text-xl mb-1">{c.icon}</p>
+            <div className="mb-1">{c.icon}</div>
             <p className="text-base font-bold truncate" style={{ color: 'var(--text-primary)' }}>
               {c.value}
             </p>
@@ -312,16 +313,16 @@ export default function StatsPage() {
         className="grid grid-cols-2 gap-6"
       >
         {[
-          { title: '⚠️ Weakest Topics', topics: data.weakest_topics },
-          { title: '⭐ Strongest Topics', topics: data.strongest_topics },
+          { title: 'Weakest Topics', icon: <AlertTriangle size={14} color="#f97316" />, topics: data.weakest_topics },
+          { title: 'Strongest Topics', icon: <Star size={14} color="var(--gold)" />, topics: data.strongest_topics },
         ].map((section) => (
           <div
             key={section.title}
             className="rounded-2xl p-5"
             style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
           >
-            <p className="text-sm font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-              {section.title}
+            <p className="text-sm font-bold mb-4 flex items-center gap-1.5" style={{ color: 'var(--text-primary)' }}>
+              {section.icon}{section.title}
             </p>
             <div className="flex flex-col gap-3">
               {section.topics.map((t) => (

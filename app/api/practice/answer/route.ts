@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
+import { ensureSeeded } from '@/lib/ensure-seeded'
 
 export async function POST(req: Request) {
+  await ensureSeeded()
   const { session_id, question_id, user_answer, time_spent_sec } = await req.json()
 
   // Get question

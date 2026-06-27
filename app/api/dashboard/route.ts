@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
+import { ensureSeeded } from '@/lib/ensure-seeded'
 
 function calcStreak(rows: { date: string; problems_solved: number }[]): number {
   if (rows.length === 0) return 0
@@ -16,6 +17,7 @@ function calcStreak(rows: { date: string; problems_solved: number }[]): number {
 }
 
 export async function GET() {
+  await ensureSeeded()
   const today = new Date().toISOString().slice(0, 10)
   const sevenDaysAgo = new Date()
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)

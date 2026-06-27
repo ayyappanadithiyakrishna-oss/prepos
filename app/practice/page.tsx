@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { BookOpen, Target, RefreshCw, Zap } from 'lucide-react'
 
 interface PracticeBreakdown {
   ap_count: number
@@ -19,6 +20,7 @@ export default function PracticeLaunchPad() {
     review_count: 10,
     total: 55,
   })
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
     fetch('/api/practice/today')
@@ -31,6 +33,7 @@ export default function PracticeLaunchPad() {
         setBreakdown({ ap_count: ap, sat_count: sat, review_count: review, total: data.questions.length })
       })
       .catch(() => {})
+      .finally(() => setReady(true))
   }, [])
 
   const today = new Date().toLocaleDateString('en-US', {
@@ -39,130 +42,143 @@ export default function PracticeLaunchPad() {
     day: 'numeric',
   })
 
-  const cards = [
+  const modes = [
     {
-      icon: '📐',
       title: 'AP Precalculus',
       count: breakdown.ap_count,
-      label: 'questions',
-      accent: 'var(--blue)',
-      accentDim: 'rgba(28, 176, 246, 0.08)',
-      topics: ['Functions', 'Polynomials', 'Trigonometry', 'Conics', 'Modeling'],
-      subtitle: 'Covering all AP topics',
+      icon: <BookOpen size={36} color="white" />,
+      bg: 'var(--blue)',
+      description: 'Functions, Trig, Polynomials & more',
+      route: '/practice/session?mode=ap',
     },
     {
-      icon: '🧮',
       title: 'SAT Math',
       count: breakdown.sat_count,
-      label: 'questions',
-      accent: 'var(--green)',
-      accentDim: 'rgba(88, 204, 2, 0.08)',
-      topics: ['Algebra', 'Advanced Math', 'Geometry', 'Data Analysis'],
-      subtitle: 'Full SAT Math coverage',
+      icon: <Target size={36} color="white" />,
+      bg: 'var(--green)',
+      description: 'Algebra, Geometry & Data Analysis',
+      route: '/practice/session?mode=sat',
     },
     {
-      icon: '🔄',
-      title: 'Review',
+      title: 'Review Mode',
       count: breakdown.review_count,
-      label: 'questions',
-      accent: 'var(--purple)',
-      accentDim: 'rgba(139, 92, 246, 0.08)',
-      topics: ['From your mistake log'],
-      subtitle: 'Targeting your weak spots',
+      icon: <RefreshCw size={36} color="white" />,
+      bg: 'var(--purple)',
+      description: 'Questions from your mistake log',
+      route: '/practice/session?mode=review',
     },
   ]
 
   return (
     <div className="px-8 py-8 max-w-[800px]">
+      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="mb-10"
+        className="mb-3"
       >
-        <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
-          Daily Practice
-        </h1>
-        <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>
+        <div className="flex items-center gap-3 mb-2">
+          <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+            Daily Practice
+          </h1>
+          {/* Pulsing READY TO PLAY badge */}
+          <AnimatePresence>
+            {ready && (
+              <motion.span
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+                className="px-3 py-1 rounded-full text-xs font-black tracking-wider uppercase"
+                style={{
+                  background: 'rgba(88,204,2,0.18)',
+                  color: 'var(--green)',
+                  border: '1px solid var(--green)',
+                  boxShadow: '0 0 10px rgba(88,204,2,0.25)',
+                }}
+              >
+                <motion.span
+                  animate={{ opacity: [1, 0.5, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                  style={{ display: 'inline-block' }}
+                >
+                  ● READY TO PLAY
+                </motion.span>
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </div>
+        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
           {today} &nbsp;·&nbsp; {breakdown.total} questions ready
         </p>
       </motion.div>
 
-      <div className="flex flex-col gap-4 mb-10">
-        {cards.map((card, i) => (
+      {/* Blooket-style card grid */}
+      <div className="grid grid-cols-3 gap-5 mb-10 mt-8">
+        {modes.map((m, i) => (
           <motion.div
-            key={card.title}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1, duration: 0.35 }}
-            className="rounded-2xl p-6"
-            style={{
-              background: card.accentDim,
-              border: `1px solid ${card.accent}33`,
-            }}
+            key={m.title}
+            initial={{ opacity: 0, y: 24, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: i * 0.12, type: 'spring', stiffness: 200 }}
+            className="rounded-2xl overflow-hidden cursor-pointer"
+            style={{ border: '1px solid var(--border)' }}
+            whileHover={{ scale: 1.02, y: -2 }}
+            onClick={() => router.push(m.route)}
           >
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">{card.icon}</span>
-                <div>
-                  <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
-                    {card.title}
-                  </h2>
-                  <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
-                    {card.subtitle}
-                  </p>
-                </div>
-              </div>
-              <div className="text-right">
-                <span className="text-3xl font-black" style={{ color: card.accent }}>
-                  {card.count}
-                </span>
-                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                  {card.label}
-                </p>
-              </div>
+            {/* Top colored area */}
+            <div
+              className="flex flex-col items-center justify-center gap-3 py-10"
+              style={{ background: m.bg }}
+            >
+              {m.icon}
+              <span className="text-3xl font-black text-white">{m.count}</span>
+              <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                questions
+              </span>
             </div>
-
-            <div className="flex flex-wrap gap-2 mt-4">
-              {card.topics.map((t) => (
-                <span
-                  key={t}
-                  className="text-xs px-2 py-1 rounded-full"
-                  style={{
-                    background: 'var(--bg-elevated)',
-                    color: 'var(--text-secondary)',
-                    border: '1px solid var(--border)',
-                  }}
-                >
-                  {t}
-                </span>
-              ))}
+            {/* Bottom info */}
+            <div className="p-4" style={{ background: 'var(--bg-card)' }}>
+              <p className="font-bold" style={{ color: 'var(--text-primary)' }}>
+                {m.title}
+              </p>
+              <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                {m.description}
+              </p>
             </div>
           </motion.div>
         ))}
       </div>
 
+      {/* Begin button with glow */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.35, duration: 0.35 }}
+        transition={{ delay: 0.42, duration: 0.35 }}
       >
-        <button
+        <motion.button
           onClick={() => router.push('/practice/session')}
-          className="w-full py-4 rounded-2xl text-base font-bold cursor-pointer transition-all duration-200"
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+          animate={{
+            boxShadow: [
+              '0 0 0px rgba(88,204,2,0)',
+              '0 0 24px rgba(88,204,2,0.45)',
+              '0 0 0px rgba(88,204,2,0)',
+            ],
+          }}
+          transition={{
+            boxShadow: { repeat: Infinity, duration: 2.2, ease: 'easeInOut' },
+          }}
+          className="w-full py-4 rounded-2xl text-base font-bold cursor-pointer flex items-center justify-center gap-2"
           style={{
             background: 'var(--green)',
             color: 'var(--bg-base)',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = '0.9'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = '1'
-          }}
         >
+          <Zap size={18} />
           Begin Practice →
-        </button>
+        </motion.button>
         <p className="text-center text-xs mt-3" style={{ color: 'var(--text-muted)' }}>
           Estimated time: ~45 minutes
         </p>

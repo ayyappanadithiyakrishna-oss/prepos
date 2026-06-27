@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { Flame, BookOpen, Zap, Target, Rocket } from 'lucide-react'
 import StatsCard from '@/components/dashboard/StatsCard'
 import MasteryCard from '@/components/dashboard/MasteryCard'
 import TopicGrid from '@/components/dashboard/TopicGrid'
 import TodayAssignment from '@/components/dashboard/TodayAssignment'
+import LevelWidget from '@/components/dashboard/LevelWidget'
 
 interface Topic {
   id: number
@@ -109,16 +111,16 @@ export default function Dashboard() {
         transition={{ delay: 0.1, duration: 0.35 }}
         className="grid grid-cols-4 gap-4 mb-6"
       >
-        <StatsCard emoji="🔥" value={data.streak} label="day streak" sublabel="keep it up" />
+        <StatsCard icon={<Flame size={18} color="#f97316" />} value={data.streak} label="day streak" sublabel="keep it up" />
         <StatsCard
-          emoji="📚"
+          icon={<BookOpen size={18} color="var(--blue)" />}
           value={data.today_count}
           label="problems today"
           sublabel={`/ 55 daily goal`}
         />
-        <StatsCard emoji="⚡" value={data.total_count} label="total problems" sublabel="all time" />
+        <StatsCard icon={<Zap size={18} color="var(--gold)" />} value={data.total_count} label="total problems" sublabel="all time" />
         <StatsCard
-          emoji="🎯"
+          icon={<Target size={18} color="var(--green)" />}
           value={`${data.accuracy}%`}
           label="accuracy"
           sublabel="last 7 days"
@@ -147,6 +149,16 @@ export default function Dashboard() {
         <TodayAssignment />
       </motion.div>
 
+      {/* Level / XP widget */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25, duration: 0.35 }}
+        className="mb-6"
+      >
+        <LevelWidget totalXP={Math.round(data.total_count * (data.accuracy / 100)) * 10} />
+      </motion.div>
+
       {/* Mastery grid + Recent activity */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -168,7 +180,7 @@ export default function Dashboard() {
 
           {data.recent_sessions.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center gap-2 py-8">
-              <span className="text-3xl">🚀</span>
+              <Rocket size={32} color="var(--text-muted)" />
               <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
                 No sessions yet
               </p>

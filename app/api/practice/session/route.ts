@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
+import { ensureSeeded } from '@/lib/ensure-seeded'
 
 export async function POST(req: Request) {
+  await ensureSeeded()
   const { session_id } = await req.json()
   await sql`UPDATE sessions SET completed_at = NOW() WHERE id = ${session_id}`
 
@@ -21,6 +23,7 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
+  await ensureSeeded()
   const rows = await sql`
     SELECT s.id, s.session_type, s.started_at, s.completed_at, s.total_questions,
            COUNT(a.id) as attempt_count,

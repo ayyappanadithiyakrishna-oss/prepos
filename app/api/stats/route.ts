@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
+import { ensureSeeded } from '@/lib/ensure-seeded'
 
 export async function GET() {
+  await ensureSeeded()
   const thirtyDaysAgo = new Date()
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
   const cutoff = thirtyDaysAgo.toISOString().slice(0, 10)

@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
+import { ensureSeeded } from '@/lib/ensure-seeded'
 
 export async function GET(req: Request) {
+  await ensureSeeded()
   const { searchParams } = new URL(req.url)
   const topicId = searchParams.get('topic_id')
 

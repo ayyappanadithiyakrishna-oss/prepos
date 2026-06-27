@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
+import { ensureSeeded } from '@/lib/ensure-seeded'
 
 export async function GET() {
+  await ensureSeeded()
   // AP Precalculus: 25 questions, prioritize weak topics
   const apRows = await sql`
     SELECT q.id, q.subject, q.topic_id, t.name as topic_name,
