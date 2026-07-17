@@ -10,6 +10,70 @@ interface Topic {
   mastery_pct: number
 }
 
+// Per-sub-skill mastery from the recency/difficulty-weighted model
+// (GET /api/mastery -> skills[]). This is the honest, granular view for
+// verified SAT content — separate from the legacy per-topic bars below.
+interface Skill {
+  subSkill: string
+  domain: string
+  score: number
+  distinctCorrectReps: number
+  bandsCorrect: string[]
+  totalAttempts: number
+  mastered: boolean
+}
+
+function SkillRow({ skill, delay }: { skill: Skill; delay: number }) {
+  const pct = Math.round(skill.score * 100)
+  const barColor = skill.mastered ? 'var(--green)' : masteryColor(pct)
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.28 }}
+      style={{
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border)',
+        borderRadius: 14,
+        padding: '14px 16px',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 10 }}>
+        <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>
+          {skill.subSkill}
+        </span>
+        {skill.mastered ? (
+          <span style={{ padding: '2px 9px', borderRadius: 999, fontSize: 11, fontWeight: 700, fontFamily: "'DM Sans', sans-serif", color: 'var(--green)', background: 'rgba(88,204,2,0.15)', border: '1px solid rgba(88,204,2,0.35)' }}>
+            ✓ Mastered
+          </span>
+        ) : (
+          <span style={{ padding: '2px 9px', borderRadius: 999, fontSize: 11, fontWeight: 600, fontFamily: "'DM Sans', sans-serif", color: 'var(--text-muted)', background: 'var(--bg-elevated)', border: '1px solid var(--border)' }}>
+            {skill.totalAttempts === 0 ? 'Not started' : 'In progress'}
+          </span>
+        )}
+      </div>
+      {/* Score bar — animate transform (scaleX), not width, to avoid layout thrash */}
+      <div style={{ height: 8, borderRadius: 999, background: 'var(--bg-elevated)', overflow: 'hidden', marginBottom: 8 }}>
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            background: barColor,
+            borderRadius: 999,
+            transformOrigin: 'left',
+            transform: `scaleX(${pct / 100})`,
+            transition: 'transform 0.7s ease-out',
+          }}
+        />
+      </div>
+      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: 'var(--text-muted)', margin: 0 }}>
+        {pct}% · {skill.distinctCorrectReps} correct rep{skill.distinctCorrectReps === 1 ? '' : 's'} ·{' '}
+        bands: {skill.bandsCorrect.length ? skill.bandsCorrect.join(', ') : '—'} · {skill.totalAttempts} attempt{skill.totalAttempts === 1 ? '' : 's'}
+      </p>
+    </motion.div>
+  )
+}
+
 function masteryColor(pct: number): string {
   if (pct >= 91) return 'var(--green)'
   if (pct >= 71) return 'var(--blue)'
@@ -249,17 +313,21 @@ function SummaryArc({
 
 export default function MasteryPage() {
   const [topics, setTopics] = useState<Topic[]>([])
+  const [skills, setSkills] = useState<Skill[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetch('/api/mastery')
       .then((r) => r.json())
-      .then((d: { topics?: Topic[] }) => {
+      .then((d: { topics?: Topic[]; skills?: Skill[] }) => {
         setTopics(d.topics ?? [])
+        setSkills(d.skills ?? [])
         setLoading(false)
       })
       .catch(() => setLoading(false))
   }, [])
+
+  const masteredCount = skills.filter((s) => s.mastered).length
 
   const apTopics = topics.filter((t) => t.subject === 'ap_precalc')
   const satTopics = topics.filter((t) => t.subject === 'sat_math')
@@ -318,6 +386,47 @@ export default function MasteryPage() {
         >
           <SummaryArc title="AP Precalculus" pct={apAvg} color="var(--blue)" colorRaw="#1cb0f6" />
           <SummaryArc title="SAT Math" pct={satAvg} color="var(--green)" colorRaw="#58cc02" />
+        </motion.div>
+      )}
+
+      {/* SAT sub-skill mastery — the recency/difficulty-weighted model.
+          Distinct from legacy topic bars: a sub-skill is only "Mastered" with
+          repeated correct work across difficulty levels, not one lucky guess. */}
+      {!loading && skills.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.08, duration: 0.35 }}
+          style={{ marginBottom: 36 }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 15, fontWeight: 700, color: 'var(--sat-accent)' }}>
+              SAT Sub-Skill Mastery
+            </span>
+            <span
+              style={{
+                padding: '2px 8px',
+                borderRadius: 999,
+                fontSize: 11,
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 600,
+                background: 'var(--sat-accent-dim)',
+                color: 'var(--sat-accent)',
+                border: '1px solid var(--sat-accent-border)',
+              }}
+            >
+              {masteredCount} / {skills.length} mastered
+            </span>
+          </div>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: 'var(--text-muted)', margin: '0 0 14px' }}>
+            Weighted by recency and difficulty. &ldquo;Mastered&rdquo; needs 4+ correct reps across 2+ difficulty
+            bands including Hard — a pile of easy questions won&rsquo;t do it.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            {skills.map((s, i) => (
+              <SkillRow key={s.subSkill} skill={s} delay={0.1 + i * 0.05} />
+            ))}
+          </div>
         </motion.div>
       )}
 
