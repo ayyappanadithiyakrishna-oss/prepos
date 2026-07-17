@@ -1,0 +1,211 @@
+{
+  "id": "alg-linear-equations-two-variables",
+  "domain": "Algebra",
+  "subSkill": "Linear equations in two variables",
+  "lessonNumber": "1.3",
+  "title": "Linear Equations in Two Variables",
+  "concept": "A linear equation in two variables, usually written in standard form Ax + By = C, describes a whole line of (x, y) points that make it true — not a single answer. The SAT tests three moves on these. (1) Substitute: if you're told one variable, plug it in and the equation collapses to a one-variable equation you solve directly. (2) Intercepts: the x-intercept is where the line crosses the x-axis, so y = 0; the y-intercept is where it crosses the y-axis, so x = 0. Set the other variable to zero and solve. (3) Slope from standard form: solving Ax + By = C for y gives y = (-A/B)x + C/B, so the slope is -A/B and the y-intercept is C/B. The single biggest trap is treating one number in the equation as 'the answer' — in two variables, a number only means something once you fix the other variable.",
+  "workedExamples": [
+    {
+      "problem": "The equation 3x + 4y = 24 represents a line. Find the y when x = 4, and find the x-intercept.",
+      "steps": [
+        "Substitute x = 4: 3(4) + 4y = 24, so 12 + 4y = 24.",
+        "Subtract 12: 4y = 12, then divide by 4: y = 3.",
+        "For the x-intercept, set y = 0: 3x + 4(0) = 24, so 3x = 24 and x = 8.",
+        "So the point at x = 4 is (4, 3), and the line crosses the x-axis at (8, 0)."
+      ],
+      "answer": "y = 3 when x = 4; x-intercept is 8"
+    },
+    {
+      "problem": "What is the slope of the line 5x + 2y = 10?",
+      "steps": [
+        "Solve for y: 2y = 10 - 5x.",
+        "Divide by 2: y = 5 - (5/2)x.",
+        "The coefficient of x is the slope: -5/2.",
+        "Shortcut: for Ax + By = C the slope is -A/B = -5/2."
+      ],
+      "answer": "slope = -5/2"
+    }
+  ],
+  "trapPatterns": [
+    "Treating a single coefficient (A, B, or C) as 'the answer' without fixing the other variable first.",
+    "Swapping the intercepts — setting x = 0 when the question asks for the x-intercept (that gives the y-intercept instead).",
+    "Sign error when isolating: dropping the minus sign so the slope comes out +A/B instead of -A/B.",
+    "Forgetting to divide by the coefficient of B (or A) after isolating the variable term.",
+    "Computing A/B for the slope instead of -A/B, or reading B/A upside down."
+  ],
+  "calculatorStrategy": "Desmos handles these fast: type the equation exactly as given (e.g. 3x+4y=24) and it graphs the line. For a value, add the known coordinate as a second line (x=4) and read the intersection; for intercepts, read where the line crosses each axis directly off the graph. For slope, still convert to y = mx + b by hand — Desmos won't hand you -A/B in that form, though you can confirm it by checking the graph's steepness.",
+  "problems": [
+    {
+      "id": "alg-le2v-e1",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in two variables",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "For the equation 2x + y = 10, what is the value of y when x = 3?",
+      "choices": [
+        { "label": "A", "text": "4", "value": "4" },
+        { "label": "B", "text": "16", "value": "16", "trap": "Added instead of subtracting: solved y = 10 + 2(3)." },
+        { "label": "C", "text": "7", "value": "7", "trap": "Subtracted x itself (10 - 3) instead of 2x." },
+        { "label": "D", "text": "5", "value": "5", "trap": "Divided the constant by 2 (10/2) and ignored the x term." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Substitute x = 3: 2(3) + y = 10, so 6 + y = 10.",
+        "Subtract 6 from both sides: y = 4.",
+        "Check: 2(3) + 4 = 10. True."
+      ],
+      "calculatorStrategy": "One line of algebra by hand. Desmos check: graph 2x+y=10 and x=3; the intersection is (3, 4).",
+      "check": { "kind": "solve_linear", "expression": "2*3 + y - 10", "variable": "y" }
+    },
+    {
+      "id": "alg-le2v-e2",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in two variables",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "At what value of x does the line 4x + 5y = 20 cross the x-axis?",
+      "choices": [
+        { "label": "A", "text": "5", "value": "5" },
+        { "label": "B", "text": "4", "value": "4", "trap": "Found the y-intercept (set x = 0, got y = 4) instead of the x-intercept." },
+        { "label": "C", "text": "20", "value": "20", "trap": "Reported the constant C without dividing by the coefficient of x." },
+        { "label": "D", "text": "80", "value": "80", "trap": "Multiplied 4 by 20 instead of dividing 20 by 4." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "The line crosses the x-axis where y = 0.",
+        "Set y = 0: 4x + 5(0) = 20, so 4x = 20.",
+        "Divide by 4: x = 5. The x-intercept is (5, 0)."
+      ],
+      "calculatorStrategy": "Set y = 0 by hand, or read the x-crossing straight off the Desmos graph of 4x+5y=20.",
+      "check": { "kind": "solve_linear", "expression": "4*x + 5*0 - 20", "variable": "x" }
+    },
+    {
+      "id": "alg-le2v-e3",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in two variables",
+      "difficulty": "Easy",
+      "type": "spr",
+      "scoreBand": "400-490",
+      "question": "The line 3x + 2y = 18 crosses the y-axis at the point (0, k). What is the value of k?",
+      "answer": "9",
+      "explanation": [
+        "The line crosses the y-axis where x = 0.",
+        "Set x = 0: 3(0) + 2y = 18, so 2y = 18.",
+        "Divide by 2: y = 9. The y-intercept is (0, 9), so k = 9."
+      ],
+      "calculatorStrategy": "Set x = 0 by hand. Desmos: read where the graph of 3x+2y=18 meets the y-axis.",
+      "check": { "kind": "solve_linear", "expression": "3*0 + 2*k - 18", "variable": "k" }
+    },
+    {
+      "id": "alg-le2v-m1",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in two variables",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "If 5x - 3y = 21 and x = 6, what is the value of y?",
+      "choices": [
+        { "label": "A", "text": "3", "value": "3" },
+        { "label": "B", "text": "-3", "value": "-3", "trap": "Sign slip: solved -3y = -9 as y = -3 instead of y = 3." },
+        { "label": "C", "text": "17", "value": "17", "trap": "Treated the equation as 5x + 3y = 21 (dropped the negative), giving 30 + 3y = 21 mishandled." },
+        { "label": "D", "text": "9", "value": "9", "trap": "Reached -3y = -9 but reported the numerator 9 without dividing by 3." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Substitute x = 6: 5(6) - 3y = 21, so 30 - 3y = 21.",
+        "Subtract 30: -3y = -9.",
+        "Divide by -3: y = 3.",
+        "Check: 5(6) - 3(3) = 30 - 9 = 21. True."
+      ],
+      "calculatorStrategy": "Substitute and solve by hand, watching the two negatives. Desmos: intersection of 5x-3y=21 and x=6 is (6, 3).",
+      "check": { "kind": "solve_linear", "expression": "5*6 - 3*y - 21", "variable": "y" }
+    },
+    {
+      "id": "alg-le2v-m2",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in two variables",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "What is the slope of the line given by 6x + 2y = 9?",
+      "choices": [
+        { "label": "A", "text": "-3", "value": "-3" },
+        { "label": "B", "text": "3", "value": "3", "trap": "Dropped the minus sign; used A/B instead of -A/B." },
+        { "label": "C", "text": "6", "value": "6", "trap": "Reported the coefficient of x (A) as the slope without solving for y." },
+        { "label": "D", "text": "-1/3", "value": "-1/3", "trap": "Inverted the ratio to -B/A instead of -A/B." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Solve for y: 2y = 9 - 6x, so y = 9/2 - 3x.",
+        "The coefficient of x is the slope: -3.",
+        "Shortcut: slope = -A/B = -6/2 = -3."
+      ],
+      "calculatorStrategy": "Convert to y = mx + b by hand for the slope. Desmos can graph 6x+2y=9 to confirm the line falls 3 for every 1 across.",
+      "check": { "kind": "evaluate", "expression": "-6/2" }
+    },
+    {
+      "id": "alg-le2v-m3",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in two variables",
+      "difficulty": "Medium",
+      "type": "spr",
+      "scoreBand": "500-590",
+      "question": "The point (2, y) lies on the line 7x + 4y = 50. What is the value of y?",
+      "answer": "9",
+      "explanation": [
+        "Since (2, y) is on the line, substitute x = 2: 7(2) + 4y = 50, so 14 + 4y = 50.",
+        "Subtract 14: 4y = 36.",
+        "Divide by 4: y = 9.",
+        "Check: 7(2) + 4(9) = 14 + 36 = 50. True."
+      ],
+      "calculatorStrategy": "Substitute x = 2 and solve by hand. Desmos: intersection of 7x+4y=50 and x=2 is (2, 9).",
+      "check": { "kind": "solve_linear", "expression": "7*2 + 4*y - 50", "variable": "y" }
+    },
+    {
+      "id": "alg-le2v-h1",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in two variables",
+      "difficulty": "Hard",
+      "type": "mc",
+      "scoreBand": "600-700",
+      "question": "In the xy-plane, the line 4x + ky = 6 passes through the point (3, -2). What is the value of k?",
+      "choices": [
+        { "label": "A", "text": "3", "value": "3" },
+        { "label": "B", "text": "-3", "value": "-3", "trap": "Sign error: solved -2k = -6 as k = -3 instead of k = 3." },
+        { "label": "C", "text": "9", "value": "9", "trap": "Used the point as (−2, 3) — swapped x and y — giving 4(-2) + 3k = 6." },
+        { "label": "D", "text": "-9", "value": "-9", "trap": "Added 12 instead of subtracting: -2k = 6 + 12, then sign-flipped." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "The point (3, -2) satisfies the equation, so substitute x = 3, y = -2: 4(3) + k(-2) = 6.",
+        "That gives 12 - 2k = 6.",
+        "Subtract 12: -2k = -6.",
+        "Divide by -2: k = 3.",
+        "Check: 4(3) + 3(-2) = 12 - 6 = 6. True."
+      ],
+      "calculatorStrategy": "Substitute both coordinates and solve for k by hand — the unknown is the coefficient, so Desmos's graph-a-line trick doesn't apply directly. You can verify by graphing 4x+3y=6 and confirming it passes through (3, -2).",
+      "check": { "kind": "solve_linear", "expression": "4*3 + k*(-2) - 6", "variable": "k" }
+    },
+    {
+      "id": "alg-le2v-h2",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in two variables",
+      "difficulty": "Hard",
+      "type": "spr",
+      "scoreBand": "600-700",
+      "question": "A point where the x-coordinate equals the y-coordinate lies on the line 5x + 4y = 27. What is that shared coordinate?",
+      "answer": "3",
+      "explanation": [
+        "The point has the form (p, p), so substitute x = p and y = p: 5p + 4p = 27.",
+        "Combine like terms: 9p = 27.",
+        "Divide by 9: p = 3, so the point is (3, 3).",
+        "Check: 5(3) + 4(3) = 15 + 12 = 27. True."
+      ],
+      "calculatorStrategy": "Recognize x = y and substitute a single variable, then solve by hand. Desmos: the intersection of 5x+4y=27 and y=x is (3, 3).",
+      "check": { "kind": "solve_linear", "expression": "5*p + 4*p - 27", "variable": "p" }
+    }
+  ]
+}
