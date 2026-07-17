@@ -36,6 +36,7 @@ async function migrateColumns() {
   await sql`ALTER TABLE errors ADD COLUMN IF NOT EXISTS domain TEXT`
   await sql`ALTER TABLE errors ADD COLUMN IF NOT EXISTS difficulty_band TEXT`
   await sql`ALTER TABLE errors ADD COLUMN IF NOT EXISTS trap TEXT`
+  await sql`ALTER TABLE sessions ADD COLUMN IF NOT EXISTS is_test BOOLEAN DEFAULT FALSE`
 }
 
 async function topicIdForDomain(domain) {

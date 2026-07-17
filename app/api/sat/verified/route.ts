@@ -13,9 +13,12 @@ export async function POST(req: Request) {
     await ensureSeeded()
     const body = await req.json().catch(() => ({}))
     const subSkill: string | undefined = body?.subSkill
+    // Callers may pass { test: true } to create an is_test session whose attempts
+    // are structurally excluded from mastery/stats (see lib/mastery-query.ts).
+    const isTest = body?.test === true
 
     const { rows: sessionRows } = await sql`
-      INSERT INTO sessions (session_type) VALUES ('sat_verified') RETURNING id
+      INSERT INTO sessions (session_type, is_test) VALUES ('sat_verified', ${isTest}) RETURNING id
     `
     const session_id = sessionRows[0].id
 

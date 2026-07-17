@@ -5,7 +5,27 @@ both scoped. Do not treat either as done.
 
 ---
 
-## 1. Mastery model is a naive counter (MUST replace before it misleads students)
+## 1. Mastery model — recency/difficulty-weighted, gated (BUILT 2026-07-17)
+
+**Status:** the model below is now implemented and gate-tested.
+- Pure function: `lib/mastery-model.ts` (`computeSkillMastery`) — decay + weights + gate.
+- DB layer: `lib/mastery-query.ts` (`getSkillMasteries`) — compute-on-read from real
+  attempts, excludes `is_test` sessions.
+- Exposed via `GET /api/mastery` as `skills[]`. Verified answers no longer touch the
+  `+5/−3` counter (`app/api/practice/answer`); legacy content still does.
+- Tested: `scripts/test_mastery_model.ts` (`npm run test:mastery`), incl. the negative
+  test "20 easy corrects → NOT mastered". Wired into prebuild + pre-commit gates.
+- Structural test isolation: `sessions.is_test` excludes test attempts from all mastery.
+
+**Remaining follow-ups (smaller):**
+- Wire the SAT Mastery **UI** to render `skills[]` (per-sub-skill bars + mastered badge);
+  today the data is exposed but the page still shows the legacy topic bars.
+- Decide whether to blend verified sub-skill mastery into the legacy topic bar, or
+  migrate the dashboard fully to per-sub-skill (currently kept separate on purpose).
+- Optional `skill_mastery` cache table if compute-on-read cost ever matters.
+- Backfill was N/A: verified content had no legitimate attempts (only deleted test writes).
+
+<details><summary>Original spec (kept for reference)</summary>
 
 ### Current behavior (as shipped)
 `topics.mastery_pct` is a single float per **broad topic** (e.g. "Algebra"),
@@ -62,6 +82,8 @@ Content authoring (more sub-skills) is independent of this and may proceed in
 parallel. **This model must be built before "Mastery" is claimed done, and the
 spec above must be honored before scaling to a second domain** so the fix doesn't
 get lost.
+
+</details>
 
 ---
 

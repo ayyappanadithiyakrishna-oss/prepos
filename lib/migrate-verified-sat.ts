@@ -45,6 +45,11 @@ export async function migrateVerifiedSatColumns(): Promise<void> {
   await sql`ALTER TABLE errors ADD COLUMN IF NOT EXISTS domain TEXT`
   await sql`ALTER TABLE errors ADD COLUMN IF NOT EXISTS difficulty_band TEXT`
   await sql`ALTER TABLE errors ADD COLUMN IF NOT EXISTS trap TEXT`
+
+  // Structural test isolation: attempts under an is_test session are excluded
+  // from all mastery/stats computation, so testing the answer loop can never
+  // pollute a real learner's numbers (see the 2026-07-17 incident).
+  await sql`ALTER TABLE sessions ADD COLUMN IF NOT EXISTS is_test BOOLEAN DEFAULT FALSE`
 }
 
 async function topicIdForDomain(domain: string): Promise<number | null> {

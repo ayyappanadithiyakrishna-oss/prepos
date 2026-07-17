@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "npm run verify:sat",
+    "prebuild": "npm run verify:sat && npm run test:mastery",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "verify:sat": "python3 scripts/verify_answers.py",
+    "test:mastery": "node scripts/test_mastery_model.ts",
     "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {

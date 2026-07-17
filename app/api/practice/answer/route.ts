@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
     const qRow = await sql`
       SELECT answer_text, choices, explanation, topic_id, subject, question_text,
-             sub_skill, domain, difficulty_band
+             sub_skill, domain, difficulty_band, verified
       FROM questions WHERE id = ${question_id}
     `
     const question = qRow.rows[0]
@@ -64,23 +64,13 @@ export async function POST(req: Request) {
     `
     await sql`UPDATE sessions SET total_questions = total_questions + 1 WHERE id = ${session_id}`
 
-    let mastery_change = 0
+    // Error Log applies to both verified and legacy content.
     if (is_correct === 1) {
-      await sql`
-        UPDATE topics SET mastery_pct = LEAST(100, mastery_pct + 5), updated_at = NOW()
-        WHERE id = ${question.topic_id}
-      `
-      mastery_change = 5
       await sql`
         UPDATE errors SET times_missed = GREATEST(0, times_missed - 1), last_seen = NOW()
         WHERE question_id = ${question_id}
       `
     } else {
-      await sql`
-        UPDATE topics SET mastery_pct = GREATEST(0, mastery_pct - 3), updated_at = NOW()
-        WHERE id = ${question.topic_id}
-      `
-      mastery_change = -3
       const existing = await sql`SELECT id FROM errors WHERE question_id = ${question_id}`
       if (existing.rows.length > 0) {
         await sql`
@@ -97,6 +87,21 @@ export async function POST(req: Request) {
                   ${question.sub_skill}, ${question.domain}, ${question.difficulty_band}, ${trap})
         `
       }
+    }
+
+    // Mastery: verified content is scored by the recency/difficulty-weighted
+    // model (compute-on-read via /api/mastery -> getSkillMasteries; is_test
+    // sessions excluded there). The naive +5/−3 no longer touches verified
+    // sub-skills — it only governs legacy (untagged) content until that migrates.
+    let mastery_change = 0
+    if (question.verified) {
+      // no-op: sub-skill mastery is computed from attempts on read
+    } else if (is_correct === 1) {
+      await sql`UPDATE topics SET mastery_pct = LEAST(100, mastery_pct + 5), updated_at = NOW() WHERE id = ${question.topic_id}`
+      mastery_change = 5
+    } else {
+      await sql`UPDATE topics SET mastery_pct = GREATEST(0, mastery_pct - 3), updated_at = NOW() WHERE id = ${question.topic_id}`
+      mastery_change = -3
     }
 
     return NextResponse.json({

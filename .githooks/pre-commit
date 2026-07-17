@@ -14,4 +14,13 @@ case "$changed" in
     fi
     ;;
 esac
+case "$changed" in
+  *lib/mastery-model.ts*|*lib/mastery-query.ts*|*scripts/test_mastery_model.ts*)
+    echo "› testing mastery model (anti-fake gate)…"
+    if ! node scripts/test_mastery_model.ts; then
+      echo "✗ commit blocked: mastery-model tests failed."
+      exit 1
+    fi
+    ;;
+esac
 exit 0
