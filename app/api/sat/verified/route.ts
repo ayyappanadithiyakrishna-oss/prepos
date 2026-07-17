@@ -4,6 +4,30 @@ import { ensureSeeded } from '@/lib/ensure-seeded'
 
 type RichChoice = { label: string; text: string; value?: string; trap?: string }
 
+// GET: list the verified sub-skills available to practice, grouped so the
+// /sat/verified picker can render one card per skill. No session is created.
+export async function GET() {
+  try {
+    await ensureSeeded()
+    const { rows } = await sql`
+      SELECT sub_skill, domain, COUNT(*)::int AS count
+      FROM questions
+      WHERE verified = TRUE AND sub_skill IS NOT NULL
+      GROUP BY sub_skill, domain
+      ORDER BY domain, sub_skill`
+    return NextResponse.json({
+      subSkills: rows.map((r) => ({
+        sub_skill: r.sub_skill,
+        domain: r.domain,
+        count: r.count,
+      })),
+    })
+  } catch (err) {
+    console.error('[sat/verified:GET]', err)
+    return NextResponse.json({ error: String(err) }, { status: 500 })
+  }
+}
+
 // POST: start a verified-practice session and return its questions.
 // Answers, canonical values, and traps are NOT sent to the client — the
 // server judges correctness (see /api/practice/answer) and only then reveals

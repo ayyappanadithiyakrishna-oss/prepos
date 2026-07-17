@@ -206,6 +206,48 @@ export default function SATHub() {
         </motion.div>
       </div>
 
+      {/* Verified Practice CTA — machine-checked problems, the real content path */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}
+        style={{ marginBottom: '20px' }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+          <Shield size={15} color="#58cc02" />
+          <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600, fontSize: '14px', color: 'var(--text-primary)', margin: 0 }}>
+            Verified Practice
+          </p>
+          <span style={{ padding: '2px 8px', borderRadius: '10px', fontSize: '10px', fontWeight: 600, background: 'rgba(88,204,2,0.12)', color: '#58cc02' }}>
+            Every answer machine-checked
+          </span>
+        </div>
+        <motion.div
+          whileHover={{ y: -2, boxShadow: '0 8px 32px rgba(88,204,2,0.12)' }}
+          onClick={() => router.push('/sat/verified')}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '18px 22px',
+            background: 'linear-gradient(135deg, rgba(88,204,2,0.08) 0%, rgba(88,204,2,0.03) 100%)',
+            border: '1px solid rgba(88,204,2,0.22)',
+            borderRadius: '16px', cursor: 'pointer',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div style={{ width: 44, height: 44, borderRadius: '12px', background: 'rgba(88,204,2,0.14)', border: '1px solid rgba(88,204,2,0.28)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Shield size={22} color="#58cc02" />
+            </div>
+            <div>
+              <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '15px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
+                Algebra — Verified Problem Sets
+              </p>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px', marginBottom: 0 }}>
+                Calculator strategy up front · the exact trap named when you miss
+              </p>
+            </div>
+          </div>
+          <ChevronRight size={18} color="#58cc02" />
+        </motion.div>
+      </motion.div>
+
       {/* SAT Lessons CTA */}
       <motion.div
         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}

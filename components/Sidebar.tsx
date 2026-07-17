@@ -15,6 +15,7 @@ import {
   Flame,
   GraduationCap,
   ClipboardList,
+  ShieldCheck,
 } from 'lucide-react'
 import Logo from './Logo'
 import { getLevelInfo } from '@/lib/xp-system'
@@ -24,6 +25,7 @@ const navItems = [
   { label: 'Daily Practice', icon: BookOpen,         href: '/practice' },
   { label: 'AP Lessons',     icon: GraduationCap,   href: '/lessons' },
   { label: 'SAT Practice',   icon: ClipboardList,   href: '/sat' },
+  { label: 'Verified Sets',  icon: ShieldCheck,      href: '/sat/verified' },
   { label: 'SAT Lessons',    icon: BookOpen,         href: '/sat/lessons' },
   { label: 'Error Log',      icon: AlertCircle,      href: '/errors' },
   { label: 'Mastery',        icon: Target,           href: '/mastery' },
