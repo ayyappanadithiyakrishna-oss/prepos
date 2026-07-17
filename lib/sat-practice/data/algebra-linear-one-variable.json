@@ -1,0 +1,217 @@
+{
+  "id": "alg-linear-one-var",
+  "domain": "Algebra",
+  "subSkill": "Linear equations in one variable",
+  "lessonNumber": "1.1",
+  "title": "Linear Equations in One Variable",
+  "concept": "A linear equation is a balance scale. Whatever you do to one side you must do to the other, and your goal is to get the variable alone on one side. You 'undo' operations in reverse order: strip away addition and subtraction first, then multiplication and division. Two special cases matter on the SAT: if simplifying makes both sides identical (like 4x = 4x), every number works — infinitely many solutions; if it makes both sides contradict (like -4 = -3), no number works — no solution. Most SAT 'word' equations are ordinary equations wearing a costume: name the unknown, translate each phrase into a term, then solve the same way.",
+  "workedExamples": [
+    {
+      "problem": "Solve for x: 2x + 5 = 17",
+      "steps": [
+        "Undo the +5 first: subtract 5 from both sides -> 2x = 12.",
+        "Undo the times-2: divide both sides by 2 -> x = 6.",
+        "Check: 2(6) + 5 = 17. True."
+      ],
+      "answer": "x = 6"
+    },
+    {
+      "problem": "Solve for x: 3(x - 4) = 2x + 1",
+      "steps": [
+        "Distribute the 3 first: 3x - 12 = 2x + 1.",
+        "Collect variables on one side: subtract 2x -> x - 12 = 1.",
+        "Undo the -12: add 12 -> x = 13.",
+        "Check: 3(13 - 4) = 27 and 2(13) + 1 = 27. True."
+      ],
+      "answer": "x = 13"
+    }
+  ],
+  "trapPatterns": [
+    "Dividing before subtracting the constant (e.g. turning 4x + 3 = 19 into 19/4 instead of subtracting 3 first).",
+    "Sign flip when moving a term across the equals sign (adding when you should subtract).",
+    "Forgetting the last division by the coefficient after isolating the variable term.",
+    "Distributing a negative to only the first term inside parentheses.",
+    "Seeing matching variable terms and guessing a number instead of recognizing 'no solution' or 'infinitely many'."
+  ],
+  "calculatorStrategy": "Pure one-variable linear equations are usually faster by hand than in Desmos. But if the arithmetic is ugly (fractions, decimals) or you doubt your answer, type the equation into Desmos exactly as written (e.g. `2x+5=17`) and it plots a vertical line at the solution — read x off the axis. For 'no solution / infinitely many' questions, graph both sides as y = LHS and y = RHS: parallel lines = no solution, same line = infinitely many.",
+  "problems": [
+    {
+      "id": "alg-lov-e1",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in one variable",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "If 4x + 3 = 19, what is the value of x?",
+      "choices": [
+        { "label": "A", "text": "4", "value": "4" },
+        { "label": "B", "text": "5.5", "value": "5.5", "trap": "Added 3 to 19 instead of subtracting it before dividing." },
+        { "label": "C", "text": "4.75", "value": "4.75", "trap": "Divided 19 by 4 first and ignored the +3 entirely." },
+        { "label": "D", "text": "16", "value": "16", "trap": "Subtracted 3 correctly but forgot to divide by 4." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Subtract 3 from both sides: 4x = 16.",
+        "Divide both sides by 4: x = 4.",
+        "Check: 4(4) + 3 = 19. True."
+      ],
+      "calculatorStrategy": "Fast by hand. To confirm, enter 4x+3=19 in Desmos and read the vertical line at x = 4.",
+      "check": { "kind": "solve_linear", "expression": "4*x + 3 - 19", "variable": "x" }
+    },
+    {
+      "id": "alg-lov-e2",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in one variable",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "If 2x - 7 = 11, what is the value of x?",
+      "choices": [
+        { "label": "A", "text": "9", "value": "9" },
+        { "label": "B", "text": "2", "value": "2", "trap": "Subtracted 7 from 11 instead of adding it back." },
+        { "label": "C", "text": "18", "value": "18", "trap": "Added 7 correctly but forgot to divide by 2." },
+        { "label": "D", "text": "5.5", "value": "5.5", "trap": "Divided 11 by 2 and ignored the -7 term." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Add 7 to both sides: 2x = 18.",
+        "Divide both sides by 2: x = 9.",
+        "Check: 2(9) - 7 = 11. True."
+      ],
+      "calculatorStrategy": "By hand is quickest. Desmos check: 2x-7=11 gives a vertical line at x = 9.",
+      "check": { "kind": "solve_linear", "expression": "2*x - 7 - 11", "variable": "x" }
+    },
+    {
+      "id": "alg-lov-e3",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in one variable",
+      "difficulty": "Easy",
+      "type": "spr",
+      "scoreBand": "400-490",
+      "question": "Solve for x: 3(x - 2) = 15",
+      "answer": "7",
+      "explanation": [
+        "Divide both sides by 3 first (or distribute): x - 2 = 5.",
+        "Add 2 to both sides: x = 7.",
+        "Check: 3(7 - 2) = 15. True."
+      ],
+      "calculatorStrategy": "Either divide by 3 first or distribute — both are quick by hand. In Desmos, 3(x-2)=15 marks x = 7.",
+      "check": { "kind": "solve_linear", "expression": "3*(x - 2) - 15", "variable": "x" }
+    },
+    {
+      "id": "alg-lov-m1",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in one variable",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "If 5x - 8 = 2x + 7, what is the value of x?",
+      "choices": [
+        { "label": "A", "text": "5", "value": "5" },
+        { "label": "B", "text": "-1/3", "value": "-1/3", "trap": "Combined constants as 7 - 8 instead of 7 + 8 when moving the -8 across." },
+        { "label": "C", "text": "15", "value": "15", "trap": "Reached 3x = 15 but forgot the final division by 3." },
+        { "label": "D", "text": "3", "value": "3", "trap": "Divided 15 by the original coefficient 5 instead of 3." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Subtract 2x from both sides: 3x - 8 = 7.",
+        "Add 8 to both sides: 3x = 15.",
+        "Divide by 3: x = 5.",
+        "Check: 5(5) - 8 = 17 and 2(5) + 7 = 17. True."
+      ],
+      "calculatorStrategy": "Variables on both sides: collect them by hand. If unsure, graph y = 5x-8 and y = 2x+7 in Desmos; they intersect at x = 5.",
+      "check": { "kind": "solve_linear", "expression": "(5*x - 8) - (2*x + 7)", "variable": "x" }
+    },
+    {
+      "id": "alg-lov-m2",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in one variable",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "If x/2 + x/3 = 10, what is the value of x?",
+      "choices": [
+        { "label": "A", "text": "12", "value": "12" },
+        { "label": "B", "text": "60", "value": "60", "trap": "Cleared the fractions to 5x = 60 but forgot to divide by 5." },
+        { "label": "C", "text": "24", "value": "24", "trap": "Multiplied both sides by 2 instead of by the LCD 6." },
+        { "label": "D", "text": "25", "value": "25", "trap": "Added 1/2 + 1/3 as 2/5, giving (2/5)x = 10." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "The LCD of 2 and 3 is 6. Multiply every term by 6: 3x + 2x = 60.",
+        "Combine like terms: 5x = 60.",
+        "Divide by 5: x = 12.",
+        "Check: 12/2 + 12/3 = 6 + 4 = 10. True."
+      ],
+      "calculatorStrategy": "Fractions are error-prone by hand — this is a good Desmos check. Enter x/2+x/3=10 and read x = 12 off the vertical line.",
+      "check": { "kind": "solve_linear", "expression": "x/2 + x/3 - 10", "variable": "x" }
+    },
+    {
+      "id": "alg-lov-m3",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in one variable",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "A gym charges a one-time $30 sign-up fee plus $15 per month. After how many months m does the total cost equal $150?",
+      "choices": [
+        { "label": "A", "text": "8", "value": "8" },
+        { "label": "B", "text": "12", "value": "12", "trap": "Added the $30 fee to $150 instead of subtracting it." },
+        { "label": "C", "text": "10", "value": "10", "trap": "Ignored the sign-up fee and computed 150/15." },
+        { "label": "D", "text": "5", "value": "5", "trap": "Divided 150 by the fee (30) instead of the monthly rate." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Translate: total cost = 30 + 15m, and this equals 150, so 30 + 15m = 150.",
+        "Subtract 30: 15m = 120.",
+        "Divide by 15: m = 8.",
+        "Check: 30 + 15(8) = 30 + 120 = 150. True."
+      ],
+      "calculatorStrategy": "Write the equation first, then solve by hand. Desmos check: 30+15x=150 marks x = 8.",
+      "check": { "kind": "solve_linear", "expression": "30 + 15*m - 150", "variable": "m" }
+    },
+    {
+      "id": "alg-lov-h1",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in one variable",
+      "difficulty": "Hard",
+      "type": "mc",
+      "scoreBand": "600-700",
+      "question": "For what value of x is 4(x - 1) = 4x - 3 a true statement?",
+      "choices": [
+        { "label": "A", "text": "No solution", "value": "none" },
+        { "label": "B", "text": "x = 0", "value": "one", "trap": "Stopped at -4 = -3 and guessed the simplest number." },
+        { "label": "C", "text": "Infinitely many solutions", "value": "infinite", "trap": "Saw the matching 4x terms and assumed the equation is an identity without checking the constants." },
+        { "label": "D", "text": "x = 1/4", "value": "one", "trap": "Tried to isolate x after the variables already cancelled, dividing -1 by 4." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Distribute the left side: 4x - 4 = 4x - 3.",
+        "Subtract 4x from both sides: -4 = -3.",
+        "This is false for every x, so the equation has no solution.",
+        "Contrast: if the constants had matched (e.g. -4 = -4) it would be infinitely many."
+      ],
+      "calculatorStrategy": "Graph y = 4(x-1) and y = 4x-3 in Desmos. They are parallel lines that never meet — visual proof of 'no solution'. Same line would mean infinitely many.",
+      "check": { "kind": "solution_count", "lhs": "4*(x - 1)", "rhs": "4*x - 3", "variable": "x" }
+    },
+    {
+      "id": "alg-lov-h2",
+      "domain": "Algebra",
+      "subSkill": "Linear equations in one variable",
+      "difficulty": "Hard",
+      "type": "spr",
+      "scoreBand": "600-700",
+      "question": "Solve for x: (2x - 1)/3 - (x - 4)/2 = 1",
+      "answer": "-4",
+      "explanation": [
+        "Multiply every term by the LCD 6: 2(2x - 1) - 3(x - 4) = 6.",
+        "Distribute carefully — the -3 hits both terms: 4x - 2 - 3x + 12 = 6.",
+        "Combine like terms: x + 10 = 6.",
+        "Subtract 10: x = -4.",
+        "Check: (2(-4)-1)/3 - ((-4)-4)/2 = (-9)/3 - (-8)/2 = -3 + 4 = 1. True."
+      ],
+      "calculatorStrategy": "The distribution of -3(x-4) is the classic trap here; do it by hand deliberately. Then confirm in Desmos: (2x-1)/3-(x-4)/2=1 marks x = -4.",
+      "check": { "kind": "solve_linear", "expression": "(2*x - 1)/3 - (x - 4)/2 - 1", "variable": "x" }
+    }
+  ]
+}

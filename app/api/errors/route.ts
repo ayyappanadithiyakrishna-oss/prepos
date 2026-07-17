@@ -8,6 +8,7 @@ export async function GET() {
     const rows = await sql`
       SELECT e.id, e.question_text, e.correct_answer, e.user_answer,
              e.times_missed, e.confidence_level, e.last_seen, e.subject,
+             e.sub_skill, e.domain, e.difficulty_band, e.trap,
              t.name as topic_name, t.id as topic_id
       FROM errors e
       LEFT JOIN topics t ON e.topic_id = t.id

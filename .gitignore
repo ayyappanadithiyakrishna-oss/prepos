@@ -48,3 +48,7 @@ next-env.d.ts
 
 # CodeGraph index (local artifact)
 .codegraph/
+
+# Python
+__pycache__/
+*.pyc

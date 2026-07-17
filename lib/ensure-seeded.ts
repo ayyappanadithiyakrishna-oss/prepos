@@ -1,5 +1,7 @@
 import { sql } from '@vercel/postgres'
 import { seedQuestions } from './questions-seed'
+import { seedLessons } from './lessons-seed'
+import { seedVerifiedSat } from './migrate-verified-sat'
 
 const AP_TOPICS = [
   'Functions', 'Polynomial Functions', 'Rational Functions',
@@ -8,18 +10,37 @@ const AP_TOPICS = [
 const SAT_TOPICS = ['Algebra', 'Advanced Math', 'Geometry', 'Problem Solving & Data Analysis']
 
 let seeded = false
+let verifiedSeeded = false
+
+/** Idempotent: apply the verified-SAT column migration + upsert the JSON problem
+ *  bank. Guarded so it runs at most once per warm process. */
+async function ensureVerifiedSat(): Promise<void> {
+  if (verifiedSeeded) return
+  try {
+    const { rows } = await sql`SELECT COUNT(*) AS c FROM questions WHERE verified = TRUE`
+    if (Number(rows[0].c) < 8) await seedVerifiedSat()
+  } catch {
+    // `verified` column doesn't exist yet on a fresh DB — seedVerifiedSat migrates then seeds.
+    await seedVerifiedSat()
+  }
+  verifiedSeeded = true
+}
 
 export async function ensureSeeded(): Promise<void> {
   if (seeded) return
   try {
-    const { rows } = await sql`SELECT COUNT(*) as c FROM topics`
-    if (parseInt(rows[0].c) > 0) {
+    await createTables()
+    await ensureVerifiedSat()
+    const [{ rows: tc }, { rows: lc }] = await Promise.all([
+      sql`SELECT COUNT(*) as c FROM topics`,
+      sql`SELECT COUNT(*) as c FROM lessons`,
+    ])
+    if (parseInt(tc[0].c) > 0 && parseInt(lc[0].c) >= 42) {
       seeded = true
       return
     }
   } catch {
-    // Tables don't exist yet — create them
-    await createTables()
+    // ignore — createTables already ran
   }
   await seedData()
   seeded = true
@@ -63,6 +84,59 @@ async function createTables(): Promise<void> {
   await sql`CREATE TABLE IF NOT EXISTS settings (
     key TEXT PRIMARY KEY, value TEXT NOT NULL
   )`
+  await sql`CREATE TABLE IF NOT EXISTS lessons (
+    id SERIAL PRIMARY KEY,
+    unit_number INTEGER NOT NULL,
+    lesson_number TEXT NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT,
+    learning_objectives TEXT,
+    key_concepts TEXT,
+    unit_title TEXT,
+    subject TEXT DEFAULT 'ap_precalc',
+    order_index INTEGER NOT NULL
+  )`
+  await sql`CREATE TABLE IF NOT EXISTS lesson_progress (
+    id SERIAL PRIMARY KEY,
+    lesson_id INTEGER REFERENCES lessons(id),
+    completed_at TIMESTAMPTZ,
+    score INTEGER DEFAULT 0,
+    xp_earned INTEGER DEFAULT 0,
+    attempts INTEGER DEFAULT 0,
+    UNIQUE(lesson_id)
+  )`
+  await sql`CREATE TABLE IF NOT EXISTS lesson_questions (
+    id SERIAL PRIMARY KEY,
+    lesson_id INTEGER REFERENCES lessons(id),
+    question_text TEXT NOT NULL,
+    answer_text TEXT NOT NULL,
+    choices TEXT,
+    explanation TEXT,
+    difficulty INTEGER DEFAULT 1,
+    order_index INTEGER DEFAULT 0
+  )`
+}
+
+async function migrateLessonTitles(): Promise<void> {
+  // Fix CED-aligned lesson titles for Unit 3 topics 3.11–3.14 that were misnamed in the original seed
+  const fixes = [
+    { lesson_number: '3.11', title: 'The Secant, Cosecant, and Cotangent Functions', description: 'Define and evaluate the three reciprocal trigonometric functions.', key_concepts: 'secant, cosecant, cotangent, reciprocal functions, asymptotes, range (−∞,−1]∪[1,∞)' },
+    { lesson_number: '3.12', title: 'Equivalent Representations of Trigonometric Functions', description: 'Apply Pythagorean, co-function, even/odd, periodicity, and sum identities to rewrite trig expressions.', key_concepts: 'Pythagorean identity, co-function, even/odd, periodicity, sum identities sin(α+β), cos(α+β), double-angle' },
+    { lesson_number: '3.13', title: 'Trigonometry and Polar Coordinates', description: 'Represent points and equations using polar coordinates; convert between coordinate systems.', key_concepts: 'polar coordinates (r, θ), polar-to-rectangular, rectangular-to-polar, r²=x²+y², arctan quadrant check' },
+    { lesson_number: '3.14', title: 'Polar Function Graphs', description: 'Graph and analyze polar curves including circles, rose curves, and limaçons.', key_concepts: 'polar graph, rose curve (n/2n petals), limaçon, cardioid, symmetry tests' },
+  ]
+  for (const fix of fixes) {
+    await sql`UPDATE lessons SET title = ${fix.title}, description = ${fix.description}, key_concepts = ${fix.key_concepts} WHERE lesson_number = ${fix.lesson_number} AND subject = 'ap_precalc' AND title != ${fix.title}`
+  }
+  // Add lesson 3.15 if missing
+  const { rows: exist } = await sql`SELECT id FROM lessons WHERE lesson_number = '3.15' AND subject = 'ap_precalc' LIMIT 1`
+  if (exist.length === 0) {
+    await sql`INSERT INTO lessons (unit_number, lesson_number, title, description, learning_objectives, key_concepts, unit_title, subject, order_index)
+      VALUES (3, '3.15', 'Rates of Change in Polar Functions', 'Analyze how r changes as θ changes in polar functions.',
+              'Interpret rate of change of r with respect to θ; find where r is increasing/decreasing; relate to graph features.',
+              'dr/dθ, average rate of change in polar, increasing/decreasing r, maximum/minimum r, interpreting polar change',
+              'Trigonometric and Polar Functions', 'ap_precalc', 42)`
+  }
 }
 
 async function seedData(): Promise<void> {
@@ -74,6 +148,12 @@ async function seedData(): Promise<void> {
     for (const name of SAT_TOPICS) {
       await sql`INSERT INTO topics (name, subject) VALUES (${name}, 'sat_math')`
     }
+  }
+  const { rows: lc } = await sql`SELECT COUNT(*) as c FROM lessons`
+  if (parseInt(lc[0].c) === 0) {
+    await seedLessons()
+  } else {
+    await migrateLessonTitles()
   }
   const { rows: qc } = await sql`SELECT COUNT(*) as c FROM questions`
   if (parseInt(qc[0].c) === 0) {
