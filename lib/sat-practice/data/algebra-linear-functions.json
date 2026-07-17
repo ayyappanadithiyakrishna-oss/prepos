@@ -1,0 +1,210 @@
+{
+  "id": "alg-linear-functions",
+  "domain": "Algebra",
+  "subSkill": "Linear functions (slope and intercept in context)",
+  "lessonNumber": "1.2",
+  "title": "Linear Functions — Slope and Intercept in Context",
+  "concept": "A linear function f(x) = mx + b is a story about steady change. The slope m is the RATE: how much the output changes every time the input goes up by 1 (dollars per hour, degrees per minute, meters per unit). The intercept b is the STARTING VALUE: the output when the input is 0 (the flat fee before any hours, the temperature at time zero, the original height). On the SAT, most linear-function questions are word problems in disguise: once you match each number in the sentence to either the rate (m, attached to the variable) or the starting value (b, the standalone number), everything else is arithmetic. The two skills tested are (1) reading which number is the rate vs. the starting value, and (2) evaluating the function or solving for the input that produces a given output.",
+  "workedExamples": [
+    {
+      "problem": "A taxi charges C(m) = 3 + 2.5m dollars for a ride of m miles. What does each part mean, and what is the cost of a 6-mile ride?",
+      "steps": [
+        "The standalone 3 is the starting value b: a $3 base fare before any miles.",
+        "The 2.5 attached to m is the slope/rate: $2.50 per mile.",
+        "Evaluate C(6) = 3 + 2.5(6) = 3 + 15 = 18.",
+        "The 6-mile ride costs $18."
+      ],
+      "answer": "$18"
+    },
+    {
+      "problem": "A linear function has f(1) = 9 and f(4) = 21. Find its slope and its value at 0.",
+      "steps": [
+        "Slope m = (change in output)/(change in input) = (21 - 9)/(4 - 1) = 12/3 = 4.",
+        "Use a point to find b: 9 = 4(1) + b, so b = 5.",
+        "f(0) = b = 5."
+      ],
+      "answer": "slope 4, f(0) = 5"
+    }
+  ],
+  "trapPatterns": [
+    "Confusing the rate (m, attached to the variable) with the starting value (b, the standalone number) — reporting the intercept when asked for the slope, or vice versa.",
+    "Dropping the starting value (flat fee) when evaluating — computing only rate x input.",
+    "Adding the flat fee when you should subtract it while solving for the input.",
+    "Forgetting the final division by the rate after isolating the variable term.",
+    "Computing the total change between two points instead of the per-unit slope."
+  ],
+  "calculatorStrategy": "For evaluation, plug straight in — faster by hand than typing into Desmos. Desmos shines for the 'solve for the input' variety: enter the function as y1 = <expression> and y2 = <target value>, and read the x of the intersection. For slope from two points, Desmos will compute (y2-y1)/(x2-x1) directly in an expression line. The interpretation step (which number is the rate vs. the start) is on you — Desmos won't tell you which the question wants.",
+  "problems": [
+    {
+      "id": "alg-lf-e1",
+      "domain": "Algebra",
+      "subSkill": "Linear functions (slope and intercept in context)",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "A plumber's charge is C(h) = 75 + 50h dollars for a job that takes h hours. What is the charge for a job that takes 3 hours?",
+      "choices": [
+        { "label": "A", "text": "$225", "value": "225" },
+        { "label": "B", "text": "$150", "value": "150", "trap": "Dropped the $75 base charge and computed only 50 x 3." },
+        { "label": "C", "text": "$375", "value": "375", "trap": "Added the base charge to the rate first, then multiplied: (75 + 50) x 3." },
+        { "label": "D", "text": "$128", "value": "128", "trap": "Added all three numbers: 75 + 50 + 3." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "The $75 is the base charge (starting value); the $50 is the per-hour rate.",
+        "Evaluate C(3) = 75 + 50(3) = 75 + 150 = 225.",
+        "The charge is $225."
+      ],
+      "calculatorStrategy": "Direct evaluation by hand. Desmos check: type 75+50*3 to get 225.",
+      "check": { "kind": "evaluate", "expression": "75 + 50*3" }
+    },
+    {
+      "id": "alg-lf-e2",
+      "domain": "Algebra",
+      "subSkill": "Linear functions (slope and intercept in context)",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "The temperature is modeled by T(h) = 68 + 2h degrees Fahrenheit, where h is the number of hours after noon. By how many degrees does the temperature rise each hour?",
+      "choices": [
+        { "label": "A", "text": "2", "value": "2" },
+        { "label": "B", "text": "68", "value": "68", "trap": "Reported the starting temperature (the intercept) instead of the hourly rate." },
+        { "label": "C", "text": "70", "value": "70", "trap": "Added the starting value and the rate: 68 + 2." },
+        { "label": "D", "text": "136", "value": "136", "trap": "Multiplied the starting value by the rate: 68 x 2." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "The rate of change each hour is the coefficient of h, which is 2.",
+        "Concretely, T(h+1) - T(h) = (68 + 2(h+1)) - (68 + 2h) = 2 degrees per hour.",
+        "The 68 is the starting temperature at noon, not the rate."
+      ],
+      "calculatorStrategy": "This is pure interpretation — the rate is the number multiplying h. No calculator needed.",
+      "check": { "kind": "evaluate", "expression": "(68 + 2*(1 + 1)) - (68 + 2*1)" }
+    },
+    {
+      "id": "alg-lf-e3",
+      "domain": "Algebra",
+      "subSkill": "Linear functions (slope and intercept in context)",
+      "difficulty": "Easy",
+      "type": "spr",
+      "scoreBand": "400-490",
+      "question": "A candle's height is given by H(t) = 20 - 2.5t centimeters after burning for t hours. What was the candle's original height, in centimeters?",
+      "answer": "20",
+      "explanation": [
+        "The original height is the value before any burning, i.e. at t = 0 — the intercept.",
+        "H(0) = 20 - 2.5(0) = 20.",
+        "The 2.5 is the rate the candle shrinks per hour, not the original height."
+      ],
+      "calculatorStrategy": "Intercept = value at t = 0, read directly. Desmos: evaluate 20-2.5*0.",
+      "check": { "kind": "evaluate", "expression": "20 - 2.5*0" }
+    },
+    {
+      "id": "alg-lf-m1",
+      "domain": "Algebra",
+      "subSkill": "Linear functions (slope and intercept in context)",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "A gym membership's total cost is C(m) = 40 + 25m dollars after m months. After how many months does the total cost reach $240?",
+      "choices": [
+        { "label": "A", "text": "8", "value": "8" },
+        { "label": "B", "text": "9.6", "value": "9.6", "trap": "Ignored the $40 sign-up fee and computed 240/25." },
+        { "label": "C", "text": "11.2", "value": "11.2", "trap": "Added the $40 fee instead of subtracting it: (240 + 40)/25." },
+        { "label": "D", "text": "200", "value": "200", "trap": "Reached 25m = 200 but forgot to divide by 25." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Set the function equal to the target: 40 + 25m = 240.",
+        "Subtract the $40 starting fee: 25m = 200.",
+        "Divide by the $25 rate: m = 8.",
+        "Check: 40 + 25(8) = 240. True."
+      ],
+      "calculatorStrategy": "Good Desmos candidate: graph y = 40+25x and y = 240; the intersection is at x = 8.",
+      "check": { "kind": "solve_linear", "expression": "40 + 25*m - 240", "variable": "m" }
+    },
+    {
+      "id": "alg-lf-m2",
+      "domain": "Algebra",
+      "subSkill": "Linear functions (slope and intercept in context)",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "A linear function passes through the point (2, 5) and has slope 3. What is its y-intercept?",
+      "choices": [
+        { "label": "A", "text": "-1", "value": "-1" },
+        { "label": "B", "text": "5", "value": "5", "trap": "Reported the point's y-value as the intercept instead of solving for b." },
+        { "label": "C", "text": "11", "value": "11", "trap": "Added instead of subtracting: 5 + 3(2)." },
+        { "label": "D", "text": "1", "value": "1", "trap": "Sign error solving 5 = 6 + b (gave +1 instead of -1)." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Use y = mx + b with the point (2, 5) and slope m = 3: 5 = 3(2) + b.",
+        "So 5 = 6 + b, which gives b = 5 - 6 = -1.",
+        "The y-intercept is -1 (the value at x = 0)."
+      ],
+      "calculatorStrategy": "Solve for b by hand. Desmos check: graph y = 3x - 1 and confirm it passes through (2, 5).",
+      "check": { "kind": "evaluate", "expression": "5 - 3*2" }
+    },
+    {
+      "id": "alg-lf-m3",
+      "domain": "Algebra",
+      "subSkill": "Linear functions (slope and intercept in context)",
+      "difficulty": "Medium",
+      "type": "spr",
+      "scoreBand": "500-590",
+      "question": "A submarine's depth below the surface is D(t) = 15 + 6t meters after t minutes of descending. How many minutes does it take to reach a depth of 81 meters?",
+      "answer": "11",
+      "explanation": [
+        "Set D(t) = 81: 15 + 6t = 81.",
+        "Subtract the starting depth 15: 6t = 66.",
+        "Divide by the rate 6: t = 11.",
+        "Check: 15 + 6(11) = 15 + 66 = 81. True."
+      ],
+      "calculatorStrategy": "Solve by hand, or Desmos: intersection of y = 15+6x and y = 81 is x = 11.",
+      "check": { "kind": "solve_linear", "expression": "15 + 6*t - 81", "variable": "t" }
+    },
+    {
+      "id": "alg-lf-h1",
+      "domain": "Algebra",
+      "subSkill": "Linear functions (slope and intercept in context)",
+      "difficulty": "Hard",
+      "type": "mc",
+      "scoreBand": "600-700",
+      "question": "A linear function f satisfies f(2) = 7 and f(6) = 19. What is the value of f(0)?",
+      "choices": [
+        { "label": "A", "text": "1", "value": "1" },
+        { "label": "B", "text": "3", "value": "3", "trap": "Computed the slope (3) and stopped, instead of finding f(0)." },
+        { "label": "C", "text": "7", "value": "7", "trap": "Reported f(2), the nearest given value, as f(0)." },
+        { "label": "D", "text": "-5", "value": "-5", "trap": "Subtracted the total change (19 - 7 = 12) from 7 instead of slope x 2." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Slope m = (19 - 7)/(6 - 2) = 12/4 = 3.",
+        "Find b from f(2) = 7: 7 = 3(2) + b, so b = 1.",
+        "f(0) = b = 1.",
+        "Check: f(6) = 3(6) + 1 = 19. True."
+      ],
+      "calculatorStrategy": "Compute the slope from the two points, then back out the intercept. Desmos: plot the points (2,7) and (6,19), fit a line, read its y-intercept = 1.",
+      "check": { "kind": "system_linear", "equations": ["m*2 + b - 7", "m*6 + b - 19"], "variables": ["m", "b"], "target": "b" }
+    },
+    {
+      "id": "alg-lf-h2",
+      "domain": "Algebra",
+      "subSkill": "Linear functions (slope and intercept in context)",
+      "difficulty": "Hard",
+      "type": "spr",
+      "scoreBand": "600-700",
+      "question": "A company's profit is P(x) = 8x - 1200 dollars when it sells x units. How many units must it sell to break even (a profit of $0)?",
+      "answer": "150",
+      "explanation": [
+        "Break even means P(x) = 0: 8x - 1200 = 0.",
+        "Add 1200: 8x = 1200.",
+        "Divide by 8: x = 150.",
+        "Interpretation: the -1200 is fixed cost; each unit adds $8 of profit, so 150 units cover the fixed cost exactly.",
+        "Check: 8(150) - 1200 = 1200 - 1200 = 0. True."
+      ],
+      "calculatorStrategy": "Set the profit expression to 0 and solve. Desmos: the x-intercept of y = 8x - 1200 is x = 150.",
+      "check": { "kind": "solve_linear", "expression": "8*x - 1200", "variable": "x" }
+    }
+  ]
+}

@@ -112,3 +112,26 @@ scoring policy.
 Do **not** let "placement test" quietly become the permanent diagnostic. When all
 four domains have real content, revisit and build the full weighted adaptive
 version. Until then this is explicitly incomplete.
+
+---
+
+## 3. Verifier has no check for free-text / conceptual-interpretation answers
+
+The answer verifier (`scripts/verify_answers.py`) only checks **numeric** answers
+(solve_linear / solution_count / evaluate / system_linear). It cannot verify a
+question whose correct answer is a **prose sentence** — e.g. the common SAT shape
+"Which statement correctly interprets the slope/intercept in context?" (frequent
+in Problem-Solving & Data Analysis and word-problem Algebra).
+
+**Consequence / current rule:** that format is **excluded from authored content**
+until a check for it exists — shipping it would put a human-graded key inside a
+system whose premise is that nothing ships unverified (rule #3). This is a real
+content gap, not a nonexistent one.
+
+**Options when it's prioritized (likely with PSDA):**
+- Restructure those items as **MC with the candidate interpretations as
+  distractors** — more SAT-realistic (the real test *is* multiple choice for this
+  shape), and each distractor maps to a checkable choice. Probably the better fix.
+- Or a curated fixed set of acceptable prose answers matched exactly.
+
+Decision deferred to whenever PSDA is prioritized; tracked here so it stays explicit.
