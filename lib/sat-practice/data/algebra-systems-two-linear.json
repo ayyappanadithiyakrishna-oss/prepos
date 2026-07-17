@@ -1,0 +1,216 @@
+{
+  "id": "alg-systems-two-linear",
+  "domain": "Algebra",
+  "subSkill": "Systems of two linear equations",
+  "lessonNumber": "1.4",
+  "title": "Systems of Two Linear Equations",
+  "concept": "A system of two linear equations is two conditions that must be true at the same time. The solution is the single (x, y) point where both lines cross. Two tools solve every SAT system: substitution (solve one equation for a variable, plug it into the other) and elimination (add or subtract the equations so one variable cancels). Substitution is fastest when one equation already has an isolated variable (like y = 2x - 1); elimination is fastest when the same variable has matching or opposite coefficients. The single most common SAT trap isn't the algebra — it's answering for the wrong thing: the SAT deliberately asks for y when it's easy to stop at x, or for x + y when you've only found x. Read the last line of the question again before bubbling.",
+  "workedExamples": [
+    {
+      "problem": "Solve: y = 2x - 1 and 3x + y = 14. Find x and y.",
+      "steps": [
+        "One equation already gives y, so substitute: 3x + (2x - 1) = 14.",
+        "Combine: 5x - 1 = 14, so 5x = 15, x = 3.",
+        "Back-substitute: y = 2(3) - 1 = 5.",
+        "Check both: 3(3) + 5 = 14 and 5 = 2(3) - 1. True."
+      ],
+      "answer": "x = 3, y = 5"
+    },
+    {
+      "problem": "Solve: 3x + 2y = 16 and 5x - 2y = 8. Find x.",
+      "steps": [
+        "The y terms are +2y and -2y — opposites — so add the equations to eliminate y.",
+        "(3x + 5x) + (2y - 2y) = 16 + 8, so 8x = 24, x = 3.",
+        "(You could back-substitute for y = 3.5, but the question only asked for x.)"
+      ],
+      "answer": "x = 3"
+    }
+  ],
+  "trapPatterns": [
+    "Answering for the wrong variable — finding x when the question asks for y (or vice versa).",
+    "Answering for x when the question asks for a combination like x + y or y - x.",
+    "Adding the equations when you should subtract (or vice versa), so nothing actually cancels.",
+    "Forgetting the final division after eliminating a variable (e.g. leaving 8x = 24 as 24).",
+    "Sign errors when distributing a substituted expression, especially a negative constant."
+  ],
+  "calculatorStrategy": "Systems are where Desmos earns its keep. Type both equations on separate lines exactly as given (solve for y first if needed, or enter them implicitly like 3x+2y=16) and Desmos plots both lines — the intersection point is labeled with its exact (x, y) when you click it. This sidesteps every substitution/elimination arithmetic trap. The one thing Desmos won't do for you: read which value the question wants, so still check whether it asks for x, y, or a combination.",
+  "problems": [
+    {
+      "id": "alg-sys-e1",
+      "domain": "Algebra",
+      "subSkill": "Systems of two linear equations",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "The system x + y = 10 and x - y = 4 has solution (x, y). What is the value of x?",
+      "choices": [
+        { "label": "A", "text": "7", "value": "7" },
+        { "label": "B", "text": "3", "value": "3", "trap": "Solved the system correctly but reported y instead of x." },
+        { "label": "C", "text": "5", "value": "5", "trap": "Used only x + y = 10 and split it evenly, ignoring the second equation." },
+        { "label": "D", "text": "14", "value": "14", "trap": "Added the two right-hand sides (10 + 4) without eliminating a variable." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Add the equations to eliminate y: (x + y) + (x - y) = 10 + 4, so 2x = 14.",
+        "Divide by 2: x = 7.",
+        "Back-substitute: 7 + y = 10, so y = 3.",
+        "Check: 7 - 3 = 4. True."
+      ],
+      "calculatorStrategy": "Graph both lines in Desmos; the intersection reads (7, 3). Confirm the question wants x, not y.",
+      "check": { "kind": "system_linear", "equations": ["x + y - 10", "x - y - 4"], "variables": ["x", "y"], "target": "x" }
+    },
+    {
+      "id": "alg-sys-e2",
+      "domain": "Algebra",
+      "subSkill": "Systems of two linear equations",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "If 2x + y = 11 and y = 3, what is the value of x?",
+      "choices": [
+        { "label": "A", "text": "4", "value": "4" },
+        { "label": "B", "text": "8", "value": "8", "trap": "Reached 2x = 8 but forgot to divide by 2." },
+        { "label": "C", "text": "5.5", "value": "5.5", "trap": "Ignored y = 3 and computed 11/2." },
+        { "label": "D", "text": "3", "value": "3", "trap": "Reported the given value of y instead of solving for x." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Substitute y = 3: 2x + 3 = 11.",
+        "Subtract 3: 2x = 8.",
+        "Divide by 2: x = 4.",
+        "Check: 2(4) + 3 = 11. True."
+      ],
+      "calculatorStrategy": "Direct substitution is fastest by hand. Desmos check: 2x+3=11 marks x = 4.",
+      "check": { "kind": "system_linear", "equations": ["2*x + y - 11", "y - 3"], "variables": ["x", "y"], "target": "x" }
+    },
+    {
+      "id": "alg-sys-e3",
+      "domain": "Algebra",
+      "subSkill": "Systems of two linear equations",
+      "difficulty": "Easy",
+      "type": "spr",
+      "scoreBand": "400-490",
+      "question": "If x + 2y = 9 and x = 3, what is the value of y?",
+      "answer": "3",
+      "explanation": [
+        "Substitute x = 3: 3 + 2y = 9.",
+        "Subtract 3: 2y = 6.",
+        "Divide by 2: y = 3.",
+        "Check: 3 + 2(3) = 9. True."
+      ],
+      "calculatorStrategy": "Substitute by hand. Desmos check: 3+2y=9 gives y = 3.",
+      "check": { "kind": "system_linear", "equations": ["x + 2*y - 9", "x - 3"], "variables": ["x", "y"], "target": "y" }
+    },
+    {
+      "id": "alg-sys-m1",
+      "domain": "Algebra",
+      "subSkill": "Systems of two linear equations",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "If y = 2x - 1 and 3x + y = 14, what is the value of y?",
+      "choices": [
+        { "label": "A", "text": "5", "value": "5" },
+        { "label": "B", "text": "3", "value": "3", "trap": "Solved for x correctly but reported x instead of the requested y." },
+        { "label": "C", "text": "7", "value": "7", "trap": "Substituted y = 2x + 1 (flipped the sign of the constant) before solving." },
+        { "label": "D", "text": "-5", "value": "-5", "trap": "Sign error when substituting the expression into 3x + y." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Substitute y = 2x - 1 into 3x + y = 14: 3x + (2x - 1) = 14.",
+        "Combine: 5x - 1 = 14, so 5x = 15, x = 3.",
+        "Back-substitute: y = 2(3) - 1 = 5.",
+        "Check: 3(3) + 5 = 14. True."
+      ],
+      "calculatorStrategy": "Graph y=2x-1 and 3x+y=14; intersection is (3, 5). The question asks for y = 5, not x.",
+      "check": { "kind": "system_linear", "equations": ["y - (2*x - 1)", "3*x + y - 14"], "variables": ["x", "y"], "target": "y" }
+    },
+    {
+      "id": "alg-sys-m2",
+      "domain": "Algebra",
+      "subSkill": "Systems of two linear equations",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "If 3x + 2y = 16 and 5x - 2y = 8, what is the value of x?",
+      "choices": [
+        { "label": "A", "text": "3", "value": "3" },
+        { "label": "B", "text": "3.5", "value": "3.5", "trap": "Solved the system but reported y instead of x." },
+        { "label": "C", "text": "24", "value": "24", "trap": "Reached 8x = 24 but forgot to divide by 8." },
+        { "label": "D", "text": "-3", "value": "-3", "trap": "Subtracted the equations instead of adding, mishandling the -2y sign." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "The y terms are +2y and -2y, so add the equations: 8x = 24.",
+        "Divide by 8: x = 3.",
+        "Back-substitute: 3(3) + 2y = 16, so 2y = 7, y = 3.5.",
+        "Check: 5(3) - 2(3.5) = 15 - 7 = 8. True."
+      ],
+      "calculatorStrategy": "Add-to-eliminate is quick by hand since the y terms are opposites. Desmos intersection: (3, 3.5).",
+      "check": { "kind": "system_linear", "equations": ["3*x + 2*y - 16", "5*x - 2*y - 8"], "variables": ["x", "y"], "target": "x" }
+    },
+    {
+      "id": "alg-sys-m3",
+      "domain": "Algebra",
+      "subSkill": "Systems of two linear equations",
+      "difficulty": "Medium",
+      "type": "spr",
+      "scoreBand": "500-590",
+      "question": "A theater sells adult tickets for $12 and child tickets for $8. One night it sold 200 tickets for a total of $2080. How many adult tickets were sold?",
+      "answer": "120",
+      "explanation": [
+        "Let a = adult tickets, c = child tickets. Then a + c = 200 and 12a + 8c = 2080.",
+        "Substitute c = 200 - a: 12a + 8(200 - a) = 2080.",
+        "Distribute: 12a + 1600 - 8a = 2080, so 4a + 1600 = 2080.",
+        "Subtract 1600: 4a = 480, so a = 120.",
+        "Check: 120 adult + 80 child = 200 tickets; 12(120) + 8(80) = 1440 + 640 = 2080. True."
+      ],
+      "calculatorStrategy": "Set up the two equations by hand, then let Desmos solve: enter a+c=200 and 12a+8c=2080 (use x, y for a, c) and read the intersection's x = 120.",
+      "check": { "kind": "system_linear", "equations": ["a + c - 200", "12*a + 8*c - 2080"], "variables": ["a", "c"], "target": "a" }
+    },
+    {
+      "id": "alg-sys-h1",
+      "domain": "Algebra",
+      "subSkill": "Systems of two linear equations",
+      "difficulty": "Hard",
+      "type": "mc",
+      "scoreBand": "600-700",
+      "question": "If 4x + 3y = 27 and 2x - y = 1, what is the value of x + y?",
+      "choices": [
+        { "label": "A", "text": "8", "value": "8" },
+        { "label": "B", "text": "-2", "value": "-2", "trap": "Computed x - y instead of the requested x + y." },
+        { "label": "C", "text": "3", "value": "3", "trap": "Found x = 3 and stopped, ignoring 'x + y'." },
+        { "label": "D", "text": "5", "value": "5", "trap": "Found y = 5 and stopped, ignoring 'x + y'." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "From the second equation, y = 2x - 1. Substitute: 4x + 3(2x - 1) = 27.",
+        "Distribute: 4x + 6x - 3 = 27, so 10x = 30, x = 3.",
+        "Then y = 2(3) - 1 = 5.",
+        "The question asks for x + y = 3 + 5 = 8.",
+        "Check: 4(3) + 3(5) = 27 and 2(3) - 5 = 1. True."
+      ],
+      "calculatorStrategy": "Desmos gives the intersection (3, 5); then you must add them. The trap here is entirely in the final read: x + y, not x, y, or x - y.",
+      "check": { "kind": "system_linear", "equations": ["4*x + 3*y - 27", "2*x - y - 1"], "variables": ["x", "y"], "target": "x + y" }
+    },
+    {
+      "id": "alg-sys-h2",
+      "domain": "Algebra",
+      "subSkill": "Systems of two linear equations",
+      "difficulty": "Hard",
+      "type": "spr",
+      "scoreBand": "600-700",
+      "question": "The system 5x + 2y = 1 and 3x + 4y = 9 has solution (x, y). What is the value of y - x?",
+      "answer": "4",
+      "explanation": [
+        "Multiply the first equation by 2 to match the y terms: 10x + 4y = 2.",
+        "Subtract the second equation: (10x - 3x) + (4y - 4y) = 2 - 9, so 7x = -7, x = -1.",
+        "Substitute into 5x + 2y = 1: -5 + 2y = 1, so 2y = 6, y = 3.",
+        "The question asks for y - x = 3 - (-1) = 4.",
+        "Check: 5(-1) + 2(3) = 1 and 3(-1) + 4(3) = 9. True."
+      ],
+      "calculatorStrategy": "Desmos intersection is (-1, 3); then compute y - x by hand. Watch the double negative: 3 - (-1) = 4, not 2.",
+      "check": { "kind": "system_linear", "equations": ["5*x + 2*y - 1", "3*x + 4*y - 9"], "variables": ["x", "y"], "target": "y - x" }
+    }
+  ]
+}

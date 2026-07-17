@@ -43,6 +43,9 @@ export type ProblemCheck =
   | { kind: 'solution_count'; lhs: string; rhs: string; variable: string }
   /** Evaluate a closed-form numeric `expression`. */
   | { kind: 'evaluate'; expression: string }
+  /** Solve a system of linear equations (each `expression` = 0) for `variables`,
+   *  then evaluate `target` (e.g. "x", "y", "x+y") at the solution. */
+  | { kind: 'system_linear'; equations: string[]; variables: string[]; target: string }
 
 export interface VerifiedProblem {
   id: string

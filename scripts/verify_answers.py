@@ -51,6 +51,14 @@ def compute_expected(check: dict) -> tuple[str, object]:
         return "value", sp.nsimplify(sols[0])
     if kind == "evaluate":
         return "value", sp.nsimplify(parse(check["expression"]))
+    if kind == "system_linear":
+        syms = [sp.Symbol(v) for v in check["variables"]]
+        eqs = [sp.Eq(parse(e), 0) for e in check["equations"]]
+        sol = sp.solve(eqs, syms, dict=True)
+        if len(sol) != 1:
+            raise CheckError(f"expected a unique system solution, got {sol}")
+        target = parse(check["target"]).subs(sol[0])
+        return "value", sp.nsimplify(target)
     if kind == "solution_count":
         var = sp.Symbol(check["variable"])
         diff = sp.simplify(parse(check["lhs"]) - parse(check["rhs"]))

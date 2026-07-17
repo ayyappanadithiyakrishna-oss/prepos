@@ -1,7 +1,7 @@
 import { sql } from '@vercel/postgres'
 import { seedQuestions } from './questions-seed'
 import { seedLessons } from './lessons-seed'
-import { seedVerifiedSat } from './migrate-verified-sat'
+import { seedVerifiedSat, VERIFIED_PROBLEM_COUNT } from './migrate-verified-sat'
 
 const AP_TOPICS = [
   'Functions', 'Polynomial Functions', 'Rational Functions',
@@ -18,7 +18,7 @@ async function ensureVerifiedSat(): Promise<void> {
   if (verifiedSeeded) return
   try {
     const { rows } = await sql`SELECT COUNT(*) AS c FROM questions WHERE verified = TRUE`
-    if (Number(rows[0].c) < 8) await seedVerifiedSat()
+    if (Number(rows[0].c) < VERIFIED_PROBLEM_COUNT) await seedVerifiedSat()
   } catch {
     // `verified` column doesn't exist yet on a fresh DB — seedVerifiedSat migrates then seeds.
     await seedVerifiedSat()
