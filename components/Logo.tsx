@@ -13,26 +13,23 @@ export default function Logo({ size = 32, className }: LogoProps) {
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {/* Rounded square background */}
-      <rect width="32" height="32" rx="8" fill="#58cc02" />
+      {/* Dark rounded square background */}
+      <rect width="32" height="32" rx="7" fill="#0a0a0f"/>
 
-      {/* Stylized "P" built from rectangles/paths, white fill */}
-      {/* The P is rendered as white shapes, with a cutout via mask for the bowl hollow */}
-      <defs>
-        <mask id="p-cutout">
-          {/* Show everything white by default */}
-          <rect width="32" height="32" fill="white" />
-          {/* Cut out the inner bowl area */}
-          <rect x="13" y="10" width="4" height="6" rx="1" fill="black" />
-        </mask>
-      </defs>
+      {/* Wings outstretched — wide horizontal spread, tapering to tips */}
+      <path
+        d="M3 14 C7 10 11 13 14 15 C15 12 16 9 16 9 C16 9 17 12 18 15 C21 13 25 10 29 14 C25 17 21 15.5 19 17 L16 26 L13 17 C11 15.5 7 17 3 14Z"
+        fill="#58cc02"
+      />
 
-      <g mask="url(#p-cutout)" fill="white">
-        {/* Vertical stem */}
-        <rect x="9" y="7" width="4" height="18" rx="1" />
-        {/* Bowl — rounded on right side */}
-        <rect x="9" y="7" width="10" height="9" rx="4.5" />
-      </g>
+      {/* Head */}
+      <circle cx="16" cy="9" r="3.5" fill="#58cc02"/>
+
+      {/* Beak — sharp triangular point to the right */}
+      <path d="M19 8.2 L22.5 9.5 L19 10.8Z" fill="#a5ed6e"/>
+
+      {/* Eye */}
+      <circle cx="17.5" cy="8.5" r="0.9" fill="#0a0a0f"/>
     </svg>
   )
 }

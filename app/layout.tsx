@@ -1,11 +1,19 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Space_Grotesk, DM_Sans } from 'next/font/google'
 import './globals.css'
 import Sidebar from '@/components/Sidebar'
 
-const inter = Inter({
-  variable: '--font-sans',
+const spaceGrotesk = Space_Grotesk({
+  variable: '--font-heading',
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+})
+
+const dmSans = DM_Sans({
+  variable: '--font-body',
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
   display: 'swap',
 })
 
@@ -20,10 +28,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full`}>
-      <body className="min-h-full flex" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable} h-full`}>
+      <body className="min-h-full flex" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)', fontFamily: 'var(--font-body)' }}>
         <Sidebar />
-        <main className="flex-1 min-h-screen overflow-y-auto ml-[220px]">
+        <main className="flex-1 min-h-screen overflow-y-auto main-content">
           {children}
         </main>
       </body>

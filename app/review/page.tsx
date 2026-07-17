@@ -43,7 +43,6 @@ function ReviewContent() {
       .catch(() => setLoading(false))
   }, [selectedTopic])
 
-  // Build topic groups from all errors (fetch without filter for pills)
   const [allQuestions, setAllQuestions] = useState<ReviewQuestion[]>([])
   useEffect(() => {
     fetch('/api/review')
@@ -75,17 +74,34 @@ function ReviewContent() {
   }
 
   return (
-    <div className="px-8 py-8 max-w-[760px]">
+    <div style={{ padding: '32px', maxWidth: 760 }}>
+      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="mb-8"
+        style={{ marginBottom: 32 }}
       >
-        <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+        <h1
+          style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: 28,
+            fontWeight: 700,
+            color: 'var(--text-primary)',
+            margin: 0,
+            marginBottom: 6,
+          }}
+        >
           Review Mode
         </h1>
-        <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 14,
+            color: 'var(--text-muted)',
+            margin: 0,
+          }}
+        >
           Practice your weak spots — drawn from your error log
         </p>
       </motion.div>
@@ -96,12 +112,18 @@ function ReviewContent() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05, duration: 0.35 }}
-          className="flex flex-wrap gap-2 mb-6"
+          style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}
         >
           <button
             onClick={() => setSelectedTopic(null)}
-            className="px-3 py-1.5 rounded-xl text-xs font-medium cursor-pointer transition-all duration-200"
             style={{
+              padding: '6px 14px',
+              borderRadius: 12,
+              fontSize: 12,
+              fontFamily: "'DM Sans', sans-serif",
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.18s ease',
               background: selectedTopic === null ? 'var(--green)' : 'var(--bg-card)',
               color: selectedTopic === null ? 'var(--bg-base)' : 'var(--text-secondary)',
               border: `1px solid ${selectedTopic === null ? 'var(--green)' : 'var(--border)'}`,
@@ -113,8 +135,14 @@ function ReviewContent() {
             <button
               key={g.topic_id}
               onClick={() => setSelectedTopic(g.topic_id)}
-              className="px-3 py-1.5 rounded-xl text-xs font-medium cursor-pointer transition-all duration-200"
               style={{
+                padding: '6px 14px',
+                borderRadius: 12,
+                fontSize: 12,
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.18s ease',
                 background: selectedTopic === g.topic_id ? 'var(--purple)' : 'var(--bg-card)',
                 color: selectedTopic === g.topic_id ? '#fff' : 'var(--text-secondary)',
                 border: `1px solid ${selectedTopic === g.topic_id ? 'var(--purple)' : 'var(--border)'}`,
@@ -122,8 +150,11 @@ function ReviewContent() {
             >
               {g.topic_name}
               <span
-                className="ml-1.5 px-1.5 py-0.5 rounded-full text-xs"
                 style={{
+                  marginLeft: 6,
+                  padding: '1px 6px',
+                  borderRadius: 999,
+                  fontSize: 11,
                   background: selectedTopic === g.topic_id ? 'rgba(255,255,255,0.2)' : 'var(--bg-elevated)',
                   color: selectedTopic === g.topic_id ? '#fff' : 'var(--text-muted)',
                 }}
@@ -136,31 +167,83 @@ function ReviewContent() {
       )}
 
       {loading ? (
-        <div className="flex justify-center py-20">
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '80px 0' }}>
           <div
-            className="w-8 h-8 rounded-full border-2 animate-spin"
-            style={{ borderColor: 'var(--green)', borderTopColor: 'transparent' }}
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: '50%',
+              border: '2px solid var(--green)',
+              borderTopColor: 'transparent',
+              animation: 'spin 0.8s linear infinite',
+            }}
           />
         </div>
       ) : questions.length === 0 ? (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="flex flex-col items-center justify-center py-24 text-center"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '80px 0',
+            textAlign: 'center',
+          }}
         >
-          <div className="mb-4">
-            <CheckCircle2 size={48} color="var(--green)" />
+          <div
+            style={{
+              width: 80,
+              height: 80,
+              borderRadius: '50%',
+              background: 'rgba(88,204,2,0.12)',
+              border: '2px solid rgba(88,204,2,0.25)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 20,
+            }}
+          >
+            <CheckCircle2 size={40} color="var(--green)" />
           </div>
-          <p className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
+          <p
+            style={{
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: 18,
+              fontWeight: 700,
+              color: 'var(--text-primary)',
+              margin: 0,
+              marginBottom: 8,
+            }}
+          >
             No errors to review
           </p>
-          <p className="text-sm mt-2 mb-6" style={{ color: 'var(--text-muted)' }}>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 14,
+              color: 'var(--text-muted)',
+              margin: 0,
+              marginBottom: 28,
+            }}
+          >
             Complete a practice session first to build your error log.
           </p>
           <button
             onClick={() => router.push('/practice')}
-            className="px-6 py-3 rounded-xl font-bold cursor-pointer transition-all duration-200"
-            style={{ background: 'var(--green)', color: 'var(--bg-base)' }}
+            style={{
+              padding: '12px 28px',
+              borderRadius: 14,
+              fontSize: 14,
+              fontFamily: "'DM Sans', sans-serif",
+              fontWeight: 700,
+              cursor: 'pointer',
+              transition: 'all 0.18s ease',
+              background: 'var(--green)',
+              color: 'var(--bg-base)',
+              border: 'none',
+            }}
           >
             Start Practice
           </button>
@@ -172,18 +255,38 @@ function ReviewContent() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.35 }}
-            className="mb-6"
+            style={{ marginBottom: 28 }}
           >
             <button
               onClick={handleStartReview}
-              className="w-full py-4 rounded-2xl font-bold text-base cursor-pointer transition-all duration-200"
-              style={{ background: 'var(--purple)', color: '#fff' }}
-              onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9' }}
+              style={{
+                width: '100%',
+                padding: '16px 0',
+                borderRadius: 16,
+                fontSize: 16,
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'opacity 0.18s ease',
+                background: 'var(--purple)',
+                color: '#fff',
+                border: 'none',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.88' }}
               onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
             >
-              Start Review Session →
+              Start Review Session
             </button>
-            <p className="text-center text-xs mt-2" style={{ color: 'var(--text-muted)' }}>
+            <p
+              style={{
+                textAlign: 'center',
+                fontSize: 12,
+                fontFamily: "'DM Sans', sans-serif",
+                color: 'var(--text-muted)',
+                marginTop: 10,
+                margin: '10px 0 0',
+              }}
+            >
               {questions.length} question{questions.length !== 1 ? 's' : ''} in queue
             </p>
           </motion.div>
@@ -194,32 +297,80 @@ function ReviewContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.35 }}
           >
-            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
+            <p
+              style={{
+                fontSize: 11,
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase' as const,
+                color: 'var(--text-muted)',
+                marginBottom: 12,
+                margin: '0 0 12px',
+              }}
+            >
               Error breakdown by topic
             </p>
-            <div className="flex flex-col gap-2">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {groups.map((g, i) => (
                 <button
                   key={g.topic_id}
                   onClick={() => setSelectedTopic(selectedTopic === g.topic_id ? null : g.topic_id)}
-                  className="flex items-center justify-between p-4 rounded-xl cursor-pointer transition-all duration-200 text-left"
                   style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '16px 18px',
+                    borderRadius: 14,
+                    cursor: 'pointer',
+                    transition: 'all 0.18s ease',
+                    textAlign: 'left',
                     background: selectedTopic === g.topic_id ? 'rgba(139,92,246,0.1)' : 'var(--bg-card)',
                     border: `1px solid ${selectedTopic === g.topic_id ? 'rgba(139,92,246,0.35)' : 'var(--border)'}`,
                     animationDelay: `${i * 0.04}s`,
                   }}
+                  onMouseEnter={(e) => {
+                    if (selectedTopic !== g.topic_id) {
+                      e.currentTarget.style.borderColor = 'var(--border-accent)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedTopic !== g.topic_id) {
+                      e.currentTarget.style.borderColor = 'var(--border)'
+                    }
+                  }}
                 >
                   <div>
-                    <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+                    <p
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: 14,
+                        fontWeight: 600,
+                        color: 'var(--text-primary)',
+                        margin: 0,
+                        marginBottom: 3,
+                      }}
+                    >
                       {g.topic_name}
                     </p>
-                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                    <p
+                      style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: 12,
+                        color: 'var(--text-muted)',
+                        margin: 0,
+                      }}
+                    >
                       {g.subject === 'ap_precalc' ? 'AP Precalculus' : 'SAT Math'}
                     </p>
                   </div>
                   <span
-                    className="text-sm font-bold px-3 py-1 rounded-full"
                     style={{
+                      padding: '4px 12px',
+                      borderRadius: 999,
+                      fontSize: 12,
+                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontWeight: 700,
                       background: 'rgba(255,75,75,0.12)',
                       color: 'var(--red)',
                     }}
@@ -240,10 +391,16 @@ export default function ReviewPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex justify-center items-center min-h-screen">
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
           <div
-            className="w-8 h-8 rounded-full border-2 animate-spin"
-            style={{ borderColor: 'var(--green)', borderTopColor: 'transparent' }}
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: '50%',
+              border: '2px solid var(--green)',
+              borderTopColor: 'transparent',
+              animation: 'spin 0.8s linear infinite',
+            }}
           />
         </div>
       }

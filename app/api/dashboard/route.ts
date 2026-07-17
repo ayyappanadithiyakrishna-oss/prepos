@@ -4,14 +4,27 @@ import { ensureSeeded } from '@/lib/ensure-seeded'
 
 function calcStreak(rows: { date: string; problems_solved: number }[]): number {
   if (rows.length === 0) return 0
-  const today = new Date().toISOString().slice(0, 10)
+
+  const today = new Date()
+  const todayStr = today.toISOString().slice(0, 10)
+  const yesterday = new Date(today)
+  yesterday.setDate(yesterday.getDate() - 1)
+  const yesterdayStr = yesterday.toISOString().slice(0, 10)
+
+  // Streak is alive if most recent activity was today OR yesterday (haven't practiced yet today)
+  const mostRecent = rows[0].date
+  if (mostRecent !== todayStr && mostRecent !== yesterdayStr) return 0
+
+  // Walk backwards through consecutive days starting from the most recent active day
   let streak = 0
-  const cursor = new Date(today)
+  const cursor = new Date(mostRecent + 'T00:00:00Z')
   for (const row of rows) {
     if (row.date === cursor.toISOString().slice(0, 10)) {
       streak++
       cursor.setDate(cursor.getDate() - 1)
-    } else break
+    } else {
+      break
+    }
   }
   return streak
 }
@@ -24,7 +37,7 @@ export async function GET() {
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
     const sevenDaysAgoStr = sevenDaysAgo.toISOString().slice(0, 10)
 
-    const [streakRows, todayRow, totalRow, accuracyRow, apRow, satRow, topicRows, sessionRows] = await Promise.all([
+    const [streakRows, todayRow, totalRow, accuracyRow, apRow, satRow, topicRows, sessionRows, xpRow] = await Promise.all([
       sql`SELECT date, problems_solved FROM streaks WHERE problems_solved > 0 ORDER BY date DESC`,
       sql`SELECT COALESCE(problems_solved, 0) as count FROM streaks WHERE date = ${today}`,
       sql`SELECT COUNT(*) as count FROM attempts`,
@@ -33,6 +46,7 @@ export async function GET() {
       sql`SELECT AVG(mastery_pct) as avg_mastery FROM topics WHERE subject = 'sat_math'`,
       sql`SELECT id, name, subject, mastery_pct FROM topics ORDER BY subject, name`,
       sql`SELECT id, session_type, started_at, completed_at, total_questions FROM sessions ORDER BY started_at DESC LIMIT 5`,
+      sql`SELECT COALESCE(SUM(xp_earned), 0) as total_xp FROM lesson_progress`,
     ])
 
     const acc = accuracyRow.rows[0]
@@ -47,6 +61,7 @@ export async function GET() {
       sat_mastery: Math.round(Number(satRow.rows[0].avg_mastery) ?? 0),
       topics: topicRows.rows,
       recent_sessions: sessionRows.rows,
+      total_xp: Number(xpRow.rows[0]?.total_xp ?? 0),
     })
   } catch (err) {
     console.error('[dashboard]', err)

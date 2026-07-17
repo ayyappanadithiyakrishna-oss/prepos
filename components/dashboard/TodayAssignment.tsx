@@ -1,6 +1,9 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
+import { useState } from 'react'
 
 interface AssignmentItem {
   label: string
@@ -14,57 +17,136 @@ const items: AssignmentItem[] = [
   { label: 'Review', count: 10, color: 'var(--purple)' },
 ]
 
+const total = items.reduce((sum, i) => sum + i.count, 0)
+
 export default function TodayAssignment() {
   const router = useRouter()
+  const [btnHovered, setBtnHovered] = useState(false)
 
   return (
     <div
-      className="rounded-2xl p-6 flex flex-col gap-5"
-      style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
+      style={{
+        background: 'linear-gradient(135deg, rgba(28,176,246,0.08) 0%, rgba(88,204,2,0.05) 100%)',
+        border: '1px solid var(--border)',
+        borderRadius: '16px',
+        padding: '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '16px',
+      }}
     >
-      <h2 className="text-base font-semibold" style={{ color: 'var(--text-primary)' }}>
-        Today&apos;s Assignment
-      </h2>
+      <div>
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: '11px',
+            fontWeight: 600,
+            color: 'var(--text-muted)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+          }}
+        >
+          Today&apos;s Goal
+        </p>
+        <p
+          style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: '24px',
+            fontWeight: 700,
+            color: 'var(--text-primary)',
+            marginTop: '2px',
+            lineHeight: 1.1,
+          }}
+        >
+          {total} Problems
+        </p>
+      </div>
 
-      <div className="flex flex-col gap-3">
-        {items.map(({ label, count, color }) => (
-          <div key={label} className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        {items.map(({ label, count, color }, i) => (
+          <motion.div
+            key={label}
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 + i * 0.07, duration: 0.3 }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span
-                className="w-2 h-2 rounded-full flex-shrink-0"
-                style={{ background: color }}
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  background: color,
+                  flexShrink: 0,
+                  boxShadow: `0 0 6px ${color}`,
+                }}
               />
-              <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+              <span
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: '13px',
+                  color: 'var(--text-secondary)',
+                }}
+              >
                 {label}
               </span>
             </div>
-            <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
-              {count} <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>questions</span>
+            <span
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: '13px',
+                fontWeight: 600,
+                color: 'var(--text-primary)',
+              }}
+            >
+              {count}
+              <span
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontWeight: 400,
+                  color: 'var(--text-muted)',
+                  marginLeft: '3px',
+                }}
+              >
+                q
+              </span>
             </span>
-          </div>
+          </motion.div>
         ))}
       </div>
 
-      <div
-        className="h-px"
-        style={{ background: 'var(--border)' }}
-      />
+      <div style={{ height: '1px', background: 'var(--border)', opacity: 0.5 }} />
 
-      <div className="flex items-center justify-between">
-        <span className="text-sm" style={{ color: 'var(--text-muted)' }}>
-          Total: <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>55 questions</span>
-        </span>
-        <button
-          onClick={() => router.push('/practice')}
-          className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
-          style={{
-            background: 'var(--green)',
-            color: '#0a0a0f',
-          }}
-        >
-          Start Today&apos;s Practice →
-        </button>
-      </div>
+      <button
+        onClick={() => router.push('/practice')}
+        onMouseEnter={() => setBtnHovered(true)}
+        onMouseLeave={() => setBtnHovered(false)}
+        style={{
+          width: '100%',
+          padding: '10px 24px',
+          borderRadius: '12px',
+          border: 'none',
+          background: 'var(--blue)',
+          color: '#fff',
+          fontFamily: "'Space Grotesk', sans-serif",
+          fontSize: '14px',
+          fontWeight: 700,
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
+          transition: 'opacity 0.15s ease, box-shadow 0.15s ease',
+          opacity: btnHovered ? 0.88 : 1,
+          boxShadow: btnHovered
+            ? '0 0 20px rgba(28,176,246,0.35), 0 4px 12px rgba(0,0,0,0.3)'
+            : '0 2px 8px rgba(0,0,0,0.2)',
+        }}
+      >
+        Start Practice
+        <ArrowRight size={15} />
+      </button>
     </div>
   )
 }
