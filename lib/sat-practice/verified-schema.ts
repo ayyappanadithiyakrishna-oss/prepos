@@ -46,6 +46,21 @@ export type ProblemCheck =
   /** Solve a system of linear equations (each `expression` = 0) for `variables`,
    *  then evaluate `target` (e.g. "x", "y", "x+y") at the solution. */
   | { kind: 'system_linear'; equations: string[]; variables: string[]; target: string }
+  /** Proportional-sides / similar-triangle problems: solve ratio1 = ratio2 for
+   *  `variable`. The single positive real root is the answer (geometry lengths
+   *  are positive; a negative extraneous root is discarded). */
+  | { kind: 'geometry_ratio'; ratio1: string; ratio2: string; variable: string }
+  /** Right-triangle trig (SOH-CAH-TOA). Either evaluate `func` at `angleDeg`
+   *  exactly, or compute the ratio from two given sides (opposite/adjacent/
+   *  hypotenuse per the function). Exact surds are preserved. */
+  | {
+      kind: 'trig_evaluate'
+      func: 'sin' | 'cos' | 'tan'
+      angleDeg?: number
+      opposite?: number
+      adjacent?: number
+      hypotenuse?: number
+    }
 
 export interface VerifiedProblem {
   id: string
