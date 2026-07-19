@@ -223,32 +223,10 @@ export default function Dashboard() {
 
   return (
     <div style={{ position: 'relative' }}>
-      {/* Ambient background orbs */}
-      <div
-        className="ambient-orb animate-orb"
-        style={{
-          width: 600, height: 600,
-          background: 'radial-gradient(circle, rgba(28,176,246,0.06) 0%, transparent 70%)',
-          top: '-200px', left: '-100px',
-        }}
-      />
-      <div
-        className="ambient-orb animate-orb-alt"
-        style={{
-          width: 500, height: 500,
-          background: 'radial-gradient(circle, rgba(88,204,2,0.05) 0%, transparent 70%)',
-          top: '200px', right: '-150px',
-        }}
-      />
-      <div
-        className="ambient-orb"
-        style={{
-          width: 400, height: 400,
-          background: 'radial-gradient(circle, rgba(139,92,246,0.04) 0%, transparent 70%)',
-          bottom: '100px', left: '30%',
-          animation: 'orb-drift-alt 18s ease-in-out 5s infinite',
-        }}
-      />
+      {/* Static ambient wash — a single fixed radial gradient painted once.
+          Replaces the three perpetually-animating 90px-blur orbs that pinned
+          the GPU compositor every frame while idle (the MacBook lag source). */}
+      <div className="ambient-wash" aria-hidden />
 
       <motion.div
         initial={{ opacity: 0 }}
