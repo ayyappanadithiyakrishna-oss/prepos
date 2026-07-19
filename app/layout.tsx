@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
-import { Space_Grotesk, DM_Sans } from 'next/font/google'
+import { Space_Grotesk, DM_Sans, Inter } from 'next/font/google'
 import './globals.css'
 import Sidebar from '@/components/Sidebar'
 import Providers from './providers'
+import { auth } from '@/lib/auth'
 
 const spaceGrotesk = Space_Grotesk({
   variable: '--font-heading',
@@ -18,9 +19,26 @@ const dmSans = DM_Sans({
   display: 'swap',
 })
 
+// Pitch UI/display voice. Loaded once, used by the landing page and the
+// rebuilt dashboard via --font-inter.
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
-  title: 'PrepOS — AP Precalc & SAT Math',
-  description: 'Personal learning OS for AP Precalculus and SAT Math',
+  title: 'PrepOS — From 470 to 800. One sub-skill at a time.',
+  description:
+    'PrepOS tracks exactly where you lose SAT Math points and makes you practice those until you stop. Verified questions, real trap explanations, mastery that compounds.',
+  openGraph: {
+    title: 'PrepOS',
+    description: 'The SAT Math prep tool that actually knows your weak spots.',
+    url: 'https://prepos-xi.vercel.app',
+    siteName: 'PrepOS',
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+  },
   icons: {
     icon: [
       { url: '/favicon-16.png', sizes: '16x16', type: 'image/png' },
@@ -32,17 +50,28 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // Logged-out visitors get the full-bleed marketing surface (no app chrome);
+  // authenticated students get the sidebar shell.
+  const session = await auth()
+  const authed = !!session?.user
+
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable} h-full`}>
-      <body className="min-h-full flex" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)', fontFamily: 'var(--font-body)' }}>
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${dmSans.variable} ${inter.variable} h-full`}
+    >
+      <body
+        className="min-h-full flex"
+        style={{ background: 'var(--bg-base)', color: 'var(--text-primary)', fontFamily: 'var(--font-body)' }}
+      >
         <Providers>
-          <Sidebar />
-          <main className="flex-1 min-h-screen overflow-y-auto main-content">
+          {authed && <Sidebar />}
+          <main className={`flex-1 min-h-screen overflow-y-auto ${authed ? 'main-content' : ''}`}>
             {children}
           </main>
         </Providers>
