@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
 import { ensureSeeded } from '@/lib/ensure-seeded'
+import { getUserId } from '@/lib/require-auth'
 
 function shuffleChoicesForQuestion(
   choices: string[],
@@ -25,6 +26,8 @@ function shuffleChoicesForQuestion(
 
 export async function GET() {
   try {
+    const userId = await getUserId()
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     await ensureSeeded()
     const today = new Date().toISOString().slice(0, 10)
 
@@ -116,7 +119,7 @@ export async function GET() {
 
     // Create session
     const sessionRow = await sql`
-      INSERT INTO sessions (session_type) VALUES ('daily') RETURNING id
+      INSERT INTO sessions (session_type, user_id) VALUES ('daily', ${userId}) RETURNING id
     `
     const sessionId = sessionRow.rows[0].id
 

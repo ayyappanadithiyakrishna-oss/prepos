@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
 import { ensureSeeded } from '@/lib/ensure-seeded'
+import { getUserId } from '@/lib/require-auth'
 
 type RichChoice = { label: string; text: string; value?: string; trap?: string }
 
@@ -19,6 +20,8 @@ const norm = (s: unknown) => String(s ?? '').trim()
 
 export async function POST(req: Request) {
   try {
+    const userId = await getUserId()
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     await ensureSeeded()
     const { session_id, question_id, user_answer, user_answer_text, time_spent_sec } = await req.json()
 
@@ -64,27 +67,28 @@ export async function POST(req: Request) {
     `
     await sql`UPDATE sessions SET total_questions = total_questions + 1 WHERE id = ${session_id}`
 
-    // Error Log applies to both verified and legacy content.
+    // Error Log applies to both verified and legacy content, scoped per-student
+    // so two users missing the same question keep separate error rows.
     if (is_correct === 1) {
       await sql`
         UPDATE errors SET times_missed = GREATEST(0, times_missed - 1), last_seen = NOW()
-        WHERE question_id = ${question_id}
+        WHERE question_id = ${question_id} AND user_id = ${userId}
       `
     } else {
-      const existing = await sql`SELECT id FROM errors WHERE question_id = ${question_id}`
+      const existing = await sql`SELECT id FROM errors WHERE question_id = ${question_id} AND user_id = ${userId}`
       if (existing.rows.length > 0) {
         await sql`
           UPDATE errors SET times_missed = times_missed + 1, user_answer = ${user_answer},
                  trap = COALESCE(${trap}, trap), last_seen = NOW()
-          WHERE question_id = ${question_id}
+          WHERE question_id = ${question_id} AND user_id = ${userId}
         `
       } else {
         await sql`
           INSERT INTO errors (question_id, topic_id, question_text, correct_answer, user_answer,
-                              subject, sub_skill, domain, difficulty_band, trap)
+                              subject, sub_skill, domain, difficulty_band, trap, user_id)
           VALUES (${question_id}, ${question.topic_id}, ${question.question_text},
                   ${question.answer_text}, ${user_answer}, ${question.subject},
-                  ${question.sub_skill}, ${question.domain}, ${question.difficulty_band}, ${trap})
+                  ${question.sub_skill}, ${question.domain}, ${question.difficulty_band}, ${trap}, ${userId})
         `
       }
     }

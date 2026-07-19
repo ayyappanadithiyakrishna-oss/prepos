@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
 import { ensureSeeded } from '@/lib/ensure-seeded'
+import { getUserId } from '@/lib/require-auth'
 
 type RichChoice = { label: string; text: string; value?: string; trap?: string }
 
@@ -34,6 +35,8 @@ export async function GET() {
 // the trap for the option the student actually chose.
 export async function POST(req: Request) {
   try {
+    const userId = await getUserId()
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     await ensureSeeded()
     const body = await req.json().catch(() => ({}))
     const subSkill: string | undefined = body?.subSkill
@@ -42,7 +45,8 @@ export async function POST(req: Request) {
     const isTest = body?.test === true
 
     const { rows: sessionRows } = await sql`
-      INSERT INTO sessions (session_type, is_test) VALUES ('sat_verified', ${isTest}) RETURNING id
+      INSERT INTO sessions (session_type, is_test, user_id)
+      VALUES ('sat_verified', ${isTest}, ${userId}) RETURNING id
     `
     const session_id = sessionRows[0].id
 

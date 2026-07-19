@@ -1,12 +1,15 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
 import { ensureSeeded } from '@/lib/ensure-seeded'
+import { getUserId } from '@/lib/require-auth'
 
 export async function POST(req: Request) {
   try {
+    const userId = await getUserId()
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     await ensureSeeded()
     const { session_id } = await req.json()
-    await sql`UPDATE sessions SET completed_at = NOW() WHERE id = ${session_id}`
+    await sql`UPDATE sessions SET completed_at = NOW() WHERE id = ${session_id} AND user_id = ${userId}`
 
     const summary = await sql`
       SELECT COUNT(*) as total, SUM(is_correct) as correct

@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server'
 import { sql } from '@vercel/postgres'
 import { ensureSeeded } from '@/lib/ensure-seeded'
+import { getUserId } from '@/lib/require-auth'
 
 export async function GET(req: Request) {
   try {
+    const userId = await getUserId()
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     await ensureSeeded()
     const { searchParams } = new URL(req.url)
     const topicId = searchParams.get('topic_id')
@@ -29,7 +32,7 @@ export async function GET(req: Request) {
           ORDER BY e.times_missed DESC
         `
 
-    const sessionRow = await sql`INSERT INTO sessions (session_type) VALUES ('review') RETURNING id`
+    const sessionRow = await sql`INSERT INTO sessions (session_type, user_id) VALUES ('review', ${userId}) RETURNING id`
 
     return NextResponse.json({
       questions: rows.rows.map(q => ({

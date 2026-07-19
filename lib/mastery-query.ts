@@ -16,8 +16,9 @@ export interface SkillMasteryRow extends SkillMastery {
 }
 
 /** Per-sub-skill mastery for all verified content, computed from real
- *  (non-test) attempts. This is the source of truth — no +5/−3 counter. */
-export async function getSkillMasteries(now: Date = new Date()): Promise<SkillMasteryRow[]> {
+ *  (non-test) attempts belonging to `userId`. Per-student: only attempts whose
+ *  session is owned by this user count. Source of truth — no +5/−3 counter. */
+export async function getSkillMasteries(userId: string, now: Date = new Date()): Promise<SkillMasteryRow[]> {
   const bySkill = new Map<string, { domain: string; attempts: MasteryAttempt[] }>()
 
   // Seed every verified sub-skill so unattempted ones still appear (score 0),
@@ -37,6 +38,7 @@ export async function getSkillMasteries(now: Date = new Date()): Promise<SkillMa
     JOIN questions q ON q.id = a.question_id
     JOIN sessions  s ON s.id = a.session_id
     WHERE q.verified = TRUE AND q.sub_skill IS NOT NULL AND s.is_test = FALSE
+      AND s.user_id = ${userId}
   `
   for (const r of rows) {
     const key = r.sub_skill as string
