@@ -21,6 +21,15 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: 'PrepOS — AP Precalc & SAT Math',
   description: 'Personal learning OS for AP Precalculus and SAT Math',
+  icons: {
+    icon: [
+      { url: '/favicon-16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-touch-icon.png',
+    shortcut: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({
