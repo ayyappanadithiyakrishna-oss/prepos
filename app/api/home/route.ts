@@ -59,8 +59,8 @@ export async function GET(req: Request) {
           WHERE s.user_id = ${userId} AND s.is_test = FALSE`,
       sql`SELECT COUNT(*)::int AS n FROM attempts a JOIN sessions s ON s.id = a.session_id
           WHERE s.user_id = ${userId} AND s.is_test = FALSE
-            AND (a.is_correct = 1 OR a.is_correct = TRUE) AND a.attempted_at >= ${d7}`,
-      sql`SELECT SUM(CASE WHEN a.is_correct = 1 OR a.is_correct = TRUE THEN 1 ELSE 0 END)::int AS correct,
+            AND a.is_correct::int = 1 AND a.attempted_at >= ${d7}`,
+      sql`SELECT SUM(CASE WHEN a.is_correct::int = 1 THEN 1 ELSE 0 END)::int AS correct,
                  COUNT(*)::int AS total
           FROM attempts a JOIN sessions s ON s.id = a.session_id
           WHERE s.user_id = ${userId} AND s.is_test = FALSE AND a.attempted_at >= ${d30}`,
