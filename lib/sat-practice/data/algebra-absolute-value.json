@@ -1,0 +1,213 @@
+{
+  "id": "alg-absolute-value",
+  "domain": "Algebra",
+  "subSkill": "Absolute value equations and inequalities",
+  "lessonNumber": "1.6",
+  "title": "Absolute Value Equations and Inequalities",
+  "concept": "Absolute value measures distance from zero, so it is never negative. Solving |expression| = k (with k > 0) means the inside can be either +k OR -k — that's TWO equations, and forgetting the second one is the number-one mistake here. So |x - 3| = 7 gives x - 3 = 7 (x = 10) and x - 3 = -7 (x = -4). Two special cases: |expression| = 0 has exactly one solution (the inside equals 0), and |expression| = (a negative number) has NO solution, because a distance can't be negative. For inequalities: |expression| ≤ k means the inside is trapped between -k and k (a single band, -k ≤ inside ≤ k), while |expression| ≥ k means the inside is at least k away in either direction (two separate rays). The SAT tests whether you produce both cases and read the boundary correctly.",
+  "workedExamples": [
+    {
+      "problem": "Solve |x + 2| = 9 and give both solutions.",
+      "steps": [
+        "Split into two cases: x + 2 = 9 OR x + 2 = -9.",
+        "Case 1: x + 2 = 9 → x = 7.",
+        "Case 2: x + 2 = -9 → x = -11.",
+        "The solutions are x = 7 and x = -11. Check: |7 + 2| = 9 and |-11 + 2| = |-9| = 9."
+      ],
+      "answer": "x = 7 or x = -11"
+    },
+    {
+      "problem": "Solve the inequality |x - 1| ≤ 5.",
+      "steps": [
+        "|inside| ≤ k becomes a single band: -5 ≤ x - 1 ≤ 5.",
+        "Add 1 to all three parts: -4 ≤ x ≤ 6.",
+        "So x is between -4 and 6, inclusive.",
+        "Check an endpoint: |6 - 1| = 5 ≤ 5 ✓, and |-4 - 1| = 5 ≤ 5 ✓."
+      ],
+      "answer": "-4 ≤ x ≤ 6"
+    }
+  ],
+  "trapPatterns": [
+    "Solving only the positive case and forgetting the negative case — the single most common absolute-value error.",
+    "Treating |expression| = (negative) as if it has solutions; a distance is never negative, so there are none.",
+    "Sign errors inside the bars: mishandling the shift (e.g. solving x + 3 = -5 as x = -2 instead of -8).",
+    "Reporting the wrong end of the solution set — giving the least solution when asked for the greatest, or vice versa.",
+    "For inequalities, confusing the '≤ k' single-band case with the '≥ k' two-ray case, or dropping the shift inside the bars."
+  ],
+  "calculatorStrategy": "Desmos handles both cases at once: type the equation as y1 = |expression| and y2 = k, and both intersection x-values are the two solutions; for an inequality, type it directly (e.g. abs(x-1)<=5) and read the shaded band. By hand, the discipline is always: write BOTH cases before solving either. The negative case is where points are won and lost.",
+  "problems": [
+    {
+      "id": "alg-abs-e1",
+      "domain": "Algebra",
+      "subSkill": "Absolute value equations and inequalities",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "What is the greatest value of x that satisfies |x - 4| = 6?",
+      "choices": [
+        { "label": "A", "text": "10", "value": "4 + 6" },
+        { "label": "B", "text": "-2", "value": "-2", "trap": "Reported the least solution (x = 4 - 6) instead of the greatest." },
+        { "label": "C", "text": "6", "value": "6", "trap": "Ignored the shift and read x = 6 straight off the right-hand side." },
+        { "label": "D", "text": "2", "value": "2", "trap": "Subtracted 4 from 6 instead of adding it to 4." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Split into two cases: x - 4 = 6 or x - 4 = -6.",
+        "Case 1: x = 10. Case 2: x = -2.",
+        "The greatest of the two solutions is 10.",
+        "Check: |10 - 4| = 6 ✓."
+      ],
+      "calculatorStrategy": "Desmos: y=abs(x-4) and y=6 intersect at x=-2 and x=10; the greater is 10.",
+      "check": { "kind": "evaluate", "expression": "4 + 6" }
+    },
+    {
+      "id": "alg-abs-e2",
+      "domain": "Algebra",
+      "subSkill": "Absolute value equations and inequalities",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "What is the least value of x that satisfies |x + 3| = 5?",
+      "choices": [
+        { "label": "A", "text": "-8", "value": "-3 - 5" },
+        { "label": "B", "text": "2", "value": "2", "trap": "Gave the greatest solution (x = -3 + 5), not the least." },
+        { "label": "C", "text": "-2", "value": "-2", "trap": "Solved the negative case x + 3 = -5 as x = -2 (added 3 instead of subtracting)." },
+        { "label": "D", "text": "8", "value": "8", "trap": "Sign error: wrote x = 3 + 5 = 8 for the negative case." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Split into two cases: x + 3 = 5 or x + 3 = -5.",
+        "Case 1: x = 2. Case 2: x = -8.",
+        "The least of the two solutions is -8.",
+        "Check: |-8 + 3| = |-5| = 5 ✓."
+      ],
+      "calculatorStrategy": "Desmos: y=abs(x+3) and y=5 meet at x=-8 and x=2; the lesser is -8.",
+      "check": { "kind": "evaluate", "expression": "-3 - 5" }
+    },
+    {
+      "id": "alg-abs-e3",
+      "domain": "Algebra",
+      "subSkill": "Absolute value equations and inequalities",
+      "difficulty": "Easy",
+      "type": "spr",
+      "scoreBand": "400-490",
+      "question": "What is the greatest value of x that satisfies |2x| = 14?",
+      "answer": "7",
+      "explanation": [
+        "Split into two cases: 2x = 14 or 2x = -14.",
+        "Case 1: x = 7. Case 2: x = -7.",
+        "The greatest solution is 7. Check: |2 · 7| = 14 ✓."
+      ],
+      "calculatorStrategy": "Divide out: |2x| = 14 means |x| = 7, so x = ±7; the greatest is 7.",
+      "check": { "kind": "evaluate", "expression": "14/2" }
+    },
+    {
+      "id": "alg-abs-m1",
+      "domain": "Algebra",
+      "subSkill": "Absolute value equations and inequalities",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "What is the sum of all solutions to |x - 5| = 9?",
+      "choices": [
+        { "label": "A", "text": "10", "value": "2*5" },
+        { "label": "B", "text": "14", "value": "14", "trap": "Reported only the positive-case solution, x = 14." },
+        { "label": "C", "text": "0", "value": "0", "trap": "Treated the solutions as ±9, ignoring the shift by 5, so they cancel." },
+        { "label": "D", "text": "-4", "value": "-4", "trap": "Reported only the negative-case solution, x = -4." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Two cases: x - 5 = 9 → x = 14, and x - 5 = -9 → x = -4.",
+        "Sum = 14 + (-4) = 10.",
+        "Shortcut: the two solutions are symmetric about the shift 5, so their sum is 2 · 5 = 10.",
+        "Check: |14 - 5| = 9 and |-4 - 5| = 9 ✓."
+      ],
+      "calculatorStrategy": "Find both intersections in Desmos (x=14, x=-4) and add. The solutions always average to the shift value.",
+      "check": { "kind": "evaluate", "expression": "2*5" }
+    },
+    {
+      "id": "alg-abs-m2",
+      "domain": "Algebra",
+      "subSkill": "Absolute value equations and inequalities",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "What is the greatest value of x that satisfies |x - 2| ≤ 6?",
+      "choices": [
+        { "label": "A", "text": "8", "value": "2 + 6" },
+        { "label": "B", "text": "-4", "value": "-4", "trap": "Reported the least value of the band instead of the greatest." },
+        { "label": "C", "text": "6", "value": "6", "trap": "Dropped the -2 and solved |x| ≤ 6 as x ≤ 6." },
+        { "label": "D", "text": "4", "value": "4", "trap": "Subtracted 2 from 6 instead of adding it to 2." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "|x - 2| ≤ 6 becomes a band: -6 ≤ x - 2 ≤ 6.",
+        "Add 2 to all parts: -4 ≤ x ≤ 8.",
+        "The greatest value in the band is 8.",
+        "Check: |8 - 2| = 6 ≤ 6 ✓."
+      ],
+      "calculatorStrategy": "Desmos: abs(x-2)<=6 shades the band from -4 to 8; read the right edge, 8.",
+      "check": { "kind": "evaluate", "expression": "2 + 6" }
+    },
+    {
+      "id": "alg-abs-m3",
+      "domain": "Algebra",
+      "subSkill": "Absolute value equations and inequalities",
+      "difficulty": "Medium",
+      "type": "spr",
+      "scoreBand": "500-590",
+      "question": "What is the greatest value of x that satisfies |3x - 6| = 12?",
+      "answer": "6",
+      "explanation": [
+        "Two cases: 3x - 6 = 12 → 3x = 18 → x = 6, and 3x - 6 = -12 → 3x = -6 → x = -2.",
+        "The greatest solution is 6.",
+        "Check: |3 · 6 - 6| = |12| = 12 ✓."
+      ],
+      "calculatorStrategy": "Solve both cases by hand, or read the right intersection of y=abs(3x-6) and y=12 in Desmos (x=6).",
+      "check": { "kind": "evaluate", "expression": "(12+6)/3" }
+    },
+    {
+      "id": "alg-abs-h1",
+      "domain": "Algebra",
+      "subSkill": "Absolute value equations and inequalities",
+      "difficulty": "Hard",
+      "type": "mc",
+      "scoreBand": "600-700",
+      "question": "What is the product of all solutions to |x + 1| = 4?",
+      "choices": [
+        { "label": "A", "text": "-15", "value": "(-1)**2 - 4**2" },
+        { "label": "B", "text": "15", "value": "15", "trap": "Sign error; multiplied the two solutions as if they had the same sign." },
+        { "label": "C", "text": "-5", "value": "-5", "trap": "Reported only one solution (the negative case) instead of the product." },
+        { "label": "D", "text": "-17", "value": "-17", "trap": "Computed (-1) - 16 instead of (-1)² - 16 when using the shortcut." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Two cases: x + 1 = 4 → x = 3, and x + 1 = -4 → x = -5.",
+        "Product = 3 · (-5) = -15.",
+        "Shortcut: for |x - h| = k the roots are h ± k, so the product is h² - k² = (-1)² - 4² = 1 - 16 = -15.",
+        "Check: |3 + 1| = 4 and |-5 + 1| = 4 ✓."
+      ],
+      "calculatorStrategy": "Read both intersections (x=3, x=-5) in Desmos and multiply. The product equals h² - k² where h is the shift and k the right side.",
+      "check": { "kind": "evaluate", "expression": "(-1)**2 - 4**2" }
+    },
+    {
+      "id": "alg-abs-h2",
+      "domain": "Algebra",
+      "subSkill": "Absolute value equations and inequalities",
+      "difficulty": "Hard",
+      "type": "spr",
+      "scoreBand": "600-700",
+      "question": "What is the least integer value of x that satisfies |2x + 1| < 9?",
+      "answer": "-4",
+      "explanation": [
+        "|2x + 1| < 9 becomes the band: -9 < 2x + 1 < 9.",
+        "Subtract 1 from all parts: -10 < 2x < 8.",
+        "Divide by 2: -5 < x < 4.",
+        "The inequality is strict, so x = -5 is excluded; the least integer is -4.",
+        "Check: |2(-4) + 1| = |-7| = 7 < 9 ✓, but |2(-5) + 1| = |-9| = 9, which is not < 9."
+      ],
+      "calculatorStrategy": "Desmos: abs(2x+1)<9 shades -5 < x < 4 with open ends; the least integer strictly inside is -4.",
+      "check": { "kind": "evaluate", "expression": "-5 + 1" }
+    }
+  ]
+}
