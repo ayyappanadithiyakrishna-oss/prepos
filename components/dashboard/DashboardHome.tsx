@@ -48,7 +48,7 @@ export default function DashboardHome() {
   })
   const accent = track === 'sat' ? SAT : AP
   const name = session?.user?.name ?? 'Student'
-  const practiceHref = track === 'sat' ? '/sat/verified' : '/practice'
+  const practiceHref = track === 'sat' ? '/sat/verified' : '/lessons'
 
   return (
     <div style={{ background: BG0, minHeight: '100vh', color: T1, fontFamily: 'var(--font-inter)' }}>

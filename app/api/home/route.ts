@@ -130,7 +130,9 @@ export async function GET(req: Request) {
       }
     } else {
       // AP track: topic-based mastery from the topics table.
-      const { rows } = await sql`SELECT name, mastery_pct FROM topics WHERE subject = 'ap_precalc' ORDER BY mastery_pct DESC, name`
+      // Weakest first, so the current focus (and today's session) is the
+      // lowest-mastery topic — mirrors how the SAT track picks its next skill.
+      const { rows } = await sql`SELECT name, mastery_pct FROM topics WHERE subject = 'ap_precalc' ORDER BY mastery_pct ASC, name`
       const topics = rows.map((r) => ({ name: r.name as string, pct: Number(r.mastery_pct) }))
       const items: PathItem[] = []
       let currentTopic: { name: string; pct: number } | null = null
