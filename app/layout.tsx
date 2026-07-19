@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Space_Grotesk, DM_Sans } from 'next/font/google'
 import './globals.css'
 import Sidebar from '@/components/Sidebar'
+import Providers from './providers'
 
 const spaceGrotesk = Space_Grotesk({
   variable: '--font-heading',
@@ -30,10 +31,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable} h-full`}>
       <body className="min-h-full flex" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)', fontFamily: 'var(--font-body)' }}>
-        <Sidebar />
-        <main className="flex-1 min-h-screen overflow-y-auto main-content">
-          {children}
-        </main>
+        <Providers>
+          <Sidebar />
+          <main className="flex-1 min-h-screen overflow-y-auto main-content">
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   )

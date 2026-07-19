@@ -18,6 +18,7 @@ import {
   ShieldCheck,
 } from 'lucide-react'
 import Logo from './Logo'
+import NavAuth from './NavAuth'
 import { getLevelInfo } from '@/lib/xp-system'
 
 const navItems = [
@@ -246,6 +247,9 @@ export default function Sidebar() {
         </span>
         <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>day streak</span>
       </div>
+
+      {/* Auth — sign in / user + sign out */}
+      <NavAuth />
 
       {/* Footer */}
       <div className="px-4 py-3" style={{ borderTop: '1px solid var(--border)' }}>
