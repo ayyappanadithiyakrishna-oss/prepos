@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Space_Grotesk, DM_Sans, Inter } from 'next/font/google'
 import './globals.css'
-import Sidebar from '@/components/Sidebar'
+import Shell from '@/components/Shell'
 import Providers from './providers'
 import { auth } from '@/lib/auth'
 
@@ -70,10 +70,7 @@ export default async function RootLayout({
         style={{ background: 'var(--bg-base)', color: 'var(--text-primary)', fontFamily: 'var(--font-body)' }}
       >
         <Providers>
-          {authed && <Sidebar />}
-          <main className={`flex-1 min-h-screen overflow-y-auto ${authed ? 'main-content' : ''}`}>
-            {children}
-          </main>
+          <Shell authed={authed}>{children}</Shell>
         </Providers>
       </body>
     </html>
