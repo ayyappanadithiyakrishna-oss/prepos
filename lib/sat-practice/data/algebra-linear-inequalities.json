@@ -1,0 +1,216 @@
+{
+  "id": "alg-linear-inequalities",
+  "domain": "Algebra",
+  "subSkill": "Linear inequalities in one and two variables",
+  "lessonNumber": "1.5",
+  "title": "Linear Inequalities in One and Two Variables",
+  "concept": "A linear inequality is solved almost exactly like a linear equation — isolate the variable the same way — with one rule that changes everything: whenever you multiply or divide both sides by a NEGATIVE number, the inequality sign flips. That single rule is the most-tested trap in this skill. The other thing the SAT checks is whether you read the boundary correctly: '≤' and '≥' include the endpoint, '<' and '>' exclude it, so 'the greatest value of x' for x ≤ 7 is 7, but for x < 7 the greatest integer is 6. In two-variable inequalities like Ax + By ≤ C, the SAT usually fixes one variable and asks for the largest or smallest the other can be — substitute the known value and it collapses to a one-variable inequality. Every question here has a numeric answer (a boundary value or the greatest/least integer), so you can always check by plugging back in.",
+  "workedExamples": [
+    {
+      "problem": "Solve 4 - 3x ≥ -11 and give the greatest value of x.",
+      "steps": [
+        "Subtract 4 from both sides: -3x ≥ -15.",
+        "Divide by -3 — and FLIP the sign because -3 is negative: x ≤ 5.",
+        "The greatest value of x is the included boundary, 5.",
+        "Check: 4 - 3(5) = 4 - 15 = -11, and -11 ≥ -11 is true."
+      ],
+      "answer": "x ≤ 5, greatest value 5"
+    },
+    {
+      "problem": "For 2x + 5y ≤ 30 with x = 5, what is the greatest possible value of y?",
+      "steps": [
+        "Substitute x = 5: 2(5) + 5y ≤ 30, so 10 + 5y ≤ 30.",
+        "Subtract 10: 5y ≤ 20.",
+        "Divide by 5 (positive — no flip): y ≤ 4.",
+        "The greatest value of y is 4."
+      ],
+      "answer": "y ≤ 4, greatest value 4"
+    }
+  ],
+  "trapPatterns": [
+    "Forgetting to flip the inequality sign when multiplying or dividing by a negative number — the single most common error in this skill.",
+    "Boundary inclusion vs exclusion: reporting the boundary as the answer for a strict '<' or '>' when the endpoint is not actually attainable.",
+    "Rounding the wrong way on 'greatest/least whole number' problems — rounding up when you can only afford to round down (or vice versa).",
+    "Dropping a term (the base fee, the constant) when isolating, so the boundary comes out wrong.",
+    "On two-variable inequalities, forgetting to substitute the fixed variable first, or dividing by the wrong coefficient.",
+    "Shading the wrong side of a two-variable boundary line — for '≥', the solution region is above/right of the line, not below."
+  ],
+  "calculatorStrategy": "Desmos graphs inequalities directly: type the inequality (e.g. 4-3x>=-11) and it shades the solution set on the number line / plane, so you can read the boundary and which side is included. For 'greatest/least integer' questions, still reason about strict vs non-strict by hand — Desmos shows the region but won't tell you whether the endpoint counts. The flip-on-negative rule is on you regardless of the tool.",
+  "problems": [
+    {
+      "id": "alg-ineq-e1",
+      "domain": "Algebra",
+      "subSkill": "Linear inequalities in one and two variables",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "A rideshare charges a $4 base fare plus $2 per mile. With $21 to spend, the cost for m miles must satisfy 4 + 2m ≤ 21. What is the greatest whole number of miles you can afford?",
+      "choices": [
+        { "label": "A", "text": "8", "value": "floor((21-4)/2)" },
+        { "label": "B", "text": "9", "value": "9", "trap": "Rounded up to 8.5 → 9; you can't afford the 9th full mile, so round down." },
+        { "label": "C", "text": "10", "value": "10", "trap": "Ignored the $4 base fare and computed floor(21/2)." },
+        { "label": "D", "text": "12", "value": "12", "trap": "Added the base fare instead of subtracting it: floor((21+4)/2)." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Subtract the $4 base fare: 2m ≤ 17.",
+        "Divide by 2: m ≤ 8.5.",
+        "Miles must be a whole number and you can't exceed 8.5, so round DOWN to 8.",
+        "Check: 4 + 2(8) = 20 ≤ 21 (affordable); 4 + 2(9) = 22 > 21 (not affordable)."
+      ],
+      "calculatorStrategy": "Solve by hand, then sanity-check the boundary. Desmos: graph y=4+2x and y=21; the crossing is at x=8.5, and whole miles cap at 8.",
+      "check": { "kind": "evaluate", "expression": "floor((21-4)/2)" }
+    },
+    {
+      "id": "alg-ineq-e2",
+      "domain": "Algebra",
+      "subSkill": "Linear inequalities in one and two variables",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "What is the least value of x that satisfies 3x - 6 ≥ 15?",
+      "choices": [
+        { "label": "A", "text": "7", "value": "(15+6)/3" },
+        { "label": "B", "text": "3", "value": "3", "trap": "Subtracted 6 instead of adding it: (15 - 6)/3." },
+        { "label": "C", "text": "5", "value": "5", "trap": "Ignored the -6 and solved 3x ≥ 15." },
+        { "label": "D", "text": "21", "value": "21", "trap": "Reached 3x ≥ 21 but forgot to divide by 3." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Add 6 to both sides: 3x ≥ 21.",
+        "Divide by 3 (positive — no flip): x ≥ 7.",
+        "The least value of x is the included boundary, 7.",
+        "Check: 3(7) - 6 = 15, and 15 ≥ 15 is true."
+      ],
+      "calculatorStrategy": "Two clean steps by hand. Desmos: intersection of y=3x-6 and y=15 is x=7, and '≥' means x is at or above it.",
+      "check": { "kind": "evaluate", "expression": "(15+6)/3" }
+    },
+    {
+      "id": "alg-ineq-e3",
+      "domain": "Algebra",
+      "subSkill": "Linear inequalities in one and two variables",
+      "difficulty": "Easy",
+      "type": "spr",
+      "scoreBand": "400-490",
+      "question": "What is the greatest value of x that satisfies 5x + 3 ≤ 38?",
+      "answer": "7",
+      "explanation": [
+        "Subtract 3: 5x ≤ 35.",
+        "Divide by 5 (positive — no flip): x ≤ 7.",
+        "The greatest value of x is the included boundary, 7.",
+        "Check: 5(7) + 3 = 38, and 38 ≤ 38 is true."
+      ],
+      "calculatorStrategy": "Isolate x by hand. Desmos confirms the boundary at x=7.",
+      "check": { "kind": "evaluate", "expression": "(38-3)/5" }
+    },
+    {
+      "id": "alg-ineq-m1",
+      "domain": "Algebra",
+      "subSkill": "Linear inequalities in one and two variables",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "Solve -2x + 9 > 1. What is the greatest integer value of x?",
+      "choices": [
+        { "label": "A", "text": "3", "value": "(9-1)/2 - 1" },
+        { "label": "B", "text": "5", "value": "5", "trap": "Did not flip the inequality when dividing by -2, getting x > 4." },
+        { "label": "C", "text": "4", "value": "4", "trap": "Included the boundary; the inequality is strict (x < 4), so 4 is not a solution." },
+        { "label": "D", "text": "8", "value": "8", "trap": "Stopped at -2x > -8 and read off 8 without dividing by -2." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Subtract 9: -2x > -8.",
+        "Divide by -2 and FLIP the sign (dividing by a negative): x < 4.",
+        "Because the inequality is strict, x = 4 is excluded, so the greatest integer is 3.",
+        "Check: -2(3) + 9 = 3 > 1 (works); -2(4) + 9 = 1, which is not > 1."
+      ],
+      "calculatorStrategy": "The flip-on-negative step is pure algebra. Desmos: graph y=-2x+9 and y=1; the region y>1 is left of x=4, and the open boundary means 4 is not included.",
+      "check": { "kind": "evaluate", "expression": "(9-1)/2 - 1" }
+    },
+    {
+      "id": "alg-ineq-m2",
+      "domain": "Algebra",
+      "subSkill": "Linear inequalities in one and two variables",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "The inequality 4x + 5y ≤ 40 describes a region. If x = 5, what is the greatest possible value of y?",
+      "choices": [
+        { "label": "A", "text": "4", "value": "(40 - 4*5)/5" },
+        { "label": "B", "text": "8", "value": "8", "trap": "Ignored the 4x term and solved 5y ≤ 40." },
+        { "label": "C", "text": "12", "value": "12", "trap": "Added the 4x term instead of subtracting it: (40 + 20)/5." },
+        { "label": "D", "text": "2", "value": "2", "trap": "Divided by x + 5 = 10 instead of by the coefficient 5." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Substitute x = 5: 4(5) + 5y ≤ 40, so 20 + 5y ≤ 40.",
+        "Subtract 20: 5y ≤ 20.",
+        "Divide by 5 (positive — no flip): y ≤ 4.",
+        "The greatest value of y is 4. Check: 4(5) + 5(4) = 40 ≤ 40 is true."
+      ],
+      "calculatorStrategy": "Substitute first, then it's one-variable. Desmos: graph 4x+5y<=40, trace the line x=5, and read the highest y in the shaded region (y=4).",
+      "check": { "kind": "evaluate", "expression": "(40 - 4*5)/5" }
+    },
+    {
+      "id": "alg-ineq-m3",
+      "domain": "Algebra",
+      "subSkill": "Linear inequalities in one and two variables",
+      "difficulty": "Medium",
+      "type": "spr",
+      "scoreBand": "500-590",
+      "question": "A product sells for $15 per unit with $200 in fixed costs, so profit on n units is 15n - 200. What is the least number of units n for which the profit is at least $400?",
+      "answer": "40",
+      "explanation": [
+        "'At least $400' means 15n - 200 ≥ 400.",
+        "Add 200: 15n ≥ 600.",
+        "Divide by 15 (positive — no flip): n ≥ 40.",
+        "The least number of units is 40. Check: 15(40) - 200 = 400, and 400 ≥ 400 is true."
+      ],
+      "calculatorStrategy": "Translate 'at least' to ≥, then solve by hand. Desmos: intersection of y=15x-200 and y=400 is x=40.",
+      "check": { "kind": "evaluate", "expression": "(400+200)/15" }
+    },
+    {
+      "id": "alg-ineq-h1",
+      "domain": "Algebra",
+      "subSkill": "Linear inequalities in one and two variables",
+      "difficulty": "Hard",
+      "type": "mc",
+      "scoreBand": "600-700",
+      "question": "What is the least value of x that satisfies 3(2x - 1) ≥ 4x + 7?",
+      "choices": [
+        { "label": "A", "text": "5", "value": "5" },
+        { "label": "B", "text": "1", "value": "1", "trap": "Moved 4x to the left as +4x instead of -4x, getting 10x ≥ 10." },
+        { "label": "C", "text": "10", "value": "10", "trap": "Reached 2x ≥ 10 but forgot to divide by 2." },
+        { "label": "D", "text": "2", "value": "2", "trap": "Combined the constants as 7 - 3 instead of 7 + 3, getting 2x ≥ 4." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Distribute the left side: 6x - 3 ≥ 4x + 7.",
+        "Subtract 4x from both sides: 2x - 3 ≥ 7.",
+        "Add 3: 2x ≥ 10.",
+        "Divide by 2 (positive — no flip): x ≥ 5. The least value is 5.",
+        "Check: 3(2·5 - 1) = 27 and 4(5) + 7 = 27, and 27 ≥ 27 is true."
+      ],
+      "calculatorStrategy": "Distribute and collect x-terms carefully by hand. Desmos: graph y=3(2x-1) and y=4x+7; the first is at or above the second for x ≥ 5.",
+      "check": { "kind": "solve_linear", "expression": "3*(2*x - 1) - (4*x + 7)", "variable": "x" }
+    },
+    {
+      "id": "alg-ineq-h2",
+      "domain": "Algebra",
+      "subSkill": "Linear inequalities in one and two variables",
+      "difficulty": "Hard",
+      "type": "spr",
+      "scoreBand": "600-700",
+      "question": "The inequality 6x - 2y ≥ 10 describes a region. If x = 4, what is the greatest possible value of y?",
+      "answer": "7",
+      "explanation": [
+        "Substitute x = 4: 6(4) - 2y ≥ 10, so 24 - 2y ≥ 10.",
+        "Subtract 24: -2y ≥ -14.",
+        "Divide by -2 and FLIP the sign (dividing by a negative): y ≤ 7.",
+        "The greatest value of y is 7. Check: 6(4) - 2(7) = 24 - 14 = 10, and 10 ≥ 10 is true."
+      ],
+      "calculatorStrategy": "Substitute, then watch the flip when dividing by -2. Desmos: graph 6x-2y>=10, trace x=4, and the highest included y is 7.",
+      "check": { "kind": "evaluate", "expression": "(6*4 - 10)/2" }
+    }
+  ]
+}

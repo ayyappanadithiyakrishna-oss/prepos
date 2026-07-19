@@ -13,12 +13,14 @@ import algebraLinearOneVar from './sat-practice/data/algebra-linear-one-variable
 import algebraSystemsTwoLinear from './sat-practice/data/algebra-systems-two-linear.json'
 import algebraLinearFunctions from './sat-practice/data/algebra-linear-functions.json'
 import algebraLinearEquationsTwoVars from './sat-practice/data/algebra-linear-equations-two-variables.json'
+import algebraLinearInequalities from './sat-practice/data/algebra-linear-inequalities.json'
 
 const VERIFIED_LESSONS: VerifiedLesson[] = [
   algebraLinearOneVar as VerifiedLesson,
   algebraSystemsTwoLinear as VerifiedLesson,
   algebraLinearFunctions as VerifiedLesson,
   algebraLinearEquationsTwoVars as VerifiedLesson,
+  algebraLinearInequalities as VerifiedLesson,
 ]
 
 const BAND_TO_INT: Record<string, number> = { Easy: 1, Medium: 2, Hard: 3 }
