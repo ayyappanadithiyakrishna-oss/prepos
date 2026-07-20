@@ -17,6 +17,7 @@ import algebraLinearInequalities from './sat-practice/data/algebra-linear-inequa
 import algebraAbsoluteValue from './sat-practice/data/algebra-absolute-value.json'
 import algebraSystemsLinearInequalities from './sat-practice/data/algebra-systems-linear-inequalities.json'
 import algebraWordTranslation from './sat-practice/data/algebra-word-translation.json'
+import geometryAreaVolume from './sat-practice/data/geometry-area-volume.json'
 
 const VERIFIED_LESSONS: VerifiedLesson[] = [
   algebraLinearOneVar as VerifiedLesson,
@@ -27,6 +28,7 @@ const VERIFIED_LESSONS: VerifiedLesson[] = [
   algebraAbsoluteValue as VerifiedLesson,
   algebraSystemsLinearInequalities as VerifiedLesson,
   algebraWordTranslation as VerifiedLesson,
+  geometryAreaVolume as VerifiedLesson,
 ]
 
 const BAND_TO_INT: Record<string, number> = { Easy: 1, Medium: 2, Hard: 3 }

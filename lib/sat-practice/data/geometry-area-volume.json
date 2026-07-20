@@ -1,0 +1,214 @@
+{
+  "id": "geo-area-volume",
+  "domain": "Geometry & Trigonometry",
+  "subSkill": "Area, perimeter, surface area, and volume",
+  "lessonNumber": "2.1",
+  "title": "Area, Perimeter, Surface Area, and Volume",
+  "concept": "The SAT gives you every area and volume formula on the reference sheet, so these questions never test memorization — they test whether you pick the right formula, substitute correctly, and answer the exact quantity asked. Three habits carry you. First, match the formula to the shape and the question: area is square units, volume is cubic units, perimeter/circumference is a length. Second, watch the radius: circle and cylinder formulas use the RADIUS, but problems love to give the DIAMETER — halve it first. Third, keep the constant multipliers: a triangle is one-half base times height (not base times height), and a cone is one-third of the matching cylinder. When a problem gives you the area or volume and asks for a missing length, work backwards — divide it out. Because π never comes out even, the SAT tells you which approximation to use; here we use π ≈ 3.14 so every answer is an exact decimal.",
+  "workedExamples": [
+    {
+      "problem": "A circular garden has a radius of 10 feet. Using π ≈ 3.14, what is its area?",
+      "steps": [
+        "Area of a circle is π r². The radius is 10.",
+        "Substitute: 3.14 × 10² = 3.14 × 100.",
+        "Multiply: 314 square feet.",
+        "Check the units: area is in square feet, as expected."
+      ],
+      "answer": "314"
+    },
+    {
+      "problem": "A cone-shaped pile has base radius 3 ft and height 10 ft. Using π ≈ 3.14, what is its volume?",
+      "steps": [
+        "Volume of a cone is one-third π r² h — a third of the matching cylinder.",
+        "Substitute: (1/3) × 3.14 × 3² × 10 = (1/3) × 3.14 × 9 × 10.",
+        "Compute the cylinder part: 3.14 × 90 = 282.6.",
+        "Take one-third: 282.6 ÷ 3 = 94.2 cubic feet."
+      ],
+      "answer": "94.2"
+    }
+  ],
+  "trapPatterns": [
+    "used_diameter_not_radius: plugging the diameter into a formula that needs the radius (forgetting to halve it first).",
+    "confused_area_perimeter: computing perimeter/circumference when area was asked, or treating a given area as if it were a perimeter.",
+    "wrong_units: giving a square-unit (area) answer when a cubic-unit (volume) answer was required, or vice versa.",
+    "wrong_formula: using the cylinder formula for a cone (or dropping the ⅓), or the rectangle formula for a triangle.",
+    "forgot_to_halve: using base × height instead of ½ × base × height for a triangle."
+  ],
+  "calculatorStrategy": "solve_algebraically for direct problems — pick the formula, substitute, and compute; Desmos is not needed. use_desmos_graph only when you must work backwards from a given area or volume to a missing length: enter the formula as a function and read off the input that hits the target.",
+  "problems": [
+    {
+      "id": "geo-av-e1",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Area, perimeter, surface area, and volume",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "A rectangular meeting room is 12 feet long and 9 feet wide. New carpet will cover the entire floor. How many square feet of carpet are needed?",
+      "choices": [
+        { "label": "A", "text": "108", "value": "108" },
+        { "label": "B", "text": "42", "value": "42", "trap": "confused_area_perimeter: computed the perimeter 2(12 + 9) = 42 instead of the floor area." },
+        { "label": "C", "text": "54", "value": "54", "trap": "wrong_formula: applied the triangle formula ½ × 12 × 9 to a rectangle." },
+        { "label": "D", "text": "21", "value": "21", "trap": "wrong_formula: added the two sides (12 + 9) instead of multiplying them." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Carpet covers the floor, so this is an area: length × width.",
+        "Substitute: 12 × 9 = 108.",
+        "The answer is 108 square feet.",
+        "Check: area uses multiplication, not the 2(l + w) perimeter."
+      ],
+      "calculatorStrategy": "solve_algebraically — area of a rectangle is length × width = 12 × 9 = 108.",
+      "check": { "kind": "evaluate", "expression": "12 * 9" }
+    },
+    {
+      "id": "geo-av-e2",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Area, perimeter, surface area, and volume",
+      "difficulty": "Easy",
+      "type": "spr",
+      "scoreBand": "400-490",
+      "question": "A circular garden has a radius of 10 feet. A gardener wants to cover the whole garden with mulch. Using π ≈ 3.14, how many square feet does the garden cover?",
+      "answer": "314",
+      "explanation": [
+        "Area of a circle is π r².",
+        "Substitute the radius 10: 3.14 × 10² = 3.14 × 100.",
+        "Multiply: 314 square feet.",
+        "Check: the radius (not the diameter) goes into the formula."
+      ],
+      "calculatorStrategy": "solve_algebraically — apply A = π r² with π ≈ 3.14 and r = 10: 3.14 × 100 = 314.",
+      "check": { "kind": "evaluate", "expression": "3.14 * 10 * 10" }
+    },
+    {
+      "id": "geo-av-e3",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Area, perimeter, surface area, and volume",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "A triangular sail has a base of 6 meters and a height of 8 meters. How many square meters of fabric make up the sail?",
+      "choices": [
+        { "label": "A", "text": "24", "value": "24" },
+        { "label": "B", "text": "48", "value": "48", "trap": "forgot_to_halve: used base × height = 6 × 8 = 48 without the ½ for a triangle." },
+        { "label": "C", "text": "14", "value": "14", "trap": "confused_area_perimeter: added the base and height (6 + 8) instead of computing area." },
+        { "label": "D", "text": "12", "value": "12", "trap": "wrong_formula: halved twice, computing ¼ × 6 × 8 instead of ½ × 6 × 8." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Area of a triangle is ½ × base × height.",
+        "Substitute: ½ × 6 × 8.",
+        "Compute: ½ × 48 = 24 square meters.",
+        "Check: the ½ is what separates a triangle from a rectangle."
+      ],
+      "calculatorStrategy": "solve_algebraically — area of a triangle is ½ × base × height = ½ × 6 × 8 = 24.",
+      "check": { "kind": "evaluate", "expression": "(1/2) * 6 * 8" }
+    },
+    {
+      "id": "geo-av-m1",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Area, perimeter, surface area, and volume",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "A circular fountain has a diameter of 20 feet. A flat cover will be built to sit exactly over the top. Using π ≈ 3.14, how many square feet of material does the cover require?",
+      "choices": [
+        { "label": "A", "text": "314", "value": "314" },
+        { "label": "B", "text": "1256", "value": "1256", "trap": "used_diameter_not_radius: put the diameter 20 into π r² instead of the radius 10, computing 3.14 × 20²." },
+        { "label": "C", "text": "62.8", "value": "62.8", "trap": "confused_area_perimeter: computed the circumference 2 × 3.14 × 10 = 62.8 instead of the area." },
+        { "label": "D", "text": "100", "value": "100", "trap": "wrong_formula: computed r² = 10² but forgot to multiply by π." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "The diameter is 20, so the radius is 20 ÷ 2 = 10.",
+        "Area of a circle is π r² = 3.14 × 10².",
+        "Compute: 3.14 × 100 = 314 square feet.",
+        "Check: halve the diameter first, and area needs the π and the square."
+      ],
+      "calculatorStrategy": "solve_algebraically — halve the diameter to r = 10, then A = π r² = 3.14 × 10² = 314.",
+      "check": { "kind": "evaluate", "expression": "3.14 * (20 / 2) * (20 / 2)" }
+    },
+    {
+      "id": "geo-av-m2",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Area, perimeter, surface area, and volume",
+      "difficulty": "Medium",
+      "type": "spr",
+      "scoreBand": "500-590",
+      "question": "A cylindrical water tank has a radius of 5 feet and a height of 8 feet. Using π ≈ 3.14, how many cubic feet of water does the full tank hold?",
+      "answer": "628",
+      "explanation": [
+        "Volume of a cylinder is π r² h.",
+        "Substitute: 3.14 × 5² × 8 = 3.14 × 25 × 8.",
+        "Compute: 3.14 × 200 = 628 cubic feet.",
+        "Check: volume is in cubic feet because three lengths are multiplied."
+      ],
+      "calculatorStrategy": "solve_algebraically — apply V = π r² h with π ≈ 3.14, r = 5, h = 8: 3.14 × 25 × 8 = 628.",
+      "check": { "kind": "evaluate", "expression": "3.14 * 5 * 5 * 8" }
+    },
+    {
+      "id": "geo-av-m3",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Area, perimeter, surface area, and volume",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "A rectangular garden has an area of 96 square feet. Its length is 12 feet. What is the width of the garden, in feet?",
+      "choices": [
+        { "label": "A", "text": "8", "value": "8" },
+        { "label": "B", "text": "36", "value": "36", "trap": "confused_area_perimeter: treated 96 as the perimeter, solving 96 = 2(12 + w) to get w = 36." },
+        { "label": "C", "text": "1152", "value": "1152", "trap": "wrong_formula: multiplied the area by the length (96 × 12) instead of dividing." },
+        { "label": "D", "text": "84", "value": "84", "trap": "wrong_formula: subtracted the length from the area (96 − 12) instead of dividing." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Area = length × width, so width = area ÷ length.",
+        "Substitute: 96 ÷ 12 = 8.",
+        "The width is 8 feet.",
+        "Check: 12 × 8 = 96, which matches the given area."
+      ],
+      "calculatorStrategy": "use_desmos_graph — the area is known and a dimension is missing; graph y = 12x and read where y = 96 (x = 8), or divide 96 ÷ 12 directly.",
+      "check": { "kind": "evaluate", "expression": "96 / 12" }
+    },
+    {
+      "id": "geo-av-h1",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Area, perimeter, surface area, and volume",
+      "difficulty": "Hard",
+      "type": "mc",
+      "scoreBand": "600-700",
+      "question": "Sand is poured into a cone-shaped pile with a base radius of 3 feet and a height of 10 feet. Using π ≈ 3.14, how many cubic feet of sand are in the pile?",
+      "choices": [
+        { "label": "A", "text": "94.2", "value": "94.2" },
+        { "label": "B", "text": "282.6", "value": "282.6", "trap": "wrong_formula: used the cylinder formula π r² h and forgot the ⅓ that makes it a cone." },
+        { "label": "C", "text": "376.8", "value": "376.8", "trap": "used_diameter_not_radius: used the diameter 6 as the radius, computing ⅓ × 3.14 × 6² × 10." },
+        { "label": "D", "text": "28.26", "value": "28.26", "trap": "wrong_units: computed the base area π r² = 3.14 × 9 = 28.26 square feet instead of the cone's volume in cubic feet." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Volume of a cone is ⅓ π r² h.",
+        "Substitute: ⅓ × 3.14 × 3² × 10 = ⅓ × 3.14 × 9 × 10.",
+        "Cylinder part: 3.14 × 90 = 282.6. Take a third: 282.6 ÷ 3 = 94.2.",
+        "The pile holds 94.2 cubic feet. Check: a cone is one-third of the matching cylinder."
+      ],
+      "calculatorStrategy": "solve_algebraically — apply V = ⅓ π r² h with π ≈ 3.14, r = 3, h = 10: ⅓ × 3.14 × 9 × 10 = 94.2.",
+      "check": { "kind": "evaluate", "expression": "(1/3) * 3.14 * 3 * 3 * 10" }
+    },
+    {
+      "id": "geo-av-h2",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Area, perimeter, surface area, and volume",
+      "difficulty": "Hard",
+      "type": "spr",
+      "scoreBand": "600-700",
+      "question": "A cylindrical storage tank must hold exactly 1256 cubic feet of water. Its base radius is 10 feet. Using π ≈ 3.14, what must the height of the tank be, in feet?",
+      "answer": "4",
+      "explanation": [
+        "Volume of a cylinder is π r² h, so height = volume ÷ (π r²).",
+        "The base area is π r² = 3.14 × 10² = 314 square feet.",
+        "Divide: 1256 ÷ 314 = 4 feet.",
+        "Check: 3.14 × 10² × 4 = 1256, the required volume."
+      ],
+      "calculatorStrategy": "use_desmos_graph — the volume is known and the height is missing; graph y = 314x (the base area times height) and read where y = 1256 (x = 4), or divide 1256 ÷ 314.",
+      "check": { "kind": "evaluate", "expression": "1256 / (3.14 * 10 * 10)" }
+    }
+  ]
+}
