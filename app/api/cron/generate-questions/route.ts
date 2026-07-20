@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { runGenerationPipeline } from '@/lib/sat-generate/pipeline'
-import { hasGeminiKey } from '@/lib/sat-generate/gemini-client'
+import { hasGeminiKey } from '@/lib/sat-generate/llm-client'
 
 // Called by Vercel Cron on a schedule (see vercel.json). Node runtime is
 // required (the pipeline uses @vercel/postgres + the TS verifier).

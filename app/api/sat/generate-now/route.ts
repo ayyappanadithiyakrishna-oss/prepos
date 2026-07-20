@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getUserId } from '@/lib/require-auth'
 import { runGenerationPipeline } from '@/lib/sat-generate/pipeline'
-import { hasGeminiKey } from '@/lib/sat-generate/gemini-client'
+import { hasGeminiKey } from '@/lib/sat-generate/llm-client'
 import type { Difficulty } from '@/lib/sat-practice/verified-schema'
 
 // On-demand top-up when a student exhausts a bank mid-session. Awaited (Vercel

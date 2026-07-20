@@ -8,7 +8,7 @@
 
 import { sql } from '@vercel/postgres'
 import { buildGenerationPrompt } from './prompt-builder'
-import { callGemini, parseJsonArray, hasGeminiKey } from './gemini-client'
+import { callGemini, parseJsonArray, hasGeminiKey } from './llm-client'
 import { validateGenerated } from './types'
 import { verifyProblem } from './verify'
 import { upsertProblem, topicIdForDomain } from '../migrate-verified-sat'
