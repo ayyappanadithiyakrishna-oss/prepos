@@ -25,11 +25,12 @@ export async function callGemini(prompt: string, signal?: AbortSignal): Promise<
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' },
       temperature: 0.7,
-      // Ceiling only — the model stops when the batch is done. Kept at 7000 so
-      // prompt(~1700) + max_tokens stays under Groq's free-tier 12k tokens/minute
-      // per-request cap (16k+ triggers HTTP 413). Enough for a ~12-question bulk
-      // batch; the 6-question Vercel call stops well before it.
-      max_tokens: 7000,
+      // Ceiling only — the model stops when the batch is done. Kept at 6000 so a
+      // full Easy+Medium bulk run (12 banks x ~7,750 tokens each incl. prompt)
+      // stays under Groq's free-tier 100k tokens/DAY cap (~93k). Also under the
+      // 12k tokens/minute per-request cap. Enough for a 10-question bulk batch;
+      // the 6-question Vercel call stops well before it.
+      max_tokens: 6000,
     }),
   })
 

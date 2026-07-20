@@ -96,6 +96,13 @@ export async function runGenerationPipeline(opts: PipelineOptions = {}): Promise
     const report = await generateBatch(c, batchSize)
     reports.push(report)
     await logGenerationRun(report)
+    // Groq's daily-token (TPD) / rate cap surfaces as a 429. Once hit, every
+    // remaining bank would 429 too — stop the run early and let the rest fill on
+    // the next nightly pass. Callers treat this partial run as a success.
+    if (report.failureReasons.some((r) => r.includes('429'))) {
+      console.warn('[generate] Groq 429 (rate/daily-token cap) — stopping this run early')
+      break
+    }
     await new Promise((r) => setTimeout(r, pauseMs)) // gentle on the free-tier rate limit
   }
   return reports

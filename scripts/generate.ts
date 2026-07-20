@@ -14,7 +14,7 @@
 import { runGenerationPipeline } from '../lib/sat-generate/pipeline'
 import type { Difficulty } from '../lib/sat-practice/verified-schema'
 
-const GITHUB_BATCH_SIZE = 12 // questions requested per bank (vs. 6 on Vercel)
+const GITHUB_BATCH_SIZE = 10 // questions requested per bank (vs. 6 on Vercel)
 const GITHUB_THRESHOLD = 20 // top up any bank holding fewer than this
 const GITHUB_PAUSE_MS = 60000 // ~1 request/minute so the run stays under 12k TPM
 const BULK_DIFFICULTIES: Difficulty[] = ['Easy', 'Medium']
@@ -36,10 +36,12 @@ async function main(): Promise<void> {
   let totalInserted = 0
   let groqErrors = 0
   let dbErrors = 0
+  let rateLimited = false
   for (const r of reports) {
     totalInserted += r.insertedIds.length
     for (const reason of r.failureReasons) {
-      if (reason.startsWith('gemini/parse error')) groqErrors++
+      if (reason.includes('429')) rateLimited = true
+      else if (reason.startsWith('gemini/parse error')) groqErrors++
       else if (reason.startsWith('insert ')) dbErrors++
     }
     console.log(
@@ -56,9 +58,20 @@ async function main(): Promise<void> {
     process.exit(0)
   }
 
-  // Fail ONLY on a real error: a Groq call threw, or a DB insert failed. A bank
-  // that generated but whose questions all failed verification is not an error —
-  // the gate did its job — so it does not fail the run.
+  // Groq daily-token cap: a partial run is a SUCCESS, not a failure. The pipeline
+  // stops at the first 429; the remaining banks fill on the next nightly pass.
+  if (rateLimited) {
+    const completed = reports.filter((r) => !r.failureReasons.some((x) => x.includes('429'))).length
+    console.log(
+      `TPD cap hit — stopping generation for today, ${completed} bank(s) completed, ` +
+        `${totalInserted} question(s) inserted in ${runtimeS}s. Remaining banks resume tomorrow.`,
+    )
+    process.exit(0)
+  }
+
+  // Fail ONLY on a real error: a Groq call threw (non-rate-limit), or a DB insert
+  // failed. A bank that generated but whose questions all failed verification is
+  // not an error — the gate did its job — so it does not fail the run.
   if (groqErrors > 0 || dbErrors > 0) {
     console.error(
       `Generation error: ${groqErrors} Groq call failure(s), ${dbErrors} insert failure(s) ` +
