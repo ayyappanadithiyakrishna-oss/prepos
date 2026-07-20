@@ -52,6 +52,7 @@ export type PipelineOptions = {
   batchSize?: number // questions per model call; defaults to BATCH_SIZE (6, the Vercel budget). GitHub bulk run passes 12.
   threshold?: number // top up any bank below this; defaults to THIN_BANK_THRESHOLD (12). GitHub bulk run passes 20.
   pauseMs?: number // delay between banks; defaults to 1500. GitHub bulk run passes 60000 to stay under Groq's 12k tokens/minute free-tier cap.
+  difficulties?: Difficulty[] // difficulty bands to scan; defaults to all three. GitHub bulk run passes Easy/Medium only (Hard yield too low on 70B).
 }
 
 async function bankCount(subSkill: string, difficulty: string): Promise<number> {
@@ -75,11 +76,16 @@ export async function runGenerationPipeline(opts: PipelineOptions = {}): Promise
   const skillsToScan = opts.only
     ? SUB_SKILLS.filter((s) => s.subSkill === opts.only!.subSkill)
     : SUB_SKILLS
+  const diffFilter = opts.difficulties ?? DIFFICULTIES
   for (const cfg of skillsToScan) {
-    const diffs = opts.only ? [opts.only.difficulty] : DIFFICULTIES
+    const diffs = opts.only ? [opts.only.difficulty] : diffFilter
     for (const difficulty of diffs) {
       const count = await bankCount(cfg.subSkill, difficulty)
-      if (opts.force || count < threshold) candidates.push({ ...cfg, difficulty, count })
+      if (opts.force || count < threshold) {
+        candidates.push({ ...cfg, difficulty, count })
+      } else {
+        console.log(`Skipping ${cfg.subSkill} ${difficulty} — bank full (${count}/${threshold})`)
+      }
     }
   }
   candidates.sort((a, b) => a.count - b.count) // fill the emptiest first

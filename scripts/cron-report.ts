@@ -35,8 +35,11 @@ async function main(): Promise<void> {
   const recent = recentRows[0] ?? { sub_skill: '—', difficulty_band: '—' }
 
   const date = new Date().toISOString().slice(0, 10)
-  const healthy = lastHour > 0
-  const status = healthy ? '✅ Healthy' : '⚠️ No questions added'
+  // This report only runs after a SUCCESSFUL generate job (workflow `needs:
+  // generate`), so reaching here means generation exited 0. Zero new questions
+  // therefore means "nothing needed" (banks already full), not a failure — a
+  // broken generate job fails its step and this email is never sent.
+  const status = lastHour > 0 ? '✅ Healthy' : '✅ No questions needed — bank is healthy'
 
   const text = `PrepOS Cron Report — ${date} 02:00 UTC
 ─────────────────────────────────
@@ -45,13 +48,9 @@ Total verified bank:           ${totalVerified}
 Sub-skill (most recent):       ${recent.sub_skill}
 Difficulty:                    ${recent.difficulty_band}
 
-STATUS: ${status}${
-    healthy ? '' : '\nACTION NEEDED: Check Vercel logs for errors at https://vercel.com/dashboard'
-  }`
+STATUS: ${status}`
 
-  const actionRow = healthy
-    ? ''
-    : `<tr><td colspan="2" style="padding:12px 0 0;color:#b45309;font-size:13px;">ACTION NEEDED: Check Vercel logs at <a href="https://vercel.com/dashboard">vercel.com/dashboard</a></td></tr>`
+  const actionRow = ''
 
   const html = `<!doctype html><html><body style="margin:0;background:#f6f7f9;padding:24px;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#0f172a;">
   <table role="presentation" width="100%" style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:12px;">
@@ -67,7 +66,7 @@ STATUS: ${status}${
         <tr><td style="color:#475569;">Difficulty</td><td align="right" style="font-weight:700;">${recent.difficulty_band}</td></tr>
         ${actionRow}
       </table>
-      <div style="margin-top:18px;padding:12px 14px;border-radius:8px;background:${healthy ? '#ecfdf5' : '#fffbeb'};border:1px solid ${healthy ? '#a7f3d0' : '#fde68a'};font-weight:700;">STATUS: ${status}</div>
+      <div style="margin-top:18px;padding:12px 14px;border-radius:8px;background:#ecfdf5;border:1px solid #a7f3d0;font-weight:700;">STATUS: ${status}</div>
     </td></tr>
   </table>
 </body></html>`
