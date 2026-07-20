@@ -49,6 +49,10 @@ export type PipelineOptions = {
   only?: { subSkill: string; difficulty: Difficulty } // on-demand: fill exactly this bank
   force?: boolean // ignore the threshold (used by on-demand top-ups)
   maxTargets?: number
+  batchSize?: number // questions per model call; defaults to BATCH_SIZE (6, the Vercel budget). GitHub bulk run passes 12.
+  threshold?: number // top up any bank below this; defaults to THIN_BANK_THRESHOLD (12). GitHub bulk run passes 20.
+  pauseMs?: number // delay between banks; defaults to 1500. GitHub bulk run passes 60000 to stay under Groq's 12k tokens/minute free-tier cap.
+  difficulties?: Difficulty[] // difficulty bands to scan; defaults to all three. GitHub bulk run passes Easy/Medium only (Hard yield too low on 70B).
 }
 
 async function bankCount(subSkill: string, difficulty: string): Promise<number> {
@@ -65,15 +69,23 @@ export async function runGenerationPipeline(opts: PipelineOptions = {}): Promise
   }
 
   // Build the candidate list (neediest banks first), then bound it.
+  const threshold = opts.threshold ?? THIN_BANK_THRESHOLD
+  const batchSize = opts.batchSize ?? BATCH_SIZE
+  const pauseMs = opts.pauseMs ?? 1500
   let candidates: Array<SkillCfg & { difficulty: Difficulty; count: number }> = []
   const skillsToScan = opts.only
     ? SUB_SKILLS.filter((s) => s.subSkill === opts.only!.subSkill)
     : SUB_SKILLS
+  const diffFilter = opts.difficulties ?? DIFFICULTIES
   for (const cfg of skillsToScan) {
-    const diffs = opts.only ? [opts.only.difficulty] : DIFFICULTIES
+    const diffs = opts.only ? [opts.only.difficulty] : diffFilter
     for (const difficulty of diffs) {
       const count = await bankCount(cfg.subSkill, difficulty)
-      if (opts.force || count < THIN_BANK_THRESHOLD) candidates.push({ ...cfg, difficulty, count })
+      if (opts.force || count < threshold) {
+        candidates.push({ ...cfg, difficulty, count })
+      } else {
+        console.log(`Skipping ${cfg.subSkill} ${difficulty} — bank full (${count}/${threshold})`)
+      }
     }
   }
   candidates.sort((a, b) => a.count - b.count) // fill the emptiest first
@@ -81,15 +93,22 @@ export async function runGenerationPipeline(opts: PipelineOptions = {}): Promise
 
   const reports: GenerationReport[] = []
   for (const c of candidates) {
-    const report = await generateBatch(c)
+    const report = await generateBatch(c, batchSize)
     reports.push(report)
     await logGenerationRun(report)
-    await new Promise((r) => setTimeout(r, 1500)) // gentle on the free-tier rate limit
+    // Groq's daily-token (TPD) / rate cap surfaces as a 429. Once hit, every
+    // remaining bank would 429 too — stop the run early and let the rest fill on
+    // the next nightly pass. Callers treat this partial run as a success.
+    if (report.failureReasons.some((r) => r.includes('429'))) {
+      console.warn('[generate] Groq 429 (rate/daily-token cap) — stopping this run early')
+      break
+    }
+    await new Promise((r) => setTimeout(r, pauseMs)) // gentle on the free-tier rate limit
   }
   return reports
 }
 
-async function generateBatch(c: SkillCfg & { difficulty: Difficulty }): Promise<GenerationReport> {
+async function generateBatch(c: SkillCfg & { difficulty: Difficulty }, batchSize: number = BATCH_SIZE): Promise<GenerationReport> {
   const base: GenerationReport = {
     subSkill: c.subSkill, difficulty: c.difficulty, generated: 0, passed: 0, failed: 0,
     passRate: 0, flagged: true, insertedIds: [], failureReasons: [],
@@ -99,13 +118,13 @@ async function generateBatch(c: SkillCfg & { difficulty: Difficulty }): Promise<
   const existingIds = rows.map((r) => r.external_id as string).filter(Boolean)
 
   const prompt = buildGenerationPrompt({
-    subSkill: c.subSkill, domain: c.domain, difficulty: c.difficulty, count: BATCH_SIZE,
+    subSkill: c.subSkill, domain: c.domain, difficulty: c.difficulty, count: batchSize,
     existingExternalIds: existingIds, scoreBandContext: c.scoreBand, idPrefix: c.idPrefix,
   })
 
   let raw: unknown[]
   try {
-    const signal = typeof AbortSignal !== 'undefined' && AbortSignal.timeout ? AbortSignal.timeout(45000) : undefined
+    const signal = typeof AbortSignal !== 'undefined' && AbortSignal.timeout ? AbortSignal.timeout(90000) : undefined
     const text = await callGemini(prompt, signal)
     raw = parseJsonArray(text)
   } catch (e) {

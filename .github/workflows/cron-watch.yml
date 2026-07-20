@@ -1,33 +1,52 @@
 name: cron-watch
 
-# Nightly: email a summary of what the 2am generation cron produced.
-# Runs at 03:00 UTC (one hour after the Vercel cron at 02:00), plus manual trigger.
+# Nightly bulk generation, then an email report — back to back.
+# 02:00 UTC: `generate` fills every thin bank (batch 20). When it finishes,
+# `report` (needs: generate) emails the summary. GitHub Actions has no per-job
+# schedule, so the two run sequentially in one 02:00 trigger rather than at 02:00
+# and 03:00 separately. Also runs on manual dispatch.
 on:
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "0 2 * * *"
   workflow_dispatch:
 
 jobs:
-  report:
+  generate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
-
       - name: Install dependencies
         run: npm ci
+      - name: Bulk generate
+        env:
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          # ts-node runs under the repo's Next tsconfig; force CommonJS so it can
+          # execute a standalone script on Node 20 (which does not strip types).
+          TS_NODE_TRANSPILE_ONLY: "true"
+          TS_NODE_COMPILER_OPTIONS: '{"module":"commonjs","moduleResolution":"node","esModuleInterop":true,"skipLibCheck":true,"noEmit":false}'
+        run: npx --yes ts-node scripts/generate.ts
 
+  report:
+    needs: [generate]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
       - name: Send cron report
         env:
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           REPORT_EMAIL: ${{ secrets.REPORT_EMAIL }}
-          # ts-node runs under the repo's Next tsconfig; force CommonJS so it can
-          # execute a standalone script on Node 20 (which does not strip types).
           TS_NODE_TRANSPILE_ONLY: "true"
           TS_NODE_COMPILER_OPTIONS: '{"module":"commonjs","moduleResolution":"node","esModuleInterop":true,"skipLibCheck":true,"noEmit":false}'
         run: npx --yes ts-node scripts/cron-report.ts
