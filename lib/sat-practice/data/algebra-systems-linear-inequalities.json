@@ -1,0 +1,214 @@
+{
+  "id": "alg-systems-linear-inequalities",
+  "domain": "Algebra",
+  "subSkill": "Systems of linear inequalities",
+  "lessonNumber": "1.7",
+  "title": "Systems of Linear Inequalities",
+  "concept": "A system of linear inequalities is two or more inequalities that must all be true at once. Graphed, each inequality shades a half-plane, and the solution is the overlap — the feasible region. The SAT rarely asks you to draw it; instead it asks about numbers you can pin down exactly: the corner (vertex) where two boundary lines cross, or the largest/smallest one variable can be once the other is fixed. Two skills decide these questions. First, the corner of the region is found by treating the two boundary LINES as equations and solving the system — the same elimination or substitution you already know. Second, reading the boundary correctly: '≤' and '≥' include the line (the corner value counts), '<' and '>' exclude it (the corner value is not attainable). Watch the two classic traps: forgetting to flip the inequality when you divide by a negative, and answering for the wrong variable — the SAT loves to solve for x and then ask for y. Because Desmos shades systems directly, graph both inequalities, find the overlap, and read the corner off the picture — but decide strict-vs-inclusive by hand.",
+  "workedExamples": [
+    {
+      "problem": "The feasible region for a system has boundary lines y = 2x and y = x + 4. Find the x-coordinate of the corner where they meet.",
+      "steps": [
+        "At the corner both boundary lines pass through the same point, so set them equal: 2x = x + 4.",
+        "Subtract x from both sides: x = 4.",
+        "So the corner is at x = 4 (and y = 2(4) = 8).",
+        "Check: the point (4, 8) lies on y = 2x and on y = x + 4, so it is the intersection."
+      ],
+      "answer": "x = 4"
+    },
+    {
+      "problem": "A stand must satisfy x + y ≤ 12 and y ≥ 3. If exactly y = 3, what is the greatest possible x?",
+      "steps": [
+        "Substitute the fixed value y = 3 into the binding constraint: x + 3 ≤ 12.",
+        "Subtract 3: x ≤ 9.",
+        "The greatest value of x is the included boundary, 9.",
+        "Check: 9 + 3 = 12 ≤ 12 is true, and y = 3 ≥ 3 is true."
+      ],
+      "answer": "9"
+    }
+  ],
+  "trapPatterns": [
+    "boundary_inclusion_error: treating '≤'/'≥' as strict '<'/'>' (or vice versa), so the corner value is wrongly excluded or included.",
+    "wrong_feasible_region: shading or reasoning about the wrong side of a boundary line, e.g. adding the two constants instead of solving the system.",
+    "solved_for_wrong_variable: finding x when the question asks for y (or reporting the x-coordinate of the corner when y was requested).",
+    "forgot_flip_on_negative: not flipping the inequality sign when dividing or multiplying both sides by a negative number.",
+    "misread_intersection: picking a point that lies on one boundary line but not on both, so it is not the actual corner of the region."
+  ],
+  "calculatorStrategy": "use_desmos_graph — type both inequalities into Desmos; it shades each half-plane and the overlap is the feasible region. Corners sit where two boundary lines cross — read them off, or solve the two boundary equations by hand. Desmos shows the region but won't tell you whether a strict boundary point counts, so decide '<' vs '≤' yourself.",
+  "problems": [
+    {
+      "id": "alg-sli-e1",
+      "domain": "Algebra",
+      "subSkill": "Systems of linear inequalities",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "In a system of linear inequalities, the two boundary lines are y = 2x and y = x + 4. The corner of the feasible region sits where these lines cross. What is the x-coordinate of that corner?",
+      "choices": [
+        { "label": "A", "text": "4", "value": "4" },
+        { "label": "B", "text": "8", "value": "8", "trap": "solved_for_wrong_variable: found the y-coordinate (y = 8) of the corner instead of the x-coordinate the question asked for." },
+        { "label": "C", "text": "2", "value": "2", "trap": "misread_intersection: divided the constant 4 by 2 instead of solving 2x = x + 4, landing at the wrong point." },
+        { "label": "D", "text": "-4", "value": "-4", "trap": "forgot_flip_on_negative: rearranged to -x = -4 but did not flip the sign when dividing by -1, giving x = -4." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "At the corner both boundary lines share a point, so set them equal: 2x = x + 4.",
+        "Subtract x from both sides: x = 4.",
+        "The x-coordinate of the corner is 4 (and y = 2(4) = 8).",
+        "Check: (4, 8) satisfies y = 2x and y = x + 4."
+      ],
+      "calculatorStrategy": "use_desmos_graph — graph y = 2x and y = x + 4; the corner where they cross is at x = 4.",
+      "check": { "kind": "system_linear", "equations": ["y - 2*x", "y - x - 4"], "variables": ["x", "y"], "target": "x" }
+    },
+    {
+      "id": "alg-sli-e2",
+      "domain": "Algebra",
+      "subSkill": "Systems of linear inequalities",
+      "difficulty": "Easy",
+      "type": "spr",
+      "scoreBand": "400-490",
+      "question": "A snack stand stocks x hot dogs and y drinks. It must satisfy x + y ≤ 12 (counter space) and y ≥ 3 (a minimum of 3 drinks). If the stand keeps exactly y = 3 drinks, what is the greatest number of hot dogs x it can hold?",
+      "answer": "9",
+      "explanation": [
+        "Substitute the fixed value y = 3 into the space constraint: x + 3 ≤ 12.",
+        "Subtract 3 from both sides: x ≤ 9.",
+        "The greatest whole number of hot dogs is the included boundary, 9.",
+        "Check: 9 + 3 = 12 ≤ 12 is true, and y = 3 ≥ 3 is true."
+      ],
+      "calculatorStrategy": "use_desmos_graph — shade x + y ≤ 12 and y ≥ 3 in Desmos, trace the line y = 3, and read the largest x still in the region (x = 9).",
+      "check": { "kind": "evaluate", "expression": "12 - 3" }
+    },
+    {
+      "id": "alg-sli-e3",
+      "domain": "Algebra",
+      "subSkill": "Systems of linear inequalities",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "A feasible region is defined by the system 2x + y ≤ 14 and y ≥ 0. At x = 4, what is the greatest possible value of y?",
+      "choices": [
+        { "label": "A", "text": "5", "value": "5", "trap": "boundary_inclusion_error: treated 2x + y ≤ 14 as a strict '<', excluding the attainable boundary value y = 6." },
+        { "label": "B", "text": "22", "value": "22", "trap": "wrong_feasible_region: added the 2x term instead of subtracting it, computing 14 + 2(4)." },
+        { "label": "C", "text": "6", "value": "6" },
+        { "label": "D", "text": "8", "value": "8", "trap": "misread_intersection: reported 2x = 8 as the answer instead of continuing to solve for y." }
+      ],
+      "answer": "C",
+      "explanation": [
+        "Substitute x = 4 into the binding constraint: 2(4) + y ≤ 14, so 8 + y ≤ 14.",
+        "Subtract 8: y ≤ 6.",
+        "Because the inequality is '≤', the boundary value counts, so the greatest y is 6.",
+        "Check: 2(4) + 6 = 14 ≤ 14 is true, and 6 ≥ 0 is true."
+      ],
+      "calculatorStrategy": "use_desmos_graph — shade 2x + y ≤ 14 and y ≥ 0, trace x = 4, and read the highest y in the region (y = 6).",
+      "check": { "kind": "evaluate", "expression": "14 - 2*4" }
+    },
+    {
+      "id": "alg-sli-m1",
+      "domain": "Algebra",
+      "subSkill": "Systems of linear inequalities",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "A bakery makes x loaves and y cakes. Its most efficient plan sits at the corner of the feasible region where the oven line 2x + y = 11 and the labor line x + y = 7 cross. How many loaves x does that plan use?",
+      "choices": [
+        { "label": "A", "text": "3", "value": "3", "trap": "solved_for_wrong_variable: found the number of cakes y = 3 instead of the loaves x the question asked for." },
+        { "label": "B", "text": "4", "value": "4" },
+        { "label": "C", "text": "18", "value": "18", "trap": "wrong_feasible_region: added the two constants 11 + 7 instead of subtracting the equations to eliminate y." },
+        { "label": "D", "text": "7", "value": "7", "trap": "misread_intersection: used a point on the labor line x + y = 7 (setting y = 0) without checking that it also lies on the oven line." }
+      ],
+      "answer": "B",
+      "explanation": [
+        "Subtract the labor line from the oven line to eliminate y: (2x + y) - (x + y) = 11 - 7, so x = 4.",
+        "Back-substitute: 4 + y = 7, so y = 3.",
+        "The plan uses x = 4 loaves.",
+        "Check: 2(4) + 3 = 11 and 4 + 3 = 7 — both boundary lines pass through (4, 3)."
+      ],
+      "calculatorStrategy": "use_desmos_graph — graph 2x + y = 11 and x + y = 7; they cross at (4, 3), so x = 4 loaves.",
+      "check": { "kind": "system_linear", "equations": ["2*x + y - 11", "x + y - 7"], "variables": ["x", "y"], "target": "x" }
+    },
+    {
+      "id": "alg-sli-m2",
+      "domain": "Algebra",
+      "subSkill": "Systems of linear inequalities",
+      "difficulty": "Medium",
+      "type": "spr",
+      "scoreBand": "500-590",
+      "question": "A charity buys x tables and y chairs under the system 5x + 3y ≤ 60 (budget) and x ≥ 0, y ≥ 0. If it buys exactly x = 6 tables, what is the greatest number of chairs y it can buy?",
+      "answer": "10",
+      "explanation": [
+        "Substitute x = 6 into the budget constraint: 5(6) + 3y ≤ 60, so 30 + 3y ≤ 60.",
+        "Subtract 30: 3y ≤ 30.",
+        "Divide by 3 (positive — no flip): y ≤ 10.",
+        "The greatest number of chairs is 10. Check: 5(6) + 3(10) = 60 ≤ 60 is true."
+      ],
+      "calculatorStrategy": "use_desmos_graph — shade 5x + 3y ≤ 60 with x, y ≥ 0, trace x = 6, and read the highest y in the region (y = 10).",
+      "check": { "kind": "evaluate", "expression": "(60 - 5*6)/3" }
+    },
+    {
+      "id": "alg-sli-m3",
+      "domain": "Algebra",
+      "subSkill": "Systems of linear inequalities",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "The corner of a feasible region lies where the boundary lines -x + y = 5 and 2x + y = 11 intersect. What is the x-coordinate of that corner?",
+      "choices": [
+        { "label": "A", "text": "7", "value": "7", "trap": "solved_for_wrong_variable: reported the y-coordinate (y = 7) of the corner instead of the x-coordinate." },
+        { "label": "B", "text": "-2", "value": "-2", "trap": "forgot_flip_on_negative: mishandled the -x term, solving -x = 2 as x = -2 without flipping the sign." },
+        { "label": "C", "text": "16", "value": "16", "trap": "wrong_feasible_region: added the two constants 5 + 11 instead of eliminating y from the system." },
+        { "label": "D", "text": "2", "value": "2" }
+      ],
+      "answer": "D",
+      "explanation": [
+        "Subtract the first equation from the second to eliminate y: (2x + y) - (-x + y) = 11 - 5, so 3x = 6.",
+        "Divide by 3: x = 2.",
+        "Back-substitute: -2 + y = 5, so y = 7. The corner is (2, 7).",
+        "Check: -(2) + 7 = 5 and 2(2) + 7 = 11 — both hold."
+      ],
+      "calculatorStrategy": "use_desmos_graph — graph -x + y = 5 and 2x + y = 11; they cross at (2, 7), so x = 2.",
+      "check": { "kind": "system_linear", "equations": ["-x + y - 5", "2*x + y - 11"], "variables": ["x", "y"], "target": "x" }
+    },
+    {
+      "id": "alg-sli-h1",
+      "domain": "Algebra",
+      "subSkill": "Systems of linear inequalities",
+      "difficulty": "Hard",
+      "type": "mc",
+      "scoreBand": "600-700",
+      "question": "A workshop's feasible region is defined by 3x + 2y ≤ 18 (material), x + 2y ≤ 10 (time), and x, y ≥ 0. The best plan sits at the corner where the material and time boundary lines cross. What is the value of x + y at that corner?",
+      "choices": [
+        { "label": "A", "text": "7", "value": "7" },
+        { "label": "B", "text": "4", "value": "4", "trap": "solved_for_wrong_variable: stopped at the x-coordinate (x = 4) instead of computing x + y." },
+        { "label": "C", "text": "28", "value": "28", "trap": "wrong_feasible_region: added the constants 18 + 10 instead of solving the system for the corner." },
+        { "label": "D", "text": "1", "value": "1", "trap": "misread_intersection: subtracted the corner coordinates (4 - 3) instead of adding them." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Subtract the time line from the material line to eliminate y: (3x + 2y) - (x + 2y) = 18 - 10, so 2x = 8 and x = 4.",
+        "Back-substitute into x + 2y = 10: 4 + 2y = 10, so y = 3.",
+        "The corner is (4, 3), so x + y = 7.",
+        "Check: 3(4) + 2(3) = 18 and 4 + 2(3) = 10 — both boundaries hold."
+      ],
+      "calculatorStrategy": "use_desmos_graph — shade all three constraints; the material and time lines cross at (4, 3), so x + y = 7.",
+      "check": { "kind": "system_linear", "equations": ["3*x + 2*y - 18", "x + 2*y - 10"], "variables": ["x", "y"], "target": "x + y" }
+    },
+    {
+      "id": "alg-sli-h2",
+      "domain": "Algebra",
+      "subSkill": "Systems of linear inequalities",
+      "difficulty": "Hard",
+      "type": "spr",
+      "scoreBand": "600-700",
+      "question": "A weekly plan uses x hours of math and y hours of reading. The corner of its feasible region sits where the boundary lines x + 3y = 13 and 2x - y = 5 cross. How many hours of reading y does that corner use?",
+      "answer": "3",
+      "explanation": [
+        "Solve the second equation for y: y = 2x - 5.",
+        "Substitute into the first: x + 3(2x - 5) = 13, so x + 6x - 15 = 13.",
+        "Combine: 7x = 28, so x = 4. Then y = 2(4) - 5 = 3.",
+        "The corner uses y = 3 hours of reading. Check: 4 + 3(3) = 13 and 2(4) - 3 = 5 — both hold."
+      ],
+      "calculatorStrategy": "use_desmos_graph — graph x + 3y = 13 and 2x - y = 5; they cross at (4, 3), so y = 3.",
+      "check": { "kind": "system_linear", "equations": ["x + 3*y - 13", "2*x - y - 5"], "variables": ["x", "y"], "target": "y" }
+    }
+  ]
+}

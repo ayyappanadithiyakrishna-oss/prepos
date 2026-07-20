@@ -10,6 +10,7 @@
     "lint": "eslint",
     "verify:sat": "python3 -c \"import sympy\" 2>/dev/null || python3 -m pip install --quiet --break-system-packages sympy; python3 scripts/verify_answers.py --selftest && python3 scripts/verify_answers.py",
     "test:mastery": "node scripts/test_mastery_model.ts",
+    "seed:sat": "npx --yes tsx scripts/seed-sat.ts",
     "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {

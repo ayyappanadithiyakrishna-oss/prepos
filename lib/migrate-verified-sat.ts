@@ -15,6 +15,7 @@ import algebraLinearFunctions from './sat-practice/data/algebra-linear-functions
 import algebraLinearEquationsTwoVars from './sat-practice/data/algebra-linear-equations-two-variables.json'
 import algebraLinearInequalities from './sat-practice/data/algebra-linear-inequalities.json'
 import algebraAbsoluteValue from './sat-practice/data/algebra-absolute-value.json'
+import algebraSystemsLinearInequalities from './sat-practice/data/algebra-systems-linear-inequalities.json'
 
 const VERIFIED_LESSONS: VerifiedLesson[] = [
   algebraLinearOneVar as VerifiedLesson,
@@ -23,6 +24,7 @@ const VERIFIED_LESSONS: VerifiedLesson[] = [
   algebraLinearEquationsTwoVars as VerifiedLesson,
   algebraLinearInequalities as VerifiedLesson,
   algebraAbsoluteValue as VerifiedLesson,
+  algebraSystemsLinearInequalities as VerifiedLesson,
 ]
 
 const BAND_TO_INT: Record<string, number> = { Easy: 1, Medium: 2, Hard: 3 }
