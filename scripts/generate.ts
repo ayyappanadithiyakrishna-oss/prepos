@@ -11,14 +11,17 @@
  */
 import { runGenerationPipeline } from '../lib/sat-generate/pipeline'
 
-const GITHUB_BATCH_SIZE = 20 // questions requested per bank (vs. 6 on Vercel)
+const GITHUB_BATCH_SIZE = 12 // questions requested per bank (vs. 6 on Vercel). Kept
+// so prompt + max_tokens (7000) stays under Groq's free-tier 12k tokens/minute cap.
 const GITHUB_THRESHOLD = 20 // top up any bank holding fewer than this
+const GITHUB_PAUSE_MS = 60000 // ~1 request/minute so the run stays under 12k TPM
 
 async function main(): Promise<void> {
   const started = Date.now()
   const reports = await runGenerationPipeline({
     batchSize: GITHUB_BATCH_SIZE,
     threshold: GITHUB_THRESHOLD,
+    pauseMs: GITHUB_PAUSE_MS,
     maxTargets: Number.MAX_SAFE_INTEGER, // no cap — process every thin bank
   })
 

@@ -49,8 +49,9 @@ export type PipelineOptions = {
   only?: { subSkill: string; difficulty: Difficulty } // on-demand: fill exactly this bank
   force?: boolean // ignore the threshold (used by on-demand top-ups)
   maxTargets?: number
-  batchSize?: number // questions per model call; defaults to BATCH_SIZE (6, the Vercel budget). GitHub bulk run passes 20.
+  batchSize?: number // questions per model call; defaults to BATCH_SIZE (6, the Vercel budget). GitHub bulk run passes 12.
   threshold?: number // top up any bank below this; defaults to THIN_BANK_THRESHOLD (12). GitHub bulk run passes 20.
+  pauseMs?: number // delay between banks; defaults to 1500. GitHub bulk run passes 60000 to stay under Groq's 12k tokens/minute free-tier cap.
 }
 
 async function bankCount(subSkill: string, difficulty: string): Promise<number> {
@@ -69,6 +70,7 @@ export async function runGenerationPipeline(opts: PipelineOptions = {}): Promise
   // Build the candidate list (neediest banks first), then bound it.
   const threshold = opts.threshold ?? THIN_BANK_THRESHOLD
   const batchSize = opts.batchSize ?? BATCH_SIZE
+  const pauseMs = opts.pauseMs ?? 1500
   let candidates: Array<SkillCfg & { difficulty: Difficulty; count: number }> = []
   const skillsToScan = opts.only
     ? SUB_SKILLS.filter((s) => s.subSkill === opts.only!.subSkill)
@@ -88,7 +90,7 @@ export async function runGenerationPipeline(opts: PipelineOptions = {}): Promise
     const report = await generateBatch(c, batchSize)
     reports.push(report)
     await logGenerationRun(report)
-    await new Promise((r) => setTimeout(r, 1500)) // gentle on the free-tier rate limit
+    await new Promise((r) => setTimeout(r, pauseMs)) // gentle on the free-tier rate limit
   }
   return reports
 }
