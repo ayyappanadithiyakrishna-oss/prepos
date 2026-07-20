@@ -1,0 +1,214 @@
+{
+  "id": "alg-word-translation",
+  "domain": "Algebra",
+  "subSkill": "Linear equations — word translation",
+  "lessonNumber": "1.8",
+  "title": "Linear Equations — Word Translation",
+  "concept": "The hardest part of an SAT word problem is not the algebra — it is turning the sentence into an equation. Almost every scenario has the same shape: a fixed amount plus a rate times a quantity equals a total. A catering bill is (flat fee) + (per-guest cost)(guests); a parking charge is (entry fee) + (hourly rate)(hours); a distance is (rate)(time). Three habits keep you out of trouble. First, define the variable in words before you write anything — 'let g = number of guests' — so you never solve for the wrong quantity. Second, keep the fixed part: the flat fee, the entry fee, the joining fee is part of the total, not something to drop. Third, read the final question exactly: it often asks for something built from the variable — twice it, the sum of two groups, the other group — not the variable you solved for. On multiple-choice, you can also work backward: plug each choice into the scenario and keep the one that makes the numbers balance. Watch 'at least' and 'no more than' — 'at least 5' includes 5.",
+  "workedExamples": [
+    {
+      "problem": "A parking garage charges a $4 entry fee plus $3 per hour. Devon paid $22. For how many hours did Devon park?",
+      "steps": [
+        "Let h = number of hours. Cost = entry fee + hourly rate × hours: 4 + 3h.",
+        "Set equal to what Devon paid: 4 + 3h = 22.",
+        "Subtract the fixed $4 fee: 3h = 18.",
+        "Divide by the $3 rate: h = 6. Check: 4 + 3(6) = 22."
+      ],
+      "answer": "6"
+    },
+    {
+      "problem": "A theater sold 200 tickets. There were 40 more adult tickets than child tickets. How many child tickets were sold?",
+      "steps": [
+        "Let a = adults and c = children. Total: a + c = 200. Difference: a = c + 40.",
+        "Substitute: (c + 40) + c = 200, so 2c + 40 = 200.",
+        "Subtract 40: 2c = 160, so c = 80 (and a = 120).",
+        "Check: 120 + 80 = 200, and 120 is 40 more than 80."
+      ],
+      "answer": "80"
+    }
+  ],
+  "trapPatterns": [
+    "wrong_variable_assignment: assigning the variable to the wrong quantity in the scenario (e.g. letting x be adults when the question is about children).",
+    "ignored_fixed_cost: solving only the per-unit part and forgetting the flat fee / entry fee / joining fee that is part of the total.",
+    "off_by_one_on_at_least: reading 'at least 5' as strictly greater than 5 instead of ≥ 5, so the boundary value is wrongly excluded.",
+    "mixed_rate_and_total: using the per-unit rate where the total was needed, or reporting a dollar leftover instead of dividing by the rate.",
+    "answer_wrong_quantity: solving for x correctly but reporting x when the question asked for 2x, x + y, or the other group."
+  ],
+  "calculatorStrategy": "use_desmos_table — for multiple-choice, enter the scenario's equation as y1 (e.g. y1 = 4 + 3x), open a table, and type each answer choice into the x column; keep the choice whose row hits the target total. For student-produced answers, solve algebraically: write fixed + rate·quantity = total, isolate the variable, then re-read the question to see whether it wants that variable or something built from it.",
+  "problems": [
+    {
+      "id": "alg-wt-e1",
+      "domain": "Algebra",
+      "subSkill": "Linear equations — word translation",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "A phone plan costs $20 per month plus $2 for each gigabyte of data used. Last month's bill was $32. How many gigabytes of data were used?",
+      "choices": [
+        { "label": "A", "text": "6", "value": "6" },
+        { "label": "B", "text": "16", "value": "16", "trap": "ignored_fixed_cost: divided the whole $32 bill by the $2 rate and forgot the $20 monthly base." },
+        { "label": "C", "text": "12", "value": "12", "trap": "mixed_rate_and_total: reported the $12 left after the base as the answer instead of dividing it by the $2 rate." },
+        { "label": "D", "text": "26", "value": "26", "trap": "ignored_fixed_cost: added the $20 base instead of subtracting it, computing (32 + 20)/2." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Let g = gigabytes used. Cost = 20 + 2g.",
+        "Set equal to the bill: 20 + 2g = 32.",
+        "Subtract the $20 base: 2g = 12.",
+        "Divide by the $2 rate: g = 6. Check: 20 + 2(6) = 32."
+      ],
+      "calculatorStrategy": "use_desmos_table — enter y1 = 20 + 2x, open a table, and type the choices (6, 16, 12, 26) into x; only x = 6 gives y1 = 32.",
+      "check": { "kind": "solve_linear", "expression": "20 + 2*g - 32", "variable": "g" }
+    },
+    {
+      "id": "alg-wt-e2",
+      "domain": "Algebra",
+      "subSkill": "Linear equations — word translation",
+      "difficulty": "Easy",
+      "type": "spr",
+      "scoreBand": "400-490",
+      "question": "A parking garage charges a $4 entry fee plus $3 per hour. Devon paid $22 in total. For how many hours did Devon park?",
+      "answer": "6",
+      "explanation": [
+        "Let h = number of hours. Cost = 4 + 3h.",
+        "Set equal to what Devon paid: 4 + 3h = 22.",
+        "Subtract the $4 entry fee: 3h = 18.",
+        "Divide by the $3 rate: h = 6. Check: 4 + 3(6) = 22."
+      ],
+      "calculatorStrategy": "solve_algebraically — write fixed + rate·hours = total (4 + 3h = 22), subtract the fee, divide by the rate.",
+      "check": { "kind": "solve_linear", "expression": "4 + 3*h - 22", "variable": "h" }
+    },
+    {
+      "id": "alg-wt-e3",
+      "domain": "Algebra",
+      "subSkill": "Linear equations — word translation",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "A theater sold 200 tickets in total. There were 40 more adult tickets than child tickets. How many child tickets were sold?",
+      "choices": [
+        { "label": "A", "text": "80", "value": "80" },
+        { "label": "B", "text": "120", "value": "120", "trap": "wrong_variable_assignment: solved for the adult tickets (120) instead of the child tickets the question asked for." },
+        { "label": "C", "text": "40", "value": "40", "trap": "mixed_rate_and_total: reported the 40-ticket difference between the groups instead of the child total." },
+        { "label": "D", "text": "160", "value": "160", "trap": "answer_wrong_quantity: computed twice the child count (2c = 160) instead of c." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Let a = adults, c = children. Then a + c = 200 and a = c + 40.",
+        "Substitute: (c + 40) + c = 200, so 2c + 40 = 200.",
+        "Subtract 40: 2c = 160, so c = 80 (and a = 120).",
+        "Check: 120 + 80 = 200 and 120 − 80 = 40."
+      ],
+      "calculatorStrategy": "use_desmos_table — model with a + c = 200 and a = c + 40; or plug each choice in as c and check that c and c + 40 sum to 200. Only c = 80 works.",
+      "check": { "kind": "system_linear", "equations": ["a + c - 200", "a - c - 40"], "variables": ["a", "c"], "target": "c" }
+    },
+    {
+      "id": "alg-wt-m1",
+      "domain": "Algebra",
+      "subSkill": "Linear equations — word translation",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "A food truck has $600 in fixed weekly costs and earns $8 of profit per meal sold, so weekly profit is 8m − 600 for m meals. What is the least number of meals it must sell to earn a weekly profit of at least $1,000?",
+      "choices": [
+        { "label": "A", "text": "200", "value": "200" },
+        { "label": "B", "text": "201", "value": "201", "trap": "off_by_one_on_at_least: read 'at least $1,000' as strictly more than $1,000, so excluded the exact boundary of 200 meals." },
+        { "label": "C", "text": "125", "value": "125", "trap": "ignored_fixed_cost: solved 8m = 1,000 and forgot to add back the $600 in fixed costs." },
+        { "label": "D", "text": "50", "value": "50", "trap": "ignored_fixed_cost: subtracted the $600 instead of adding it, solving 8m = 400." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Let m = number of meals. 'At least $1,000' means 8m − 600 ≥ 1,000.",
+        "Add 600: 8m ≥ 1,600.",
+        "Divide by 8: m ≥ 200. Because it is 'at least', m = 200 is included.",
+        "The least number of meals is 200. Check: 8(200) − 600 = 1,000 ≥ 1,000."
+      ],
+      "calculatorStrategy": "use_desmos_table — enter y1 = 8x − 600 and read the table; x = 200 is the first row reaching 1,000, and 'at least' means it counts.",
+      "check": { "kind": "solve_linear", "expression": "8*m - 600 - 1000", "variable": "m" }
+    },
+    {
+      "id": "alg-wt-m2",
+      "domain": "Algebra",
+      "subSkill": "Linear equations — word translation",
+      "difficulty": "Medium",
+      "type": "spr",
+      "scoreBand": "500-590",
+      "question": "A class trip has students and adults totaling 36 people. There are 5 times as many students as adults. How many students are on the trip?",
+      "answer": "30",
+      "explanation": [
+        "Let s = students and a = adults. Then s + a = 36 and s = 5a.",
+        "Substitute: 5a + a = 36, so 6a = 36 and a = 6.",
+        "Then s = 5(6) = 30 students.",
+        "Check: 30 + 6 = 36, and 30 is 5 times 6."
+      ],
+      "calculatorStrategy": "solve_algebraically — translate to s + a = 36 and s = 5a, substitute to get 6a = 36, solve for a, then s = 5a.",
+      "check": { "kind": "system_linear", "equations": ["s + a - 36", "s - 5*a"], "variables": ["s", "a"], "target": "s" }
+    },
+    {
+      "id": "alg-wt-m3",
+      "domain": "Algebra",
+      "subSkill": "Linear equations — word translation",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "A caterer charges a $60 setup fee plus $15 per guest. One event's total bill was $360. The venue assigns 2 staff members for every guest. How many staff members are needed for this event?",
+      "choices": [
+        { "label": "A", "text": "40", "value": "40" },
+        { "label": "B", "text": "20", "value": "20", "trap": "answer_wrong_quantity: found the number of guests (20) but the question asked for staff, which is 2 per guest." },
+        { "label": "C", "text": "48", "value": "48", "trap": "ignored_fixed_cost: used 2 × (360 / 15) and forgot to remove the $60 setup fee first." },
+        { "label": "D", "text": "30", "value": "30", "trap": "mixed_rate_and_total: multiplied the 2 staff by the $15 per-guest rate instead of by the number of guests." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Let g = number of guests. Cost = 60 + 15g = 360.",
+        "Subtract the $60 setup fee: 15g = 300, so g = 20 guests.",
+        "Staff = 2 per guest = 2 × 20 = 40.",
+        "Check: 60 + 15(20) = 360, and 2(20) = 40 staff."
+      ],
+      "calculatorStrategy": "use_desmos_table — enter y1 = 60 + 15x to confirm x = 20 guests gives 360, then double it for staff. Plugging the choices back shows only 40 = 2 × 20.",
+      "check": { "kind": "evaluate", "expression": "2*((360 - 60)/15)" }
+    },
+    {
+      "id": "alg-wt-h1",
+      "domain": "Algebra",
+      "subSkill": "Linear equations — word translation",
+      "difficulty": "Hard",
+      "type": "mc",
+      "scoreBand": "600-700",
+      "question": "Two printers run at the same time. Printer A prints 20 pages per minute and printer B prints 30 pages per minute. Together they printed 500 pages, and printer A ran for 5 more minutes than printer B. For how many minutes did printer B run?",
+      "choices": [
+        { "label": "A", "text": "8", "value": "8" },
+        { "label": "B", "text": "13", "value": "13", "trap": "wrong_variable_assignment: solved for printer A's time (13 minutes) instead of printer B's." },
+        { "label": "C", "text": "10", "value": "10", "trap": "mixed_rate_and_total: divided 500 pages by the combined rate of 50, ignoring that A ran 5 minutes longer." },
+        { "label": "D", "text": "3", "value": "3", "trap": "answer_wrong_quantity: subtracted the 5-minute offset from B's time instead of reporting B's time itself." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Let a = A's minutes, b = B's minutes. Pages: 20a + 30b = 500. Timing: a = b + 5.",
+        "Substitute: 20(b + 5) + 30b = 500, so 20b + 100 + 30b = 500.",
+        "Combine: 50b = 400, so b = 8 (and a = 13).",
+        "Check: 20(13) + 30(8) = 260 + 240 = 500, and 13 = 8 + 5."
+      ],
+      "calculatorStrategy": "use_desmos_table — model 20a + 30b = 500 with a = b + 5; or plug each choice in as b, set a = b + 5, and check the pages total 500. Only b = 8 works.",
+      "check": { "kind": "system_linear", "equations": ["20*a + 30*b - 500", "a - b - 5"], "variables": ["a", "b"], "target": "b" }
+    },
+    {
+      "id": "alg-wt-h2",
+      "domain": "Algebra",
+      "subSkill": "Linear equations — word translation",
+      "difficulty": "Hard",
+      "type": "spr",
+      "scoreBand": "600-700",
+      "question": "A gym charges a one-time $50 joining fee plus a fixed monthly rate. After 7 months, a member has paid $260 in total. What is the monthly rate, in dollars?",
+      "answer": "30",
+      "explanation": [
+        "Let r = the monthly rate. Total paid = joining fee + r × months: 50 + 7r.",
+        "Set equal to the total: 50 + 7r = 260.",
+        "Subtract the $50 joining fee: 7r = 210.",
+        "Divide by 7 months: r = 30. Check: 50 + 7(30) = 260."
+      ],
+      "calculatorStrategy": "solve_algebraically — write 50 + 7r = 260, subtract the one-time $50 fee, divide by the 7 months.",
+      "check": { "kind": "solve_linear", "expression": "50 + 7*r - 260", "variable": "r" }
+    }
+  ]
+}
