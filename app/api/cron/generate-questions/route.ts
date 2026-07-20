@@ -2,8 +2,12 @@ import { NextResponse } from 'next/server'
 import { runGenerationPipeline } from '@/lib/sat-generate/pipeline'
 import { hasGeminiKey } from '@/lib/sat-generate/llm-client'
 
-// Called by Vercel Cron on a schedule (see vercel.json). Node runtime is
-// required (the pipeline uses @vercel/postgres + the TS verifier).
+// Real-time top-up only — a lightweight safety net for bank exhaustion (small
+// batch, 1 target, fits the 9s Hobby limit). BULK nightly generation is handled
+// by GitHub Actions (scripts/generate.ts, batch 20, all thin banks). The
+// on-demand mid-session top-up when a student empties a bank lives in
+// /api/sat/generate-now. Node runtime required (@vercel/postgres + TS verifier).
+// Schedule/purpose can't be commented in vercel.json (JSON) — documented here.
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 9

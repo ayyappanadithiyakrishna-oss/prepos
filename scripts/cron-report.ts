@@ -17,9 +17,9 @@ async function main(): Promise<void> {
   if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY not set')
   if (!REPORT_EMAIL) throw new Error('REPORT_EMAIL not set')
 
-  const last3h = (
+  const lastHour = (
     await sql.query(
-      `SELECT COUNT(*)::int AS n FROM questions WHERE created_at > NOW() - INTERVAL '3 hours'`,
+      `SELECT COUNT(*)::int AS n FROM questions WHERE created_at > NOW() - INTERVAL '1 hour'`,
     )
   ).rows[0].n as number
   const totalVerified = (
@@ -28,19 +28,19 @@ async function main(): Promise<void> {
   const recentRows = (
     await sql.query(
       `SELECT sub_skill, difficulty_band FROM questions
-       WHERE created_at > NOW() - INTERVAL '3 hours' AND sub_skill IS NOT NULL
+       WHERE created_at > NOW() - INTERVAL '1 hour' AND sub_skill IS NOT NULL
        ORDER BY created_at DESC LIMIT 1`,
     )
   ).rows as Array<{ sub_skill: string; difficulty_band: string }>
   const recent = recentRows[0] ?? { sub_skill: '—', difficulty_band: '—' }
 
   const date = new Date().toISOString().slice(0, 10)
-  const healthy = last3h > 0
+  const healthy = lastHour > 0
   const status = healthy ? '✅ Healthy' : '⚠️ No questions added'
 
-  const text = `PrepOS Cron Report — ${date} 03:00 UTC
+  const text = `PrepOS Cron Report — ${date} 02:00 UTC
 ─────────────────────────────────
-New questions added (last 3h): ${last3h}
+New questions added (last 1h): ${lastHour}
 Total verified bank:           ${totalVerified}
 Sub-skill (most recent):       ${recent.sub_skill}
 Difficulty:                    ${recent.difficulty_band}
@@ -58,10 +58,10 @@ STATUS: ${status}${
     <tr><td style="padding:24px 28px;">
       <div style="font-size:13px;letter-spacing:.02em;color:#64748b;">PrepOS · Generation pipeline</div>
       <div style="font-size:20px;font-weight:700;margin-top:2px;">Cron Report — ${date}</div>
-      <div style="font-size:12px;color:#94a3b8;margin-top:2px;">Nightly watcher · 03:00 UTC</div>
+      <div style="font-size:12px;color:#94a3b8;margin-top:2px;">Nightly watcher · 02:00 UTC</div>
       <hr style="border:none;border-top:1px solid #e2e8f0;margin:18px 0;">
       <table role="presentation" width="100%" style="font-size:14px;line-height:1.9;">
-        <tr><td style="color:#475569;">New questions added (last 3h)</td><td align="right" style="font-weight:700;">${last3h}</td></tr>
+        <tr><td style="color:#475569;">New questions added (last 1h)</td><td align="right" style="font-weight:700;">${lastHour}</td></tr>
         <tr><td style="color:#475569;">Total verified bank</td><td align="right" style="font-weight:700;">${totalVerified}</td></tr>
         <tr><td style="color:#475569;">Sub-skill (most recent)</td><td align="right" style="font-weight:700;">${recent.sub_skill}</td></tr>
         <tr><td style="color:#475569;">Difficulty</td><td align="right" style="font-weight:700;">${recent.difficulty_band}</td></tr>
@@ -73,7 +73,7 @@ STATUS: ${status}${
 </body></html>`
 
   if (process.env.DRY_RUN) {
-    console.log('DRY_RUN — not sending. Numbers:', { last3h, totalVerified, recent })
+    console.log('DRY_RUN — not sending. Numbers:', { lastHour, totalVerified, recent })
     return
   }
 

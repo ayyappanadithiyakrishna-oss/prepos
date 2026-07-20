@@ -25,7 +25,9 @@ export async function callGemini(prompt: string, signal?: AbortSignal): Promise<
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' },
       temperature: 0.7,
-      max_tokens: 4096,
+      // Ceiling only — the model stops when the batch is done, so the 6-question
+      // Vercel path is unaffected. Sized for the 20-question GitHub bulk batch.
+      max_tokens: 16384,
     }),
   })
 
