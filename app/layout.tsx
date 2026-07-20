@@ -1,5 +1,5 @@
-import type { Metadata } from 'next'
-import { Space_Grotesk, DM_Sans, Inter } from 'next/font/google'
+import type { Metadata, Viewport } from 'next'
+import { Space_Grotesk, DM_Sans, Inter, Sora } from 'next/font/google'
 import './globals.css'
 import Shell from '@/components/Shell'
 import Providers from './providers'
@@ -28,13 +28,25 @@ const inter = Inter({
   display: 'swap',
 })
 
+// Wope display voice (Rebond Grotesque substitute) — headline moments only.
+const sora = Sora({
+  variable: '--font-rebond',
+  subsets: ['latin'],
+  weight: ['600', '700', '800'],
+  display: 'swap',
+})
+
+// Without this, the modified Next build ships no viewport meta and phones lay
+// the page out at ~980px (zoomed-out, clipped). Pin it to device width.
+export const viewport: Viewport = { width: 'device-width', initialScale: 1 }
+
 export const metadata: Metadata = {
-  title: 'PrepOS — From 470 to 800. One sub-skill at a time.',
+  title: { default: 'PrepOS', template: '%s · PrepOS' },
   description:
-    'PrepOS tracks exactly where you lose SAT Math points and makes you practice those until you stop. Verified questions, real trap explanations, mastery that compounds.',
+    'PrepOS finds exactly where you lose SAT Math and AP Precalculus points and drills those until you stop. Verified questions, real trap explanations, mastery that compounds.',
   openGraph: {
     title: 'PrepOS',
-    description: 'The SAT Math prep tool that actually knows your weak spots.',
+    description: 'The SAT Math + AP Precalculus tool that knows your weak spots.',
     url: 'https://prepos-xi.vercel.app',
     siteName: 'PrepOS',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
@@ -63,7 +75,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${dmSans.variable} ${inter.variable} h-full`}
+      className={`${spaceGrotesk.variable} ${dmSans.variable} ${inter.variable} ${sora.variable} h-full`}
     >
       <body
         className="min-h-full flex"
