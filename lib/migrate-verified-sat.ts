@@ -60,7 +60,7 @@ export async function migrateVerifiedSatColumns(): Promise<void> {
   await sql`ALTER TABLE sessions ADD COLUMN IF NOT EXISTS is_test BOOLEAN DEFAULT FALSE`
 }
 
-async function topicIdForDomain(domain: string): Promise<number | null> {
+export async function topicIdForDomain(domain: string): Promise<number | null> {
   // SAT domain names map to seeded sat_math topic rows; Geometry topic is
   // seeded as 'Geometry', so accept both the full and short name.
   const { rows } = await sql`
@@ -85,7 +85,7 @@ export async function seedVerifiedSat(): Promise<number> {
   return n
 }
 
-async function upsertProblem(p: VerifiedProblem, topicId: number | null): Promise<void> {
+export async function upsertProblem(p: VerifiedProblem, topicId: number | null): Promise<void> {
   // Store the rich choices (text + canonical value + trap) as JSON for MC;
   // null for SPR. Explanation steps join into the existing TEXT column.
   const choicesJson = p.type === 'mc' && p.choices ? JSON.stringify(p.choices) : null

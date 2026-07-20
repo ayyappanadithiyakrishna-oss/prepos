@@ -135,3 +135,12 @@ content gap, not a nonexistent one.
 - Or a curated fixed set of acceptable prose answers matched exactly.
 
 Decision deferred to whenever PSDA is prioritized; tracked here so it stays explicit.
+
+**trig_evaluate:** TS verifier uses numeric tolerance (1e-7) not exact surds — moot until Geometry/Trig content is authored, must be revisited then.
+
+## 4. Generation pipeline — Hobby-tier capacity limits
+
+Generation pipeline: Hobby tier limits cron to once/day and maxDuration to 10s.
+Pipeline processes 1 sub-skill per run (6 questions). Upgrade to Pro ($20/month)
+to process 3 sub-skills per run every 5 hours. Current daily capacity: 6 verified
+questions if pass rate 100%, ~4 if 60% pass rate.
