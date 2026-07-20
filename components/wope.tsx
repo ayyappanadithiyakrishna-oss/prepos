@@ -69,9 +69,12 @@ export function WopeHeader() {
   return (
     <header style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, height: 78,
-      transition: 'background 0.25s, border-color 0.25s, backdrop-filter 0.25s',
-      background: scrolled ? 'rgba(10,1,24,0.72)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(12px)' : 'none', WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
+      transition: 'background 0.25s, border-color 0.25s',
+      // Near-opaque solid instead of backdrop-filter: a blurred fixed bar
+      // re-samples the big violet gradients every scroll frame, which is the
+      // main source of scroll jank on this page. The dark canvas makes the
+      // solid read almost identically.
+      background: scrolled ? 'rgba(9,2,20,0.92)' : 'transparent',
       borderBottom: `1px solid ${scrolled ? C.borderSoft : 'transparent'}`,
     }}>
       <div style={{ maxWidth: MAXW, margin: '0 auto', padding: '0 24px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

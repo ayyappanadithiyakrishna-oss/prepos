@@ -255,7 +255,7 @@ export default function Landing({ stats }: { stats: { verifiedQuestions: number;
         <div style={{ ...wrap, position: 'relative', zIndex: 1, textAlign: 'center' }}>
           <h2 style={{ ...display(48, -1), marginBottom: 10 }}>Start closing the gaps.</h2>
           <p style={{ ...body, fontSize: 16, maxWidth: 460, margin: '0 auto 40px' }}>Make an account and your first session is waiting. No card, no school login.</p>
-          <div style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${C.border}`, borderRadius: 16, padding: '40px 30px', maxWidth: 500, margin: '0 auto', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}>
+          <div style={{ background: 'rgba(20,9,42,0.55)', border: `1px solid ${C.border}`, borderRadius: 16, padding: '40px 30px', maxWidth: 500, margin: '0 auto' }}>
             <AuthPanel />
           </div>
         </div>

@@ -61,7 +61,7 @@ export default function DashboardHome() {
       `}</style>
 
       {/* TOP BAR */}
-      <div style={{ borderBottom: `1px solid ${BORDER}`, position: 'sticky', top: 0, zIndex: 20, background: 'rgba(10,10,15,0.85)', backdropFilter: 'blur(12px)' }}>
+      <div style={{ borderBottom: `1px solid ${BORDER}`, position: 'sticky', top: 0, zIndex: 20, background: 'rgba(10,10,15,0.94)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
             <OwlMark size={30} /><span style={ui({ fontWeight: 700, fontSize: 21, color: T1, letterSpacing: '0.08em' })}>PrepOS</span>
