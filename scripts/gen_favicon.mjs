@@ -15,10 +15,10 @@ await sharp(svg, { density: 384 }).resize(32, 32).png().toFile(path.join(pub, 'f
 
 // Apple touch icon: iOS paints transparency black, so flatten the owl onto
 // the dark PrepOS badge with rounded corners.
-const owl = await sharp(svg, { density: 512 }).resize(132, 132).png().toBuffer()
+const owl = await sharp(svg, { density: 512 }).resize(150, 150).png().toBuffer()
 const rounded = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180"><rect width="180" height="180" rx="40" fill="#0A0A0F"/></svg>')
 await sharp(rounded)
-  .composite([{ input: owl, top: 24, left: 24 }])
+  .composite([{ input: owl, top: 15, left: 15 }])
   .png()
   .toFile(path.join(pub, 'apple-touch-icon.png'))
 

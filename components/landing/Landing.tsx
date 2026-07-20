@@ -105,9 +105,9 @@ export default function Landing({ stats }: { stats: { verifiedQuestions: number;
         backdropFilter: scrolled ? 'blur(12px)' : 'none', WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
       }}>
         <div style={{ ...wrap, display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 68 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-            <OwlMark size={22} />
-            <span style={{ ...ui, fontWeight: 700, fontSize: 18, color: '#fff' }}>PrepOS</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
+            <OwlMark size={32} />
+            <span style={{ ...ui, fontWeight: 700, fontSize: 23, color: '#fff' }}>PrepOS</span>
           </div>
           <div className="lp-nav-links" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <button onClick={goAuth} className="lp-ghost lp-nav-cta" style={{ ...ui, fontWeight: 600, fontSize: 14, color: '#fff', background: 'transparent', border: '1.5px solid rgba(255,255,255,0.6)', borderRadius: 20, padding: '9px 18px', cursor: 'pointer', transition: 'transform 0.15s, background 0.15s' }}>Sign in</button>
@@ -196,9 +196,9 @@ export default function Landing({ stats }: { stats: { verifiedQuestions: number;
       {/* FOOTER */}
       <footer style={{ background: '#0A0A0F', padding: '32px 0' }}>
         <div style={{ ...wrap, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <OwlMark size={18} />
-            <span style={{ ...ui, fontWeight: 700, fontSize: 15, color: '#fff' }}>PrepOS</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <OwlMark size={24} />
+            <span style={{ ...ui, fontWeight: 700, fontSize: 18, color: '#fff' }}>PrepOS</span>
           </div>
           <span style={{ ...ui, letterSpacing: '0.04em', fontSize: 13, color: '#8888AA' }}>Built for one student. From 470 to 800, one sub-skill at a time.</span>
         </div>
