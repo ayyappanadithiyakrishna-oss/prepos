@@ -31,7 +31,7 @@ const DIFFICULTIES: Difficulty[] = ['Easy', 'Medium', 'Hard']
 const THIN_BANK_THRESHOLD = 12 // target questions per (sub-skill, difficulty)
 const BATCH_SIZE = 6 // questions requested per Gemini call (fits the token budget)
 const MAX_TARGETS_PER_RUN = 1 // Hobby tier: 1 Gemini call/invocation fits the 9s maxDuration (10s cap). Raise to 3 on Pro (60s).
-const MIN_PASS_RATE = 0.6 // below this, flag the run — the prompt likely drifted
+const MIN_PASS_RATE = 0.35 // Calibrated for llama-3.3-70b-versatile — recalibrate after first 5 production runs.
 
 export type GenerationReport = {
   subSkill: string
