@@ -144,3 +144,23 @@ Generation pipeline: Hobby tier limits cron to once/day and maxDuration to 10s.
 Pipeline processes 1 sub-skill per run (6 questions). Upgrade to Pro ($20/month)
 to process 3 sub-skills per run every 5 hours. Current daily capacity: 6 verified
 questions if pass rate 100%, ~4 if 60% pass rate.
+
+## 5. Geometry authoring standards
+
+Rules every Geometry & Trigonometry vertical must follow so it passes the gate
+and grades correctly at runtime:
+
+1. **Domain string:** always `"Geometry & Trigonometry"` (ampersand, not "and").
+   The verifier's `VALID_DOMAINS` requires the ampersand form — "Geometry and
+   Trigonometry" fails every problem.
+2. **π approximation:** always use π ≈ 3.14 (not 3.14159). State "Using π ≈ 3.14"
+   in the problem stem, and choose radii/dimensions that produce clean tenths (or
+   integer) answers — e.g. 3.14 × 10² = 314, ⅓ × 3.14 × 9 × 10 = 94.2. With
+   3.14159 the exact product never matches a rounded answer within tolerance.
+3. **Numeric answers only** — no symbolic expressions in the answer/choice values.
+   The TS runtime verifier compares by numeric tolerance (1e-7), and runtime SPR
+   grading is an exact string match, so answers must be plain numbers ("314",
+   "94.2"), not "4π" or "sqrt(3)/2".
+4. **Backward problems** (find a missing dimension from a given area/volume) use
+   `calculatorStrategy: "use_desmos_graph"`. Direct/forward problems use
+   `"solve_algebraically"`.
