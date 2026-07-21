@@ -1,0 +1,309 @@
+{
+  "lesson": "Right triangle trigonometry",
+  "domain": "Geometry & Trigonometry",
+  "subSkill": "Right triangle trigonometry",
+  "calculatorStrategy": "avoid",
+  "problems": [
+    {
+      "id": "geo-rt-e1",
+      "type": "mc",
+      "difficulty": "Easy",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Right triangle trigonometry",
+      "calculatorStrategy": "avoid",
+      "question": "In a right triangle, the two legs have lengths 3 and 4, and the hypotenuse has length 5. What is the sine of the acute angle opposite the side of length 3?",
+      "answer": "A",
+      "choices": [
+        {
+          "label": "A",
+          "text": "3/5",
+          "value": "3/5"
+        },
+        {
+          "label": "B",
+          "text": "4/5",
+          "value": "4/5",
+          "trap": "used_cos: took adjacent/hypotenuse (4/5) instead of opposite/hypotenuse (3/5)."
+        },
+        {
+          "label": "C",
+          "text": "3/4",
+          "value": "3/4",
+          "trap": "used_tan: computed opposite/adjacent (3/4) instead of opposite/hypotenuse."
+        },
+        {
+          "label": "D",
+          "text": "5/3",
+          "value": "5/3",
+          "trap": "inverted_ratio: flipped opposite and hypotenuse (hyp/opp instead of opp/hyp)."
+        }
+      ],
+      "check": {
+        "kind": "trig_evaluate",
+        "func": "sin",
+        "opposite": 3,
+        "hypotenuse": 5
+      },
+      "explanation": [
+        "SOH: sin = opposite/hypotenuse.",
+        "The side opposite the angle is 3; the hypotenuse is 5.",
+        "sin(θ) = 3/5.",
+        "Trap 4/5: that is cos(θ) = adjacent/hypotenuse.",
+        "Trap 3/4: that is tan(θ) = opposite/adjacent.",
+        "Trap 5/3: the ratio is inverted."
+      ]
+    },
+    {
+      "id": "geo-rt-e2",
+      "type": "spr",
+      "difficulty": "Easy",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Right triangle trigonometry",
+      "calculatorStrategy": "avoid",
+      "question": "In a right triangle, two acute angles are complementary. If sin(28°) = cos(x°), what is the value of x?",
+      "answer": "62",
+      "check": {
+        "kind": "evaluate",
+        "expression": "90 - 28"
+      },
+      "explanation": [
+        "The two acute angles of any right triangle sum to 90°.",
+        "The complementary angle identity: sin(θ) = cos(90° − θ).",
+        "sin(28°) = cos(90° − 28°) = cos(62°).",
+        "x = 62."
+      ]
+    },
+    {
+      "id": "geo-rt-e3",
+      "type": "mc",
+      "difficulty": "Easy",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Right triangle trigonometry",
+      "calculatorStrategy": "avoid",
+      "question": "Right triangle ABC has a right angle at B. Side AC (the hypotenuse) has length 13, and side BC has length 5. What is cos(angle A)?",
+      "answer": "A",
+      "choices": [
+        {
+          "label": "A",
+          "text": "12/13",
+          "value": "12/13"
+        },
+        {
+          "label": "B",
+          "text": "5/13",
+          "value": "5/13",
+          "trap": "used_sin: took opposite/hypotenuse (BC/AC = 5/13) instead of adjacent/hypotenuse."
+        },
+        {
+          "label": "C",
+          "text": "5/12",
+          "value": "5/12",
+          "trap": "used_tan: computed opposite/adjacent instead of adjacent/hypotenuse."
+        },
+        {
+          "label": "D",
+          "text": "13/12",
+          "value": "13/12",
+          "trap": "inverted_ratio: flipped adjacent and hypotenuse."
+        }
+      ],
+      "check": {
+        "kind": "trig_evaluate",
+        "func": "cos",
+        "adjacent": 12,
+        "hypotenuse": 13
+      },
+      "explanation": [
+        "CAH: cos = adjacent/hypotenuse.",
+        "First find the missing leg AB using the Pythagorean theorem: AB = √(AC² − BC²) = √(169 − 25) = √144 = 12.",
+        "Angle A is at vertex A. The side adjacent to angle A (not the hypotenuse) is AB = 12.",
+        "cos(A) = adjacent/hypotenuse = 12/13.",
+        "Trap 5/13: BC is opposite angle A, not adjacent — that gives sin(A).",
+        "Trap 5/12: that is tan(A) = opposite/adjacent, not cos."
+      ]
+    },
+    {
+      "id": "geo-rt-m1",
+      "type": "mc",
+      "difficulty": "Medium",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Right triangle trigonometry",
+      "calculatorStrategy": "avoid",
+      "question": "A 20-foot ladder leans against a vertical wall. The ladder makes a 30° angle with the ground. Using sin(30°) = 1/2, how high up the wall does the ladder reach?",
+      "answer": "A",
+      "choices": [
+        {
+          "label": "A",
+          "text": "10",
+          "value": "10"
+        },
+        {
+          "label": "B",
+          "text": "20",
+          "value": "20",
+          "trap": "used_hypotenuse: mistook the ladder length for the height (forgot to multiply by sin)."
+        },
+        {
+          "label": "C",
+          "text": "5",
+          "value": "5",
+          "trap": "divided_instead: computed 20 ÷ (1/2) ÷ 2 = 5, or halved incorrectly."
+        },
+        {
+          "label": "D",
+          "text": "40",
+          "value": "40",
+          "trap": "inverted_sin: divided by sin(30°) instead of multiplying: 20 ÷ (1/2) = 40."
+        }
+      ],
+      "check": {
+        "kind": "evaluate",
+        "expression": "20 * Rational(1,2)"
+      },
+      "explanation": [
+        "The ladder is the hypotenuse (20 ft) and the height is the side opposite the 30° angle.",
+        "SOH: sin(30°) = opposite/hypotenuse → opposite = hypotenuse × sin(30°).",
+        "Height = 20 × sin(30°) = 20 × (1/2) = 10 feet.",
+        "Trap 20: the hypotenuse is not the height.",
+        "Trap 40: dividing by sin (20 ÷ 1/2 = 40) reverses the ratio.",
+        "Trap 5: mixing operations; the height is hyp × sin, not hyp × sin ÷ 2."
+      ]
+    },
+    {
+      "id": "geo-rt-m2",
+      "type": "spr",
+      "difficulty": "Medium",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Right triangle trigonometry",
+      "calculatorStrategy": "avoid",
+      "question": "In a right triangle, the tangent of one acute angle θ is 2/5. The side adjacent to angle θ has length 15. What is the length of the side opposite angle θ?",
+      "answer": "6",
+      "check": {
+        "kind": "evaluate",
+        "expression": "15 * Rational(2,5)"
+      },
+      "explanation": [
+        "TOA: tan(θ) = opposite/adjacent.",
+        "2/5 = opposite/15.",
+        "opposite = 15 × (2/5) = 6."
+      ]
+    },
+    {
+      "id": "geo-rt-m3",
+      "type": "mc",
+      "difficulty": "Medium",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Right triangle trigonometry",
+      "calculatorStrategy": "avoid",
+      "question": "In a right triangle, sin(A) = 5/13. What is cos(A)?",
+      "answer": "A",
+      "choices": [
+        {
+          "label": "A",
+          "text": "12/13",
+          "value": "12/13"
+        },
+        {
+          "label": "B",
+          "text": "5/12",
+          "value": "5/12",
+          "trap": "used_tan: computed opposite/adjacent = 5/12 instead of adjacent/hypotenuse."
+        },
+        {
+          "label": "C",
+          "text": "13/12",
+          "value": "13/12",
+          "trap": "inverted_cos: flipped adjacent and hypotenuse."
+        },
+        {
+          "label": "D",
+          "text": "8/13",
+          "value": "8/13",
+          "trap": "wrong_pythagorean: computed 13 − 5 = 8 (subtracted sides instead of squares)."
+        }
+      ],
+      "check": {
+        "kind": "evaluate",
+        "expression": "(1 - (5/13)**2)**Rational(1,2)"
+      },
+      "explanation": [
+        "sin(A) = 5/13 means opposite = 5 and hypotenuse = 13.",
+        "By the Pythagorean theorem: adjacent = √(13² − 5²) = √(169 − 25) = √144 = 12.",
+        "cos(A) = adjacent/hypotenuse = 12/13.",
+        "Equivalently: sin²(A) + cos²(A) = 1 → cos²(A) = 1 − 25/169 = 144/169 → cos(A) = 12/13.",
+        "Trap 5/12: that is tan(A), not cos(A).",
+        "Trap 8/13: subtracting sides directly (13 − 5 = 8) — must subtract squares."
+      ]
+    },
+    {
+      "id": "geo-rt-h1",
+      "type": "mc",
+      "difficulty": "Hard",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Right triangle trigonometry",
+      "calculatorStrategy": "avoid",
+      "question": "In right triangle ABC, the right angle is at B. If sin(A) = 3/5, what is tan(C)?",
+      "answer": "A",
+      "choices": [
+        {
+          "label": "A",
+          "text": "4/3",
+          "value": "4/3"
+        },
+        {
+          "label": "B",
+          "text": "3/4",
+          "value": "3/4",
+          "trap": "used_angle_A: computed tan(A) = opposite_A/adjacent_A = 3/4 instead of tan(C)."
+        },
+        {
+          "label": "C",
+          "text": "3/5",
+          "value": "3/5",
+          "trap": "same_as_sin_A: copied sin(A) = 3/5 without finding the perspective of angle C."
+        },
+        {
+          "label": "D",
+          "text": "4/5",
+          "value": "4/5",
+          "trap": "used_cos_A: computed cos(A) = adjacent_A/hypotenuse = 4/5 instead of tan(C)."
+        }
+      ],
+      "check": {
+        "kind": "evaluate",
+        "expression": "4/3"
+      },
+      "explanation": [
+        "sin(A) = opposite_A/hypotenuse = BC/AC = 3/5.",
+        "So the sides are in ratio 3-4-5 (BC = 3k, AC = 5k, AB = 4k).",
+        "Angle C is at vertex C. From C: opposite side = AB = 4k, adjacent side = BC = 3k.",
+        "tan(C) = opposite_C/adjacent_C = AB/BC = 4k/3k = 4/3.",
+        "Trap 3/4: that is tan(A) = BC/AB = 3/4 — wrong vertex.",
+        "Trap 3/5: that is sin(A), not tan(C).",
+        "Trap 4/5: that is cos(A) = AB/AC — wrong ratio and wrong vertex."
+      ]
+    },
+    {
+      "id": "geo-rt-h2",
+      "type": "spr",
+      "difficulty": "Hard",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Right triangle trigonometry",
+      "calculatorStrategy": "avoid",
+      "question": "In a right triangle, the hypotenuse has length 25 and sin(θ) = 7/25 for one acute angle θ. What is the length of the leg adjacent to θ?",
+      "answer": "24",
+      "check": {
+        "kind": "evaluate",
+        "expression": "(25**2 - 7**2)**Rational(1,2)"
+      },
+      "explanation": [
+        "sin(θ) = opposite/hypotenuse = 7/25, so the leg opposite θ has length 7.",
+        "By the Pythagorean theorem: adjacent² = hypotenuse² − opposite² = 625 − 49 = 576.",
+        "adjacent = √576 = 24.",
+        "Verify: this is a 7-24-25 Pythagorean triple. ✓",
+        "Common trap: computing 25 − 7 = 18 (subtracting sides, not squares).",
+        "Common trap: reporting 7 (the opposite leg) instead of the adjacent leg."
+      ]
+    }
+  ]
+}
