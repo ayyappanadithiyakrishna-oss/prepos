@@ -21,6 +21,7 @@ import geometryAreaVolume from './sat-practice/data/geometry-area-volume.json'
 import geometryLinesAngles from './sat-practice/data/geometry-lines-angles.json'
 import geometrySimilarityCongruence from './sat-practice/data/geometry-similarity-congruence.json'
 import geometryRightTriangleTrig from './sat-practice/data/geometry-right-triangle-trig.json'
+import geometryCircles from './sat-practice/data/geometry-circles.json'
 
 const VERIFIED_LESSONS: VerifiedLesson[] = [
   algebraLinearOneVar as VerifiedLesson,
@@ -35,6 +36,7 @@ const VERIFIED_LESSONS: VerifiedLesson[] = [
   geometryLinesAngles as VerifiedLesson,
   geometrySimilarityCongruence as VerifiedLesson,
   geometryRightTriangleTrig as VerifiedLesson,
+  geometryCircles as VerifiedLesson,
 ]
 
 const BAND_TO_INT: Record<string, number> = { Easy: 1, Medium: 2, Hard: 3 }

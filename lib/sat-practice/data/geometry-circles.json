@@ -1,0 +1,351 @@
+{
+  "id": "geo-circles",
+  "domain": "Geometry & Trigonometry",
+  "subSkill": "Circle theorems",
+  "lessonNumber": "2.5",
+  "title": "Circle Theorems",
+  "concept": "Six circle facts cover every SAT circle problem. Arc length = (θ/360) × 2πr — the fraction of the circumference. Sector area = (θ/360) × πr² — the same fraction applied to the full area. Central angle theorem: a central angle equals, in degrees, the arc it intercepts. Inscribed angle theorem: an inscribed angle is exactly half the central angle that intercepts the same arc — the vertex is on the circle, not at the center. Circle equation: (x−h)²+(y−k)²=r², where (h,k) is the center; when the equation is expanded, complete the square to recover h, k, and r. Tangent–radius: a tangent to a circle is perpendicular to the radius at the point of contact, giving a right angle you can use with the Pythagorean theorem. For all arc and sector problems on the SAT, use π≈3.14 and choose dimensions that produce clean decimal answers.",
+  "workedExamples": [
+    {
+      "problem": "A circular track has radius 10 meters. A runner jogs along an arc that subtends a central angle of 90°. Using π≈3.14, what is the length of the arc?",
+      "steps": [
+        "Arc length = (θ/360) × 2πr.",
+        "Fraction of circle: 90/360 = 1/4.",
+        "Arc = (1/4) × 2 × 3.14 × 10 = (1/4) × 62.8 = 15.7 meters."
+      ],
+      "answer": "15.7"
+    },
+    {
+      "problem": "The equation of a circle is x²+y²+10x−6y+9=0. What is the radius of the circle?",
+      "steps": [
+        "Group and move the constant: (x²+10x) + (y²−6y) = −9.",
+        "Complete the square: add (10/2)²=25 for x and (−6/2)²=9 for y to both sides.",
+        "(x²+10x+25) + (y²−6y+9) = −9+25+9 = 25.",
+        "(x+5)²+(y−3)²=25 → r²=25 → r=5."
+      ],
+      "answer": "5"
+    }
+  ],
+  "trapPatterns": [
+    "used_diameter_not_radius: plugging the diameter into a formula that requires the radius — arc and sector formulas both use r, not 2r.",
+    "arc_vs_sector: computing arc length when sector area is asked (or vice versa) — both use (θ/360) but arc multiplies by 2πr while sector multiplies by πr².",
+    "central_vs_inscribed: using the full arc measure as the inscribed angle — the inscribed angle is always half the central angle for the same arc.",
+    "forgot_to_complete_square: reading h, k, and r directly from the expanded equation x²+y²+bx+cy+d=0 without completing the square.",
+    "sign_error_on_center: from (x+4)²+(y−3)²=49, reading the center as (4,3) instead of (−4,3) — the center coordinate negates the sign in the bracket."
+  ],
+  "calculatorStrategy": "use_desmos_graph for arc and sector problems — type the formula directly (e.g., (90/360)*2*3.14*10) for instant results. solve_algebraically for circle equations, central/inscribed angle, and tangent problems — these reduce to one or two arithmetic steps with no calculator needed.",
+  "problems": [
+    {
+      "id": "geo-ci-e1",
+      "type": "mc",
+      "difficulty": "Easy",
+      "scoreBand": "400-490",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Circle theorems",
+      "calculatorStrategy": "use_desmos_graph — type (90/360)*2*3.14*10 directly into Desmos.",
+      "question": "A circular running track has a radius of 10 meters. A runner jogs along an arc that subtends a central angle of 90° at the center. Using π≈3.14, what is the length of the arc, in meters?",
+      "answer": "A",
+      "choices": [
+        {
+          "label": "A",
+          "text": "15.7",
+          "value": "15.7"
+        },
+        {
+          "label": "B",
+          "text": "31.4",
+          "value": "31.4",
+          "trap": "used_diameter_not_radius: used diameter (20) instead of radius (10) — (90/360)×2×3.14×20=31.4."
+        },
+        {
+          "label": "C",
+          "text": "78.5",
+          "value": "78.5",
+          "trap": "arc_vs_sector: computed sector area instead of arc length — (90/360)×3.14×10²=78.5."
+        },
+        {
+          "label": "D",
+          "text": "62.8",
+          "value": "62.8",
+          "trap": "forgot_fraction: computed the full circumference (2×3.14×10=62.8) without multiplying by θ/360."
+        }
+      ],
+      "check": {
+        "kind": "evaluate",
+        "expression": "(90/360) * 2 * 3.14 * 10"
+      },
+      "explanation": [
+        "Arc length = (θ/360) × 2πr.",
+        "Fraction of circle: 90/360 = 1/4.",
+        "Arc = (1/4) × 2 × 3.14 × 10 = (1/4) × 62.8 = 15.7 meters.",
+        "Trap B (31.4): used diameter 20 instead of radius 10.",
+        "Trap C (78.5): used the sector area formula πr² instead of arc length 2πr.",
+        "Trap D (62.8): forgot the 90/360 fraction — that is the full circumference.",
+        "Desmos: type (90/360)*2*3.14*10 → 15.7. ✓"
+      ]
+    },
+    {
+      "id": "geo-ci-e2",
+      "type": "spr",
+      "difficulty": "Easy",
+      "scoreBand": "400-490",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Circle theorems",
+      "calculatorStrategy": "solve_algebraically — subtract from 360, one step.",
+      "question": "A Ferris wheel is divided into two arcs by two spokes that pass through the center. The major arc (the longer portion) measures 230°. What is the measure, in degrees, of the central angle that intercepts the minor arc?",
+      "answer": "130",
+      "check": {
+        "kind": "evaluate",
+        "expression": "360 - 230"
+      },
+      "explanation": [
+        "The two arcs of a circle must sum to 360°.",
+        "Minor arc = 360° − 230° = 130°.",
+        "The central angle theorem: a central angle equals the arc it intercepts.",
+        "So the central angle is also 130°.",
+        "Trap: 180−230 is negative — that applies to supplementary angles, not arcs of a circle."
+      ]
+    },
+    {
+      "id": "geo-ci-e3",
+      "type": "mc",
+      "difficulty": "Easy",
+      "scoreBand": "400-490",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Circle theorems",
+      "calculatorStrategy": "use_desmos_graph — type (36/360)*3.14*10^2 into Desmos.",
+      "question": "A circular pizza has a radius of 10 inches and is cut into 10 equal slices. Using π≈3.14, what is the area of one slice, in square inches?",
+      "answer": "A",
+      "choices": [
+        {
+          "label": "A",
+          "text": "31.4",
+          "value": "31.4"
+        },
+        {
+          "label": "B",
+          "text": "6.28",
+          "value": "6.28",
+          "trap": "arc_vs_sector: computed arc length instead of sector area — (36/360)×2×3.14×10=6.28."
+        },
+        {
+          "label": "C",
+          "text": "314",
+          "value": "314",
+          "trap": "forgot_fraction: computed the full pizza area (3.14×10²=314) without dividing by 10 slices."
+        },
+        {
+          "label": "D",
+          "text": "125.6",
+          "value": "125.6",
+          "trap": "used_diameter_not_radius: used diameter (20) in the area formula — (36/360)×3.14×20²=125.6."
+        }
+      ],
+      "check": {
+        "kind": "evaluate",
+        "expression": "(36/360) * 3.14 * 10**2"
+      },
+      "explanation": [
+        "10 equal slices → each slice is 360°/10 = 36° of the circle.",
+        "Sector area = (θ/360) × πr² = (36/360) × 3.14 × 100 = (1/10) × 314 = 31.4 sq in.",
+        "Trap B (6.28): arc length formula uses 2πr, not πr² — gives the curved edge, not the area.",
+        "Trap C (314): the full pizza area; forgot to take 1/10 of it.",
+        "Trap D (125.6): used diameter 20 instead of radius 10 in r².",
+        "Desmos: type (36/360)*3.14*10^2 → 31.4. ✓"
+      ]
+    },
+    {
+      "id": "geo-ci-m1",
+      "type": "spr",
+      "difficulty": "Medium",
+      "scoreBand": "560-630",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Circle theorems",
+      "calculatorStrategy": "use_desmos_graph — type (36/360)*2*3.14*50 into Desmos for the multiplication.",
+      "question": "A runner on a circular track with radius 50 meters jogs along an arc that subtends a central angle of 36° at the center. Using π≈3.14, what is the length of the arc, in meters?",
+      "answer": "31.4",
+      "check": {
+        "kind": "evaluate",
+        "expression": "(36/360) * 2 * 3.14 * 50"
+      },
+      "explanation": [
+        "Arc length = (θ/360) × 2πr.",
+        "Fraction of circle: 36/360 = 1/10.",
+        "Arc = (1/10) × 2 × 3.14 × 50 = (1/10) × 314 = 31.4 meters.",
+        "Trap: using the sector area formula gives (1/10)×3.14×2500=785 — completely different magnitude.",
+        "Trap: forgetting the θ/360 factor gives the full circumference 2×3.14×50=314.",
+        "Desmos: type (36/360)*2*3.14*50 → 31.4. ✓"
+      ]
+    },
+    {
+      "id": "geo-ci-m2",
+      "type": "mc",
+      "difficulty": "Medium",
+      "scoreBand": "560-630",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Circle theorems",
+      "calculatorStrategy": "solve_algebraically — halve the central angle, one step.",
+      "question": "On a Ferris wheel modeled as a circle, the central angle AOB measures 80°. A rider sits at point C on the rim of the wheel (on the major arc), looking toward the arc AB. What is the measure of inscribed angle ACB?",
+      "answer": "A",
+      "choices": [
+        {
+          "label": "A",
+          "text": "40",
+          "value": "40"
+        },
+        {
+          "label": "B",
+          "text": "80",
+          "value": "80",
+          "trap": "central_vs_inscribed: used the central angle measure directly — inscribed angle is always half the central angle for the same arc."
+        },
+        {
+          "label": "C",
+          "text": "160",
+          "value": "160",
+          "trap": "doubled_central: multiplied the central angle by 2 instead of halving — reversed the inscribed angle theorem."
+        },
+        {
+          "label": "D",
+          "text": "20",
+          "value": "20",
+          "trap": "halved_twice: applied the halving rule twice (80÷2÷2=20), treating inscribed as 1/4 of the central angle."
+        }
+      ],
+      "check": {
+        "kind": "evaluate",
+        "expression": "80 / 2"
+      },
+      "explanation": [
+        "Inscribed angle theorem: an inscribed angle is half the central angle intercepting the same arc.",
+        "Central angle AOB = 80°.",
+        "Inscribed angle ACB = 80° ÷ 2 = 40°.",
+        "Trap B (80): using the central angle value directly — the inscribed angle is not equal to the central angle.",
+        "Trap C (160): doubled instead of halved — that would give the reflex central angle.",
+        "Trap D (20): applied halving twice; the theorem halves once only."
+      ]
+    },
+    {
+      "id": "geo-ci-m3",
+      "type": "mc",
+      "difficulty": "Medium",
+      "scoreBand": "560-630",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Circle theorems",
+      "calculatorStrategy": "solve_algebraically — read directly from standard form; watch for sign flip on center coordinates.",
+      "question": "A cell tower's circular coverage area is modeled by the equation (x+4)²+(y−3)²=49. What is the x-coordinate of the center of this circle?",
+      "answer": "A",
+      "choices": [
+        {
+          "label": "A",
+          "text": "-4",
+          "value": "-4"
+        },
+        {
+          "label": "B",
+          "text": "4",
+          "value": "4",
+          "trap": "sign_error_on_center: read the center as +4 from (x+4)² — the standard form is (x−h)², so (x+4)²=(x−(−4))² means h=−4."
+        },
+        {
+          "label": "C",
+          "text": "7",
+          "value": "7",
+          "trap": "used_radius: reported the radius (√49=7) instead of the x-coordinate of the center."
+        },
+        {
+          "label": "D",
+          "text": "49",
+          "value": "49",
+          "trap": "used_r_squared: reported r²=49 directly instead of computing the center coordinate."
+        }
+      ],
+      "check": {
+        "kind": "evaluate",
+        "expression": "-4"
+      },
+      "explanation": [
+        "Standard form: (x−h)²+(y−k)²=r², where (h,k) is the center.",
+        "(x+4)² = (x−(−4))², so h=−4.",
+        "The x-coordinate of the center is −4.",
+        "Trap B (+4): the +4 inside the bracket becomes −4 for the center — the sign flips.",
+        "Trap C (7): √49=7 is the radius, not the center coordinate.",
+        "Trap D (49): 49 is r², not the center."
+      ]
+    },
+    {
+      "id": "geo-ci-h1",
+      "type": "spr",
+      "difficulty": "Hard",
+      "scoreBand": "700-800",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Circle theorems",
+      "calculatorStrategy": "solve_algebraically — complete the square on both x and y terms, then take the square root.",
+      "question": "The equation of a circle is x²+y²+10x−6y+9=0. What is the radius of the circle?",
+      "answer": "5",
+      "check": {
+        "kind": "evaluate",
+        "expression": "sqrt(-9 + 25 + 9)"
+      },
+      "explanation": [
+        "Rearrange: (x²+10x) + (y²−6y) = −9.",
+        "Complete the square — add (10/2)²=25 to both sides for x, and (−6/2)²=9 for y:",
+        "(x²+10x+25) + (y²−6y+9) = −9+25+9 = 25.",
+        "(x+5)²+(y−3)²=25.",
+        "r²=25, so r=5.",
+        "Trap r=3: reading the constant 9 directly as r² (forgot_to_complete_square — the completion adds 25+9=34, changing the right side from 9 to 25).",
+        "Trap r=25: forgot to take the square root; reported r²=25 as the radius."
+      ]
+    },
+    {
+      "id": "geo-ci-h2",
+      "type": "mc",
+      "difficulty": "Hard",
+      "scoreBand": "700-800",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Circle theorems",
+      "calculatorStrategy": "solve_algebraically — apply the tangent-radius theorem to identify the right angle, then use the Pythagorean theorem.",
+      "question": "A cable is stretched from an external point P to touch a circular reel at point T. The center of the reel is O, and the radius OT is 8 feet. The distance OP is 17 feet. What is the length, in feet, of the cable PT?",
+      "answer": "A",
+      "choices": [
+        {
+          "label": "A",
+          "text": "15",
+          "value": "15"
+        },
+        {
+          "label": "B",
+          "text": "9",
+          "value": "9",
+          "trap": "no_pythagorean: computed PT=OP−OT=17−8=9, subtracting lengths linearly instead of using the Pythagorean theorem."
+        },
+        {
+          "label": "C",
+          "text": "25",
+          "value": "25",
+          "trap": "added_instead: computed PT=OP+OT=17+8=25, adding the two lengths instead of applying the theorem."
+        },
+        {
+          "label": "D",
+          "text": "19",
+          "value": "19",
+          "trap": "wrong_pythagorean: computed √(OP²+OT²)=√(289+64)=√353≈19, adding the squares instead of subtracting (used the wrong leg as hypotenuse)."
+        }
+      ],
+      "check": {
+        "kind": "evaluate",
+        "expression": "(17**2 - 8**2)**Rational(1,2)"
+      },
+      "explanation": [
+        "Tangent–radius theorem: a tangent line is perpendicular to the radius at the point of tangency.",
+        "PT⊥OT, so triangle OTP is a right triangle with the right angle at T.",
+        "OP is the hypotenuse (the side opposite the right angle): OP=17, OT=8.",
+        "PT² = OP²−OT² = 289−64 = 225 → PT = 15 feet.",
+        "This is the 8-15-17 Pythagorean triple: 8²+15²=64+225=289=17². ✓",
+        "Trap B (9): subtracted lengths directly — Pythagorean theorem subtracts squares, not lengths.",
+        "Trap C (25): added the lengths, which gives neither a leg nor the hypotenuse.",
+        "Trap D (19): added the squares (OP²+OT²) instead of subtracting — treats OT as a second leg when OT is one leg and OP is the hypotenuse."
+      ]
+    }
+  ]
+}
