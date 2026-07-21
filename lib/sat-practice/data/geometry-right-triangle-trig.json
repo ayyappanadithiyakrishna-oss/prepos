@@ -1,17 +1,50 @@
 {
-  "lesson": "Right triangle trigonometry",
+  "id": "geo-right-triangle-trig",
   "domain": "Geometry & Trigonometry",
   "subSkill": "Right triangle trigonometry",
-  "calculatorStrategy": "avoid",
+  "lessonNumber": "2.4",
+  "title": "Right Triangle Trigonometry",
+  "concept": "Three ratios — SOH-CAH-TOA — define every right-triangle trig problem on the SAT. Sin(θ) = opposite/hypotenuse. Cos(θ) = adjacent/hypotenuse. Tan(θ) = opposite/adjacent. The two sides are always relative to the angle you are working with: opposite is across from θ, adjacent is the leg touching θ (but not the hypotenuse), and hypotenuse is always the longest side across from the right angle. A fourth fact cuts many problems in half: sin(θ) = cos(90° − θ), because the two acute angles of a right triangle are complementary. To find a missing side, multiply the hypotenuse by the trig ratio (or divide, if the hypotenuse is what you want). Desmos defaults to degrees and can evaluate any trig expression instantly — type sin(30)*20 and press Enter.",
+  "workedExamples": [
+    {
+      "problem": "A 20-foot ladder leans against a wall at a 30° angle with the ground. How high up the wall does it reach?",
+      "steps": [
+        "Label the sides: the ladder is the hypotenuse (20 ft), the height is opposite the 30° angle.",
+        "SOH: sin(30°) = opposite/hypotenuse → opposite = hypotenuse × sin(30°).",
+        "sin(30°) = 0.5 (special angle — memorize or use Desmos: type sin(30)).",
+        "Height = 20 × 0.5 = 10 feet."
+      ],
+      "answer": "10"
+    },
+    {
+      "problem": "In a right triangle with legs 3 and 4 and hypotenuse 5, what is cos of the angle θ adjacent to the leg of length 4?",
+      "steps": [
+        "CAH: cos(θ) = adjacent/hypotenuse.",
+        "The side adjacent to θ (not the hypotenuse) is 4. The hypotenuse is 5.",
+        "cos(θ) = 4/5 = 0.8.",
+        "No calculator needed — simplify the fraction directly."
+      ],
+      "answer": "0.8"
+    }
+  ],
+  "trapPatterns": [
+    "sin_cos_swap: using sin when cos is needed (or vice versa) — the most common error. Always re-label the sides relative to the specific angle in the problem before picking a ratio.",
+    "inverted_ratio: dividing instead of multiplying when finding a side — e.g. computing 20 ÷ sin(30°) = 40 instead of 20 × sin(30°) = 10. Only divide when the hypotenuse is the unknown.",
+    "used_wrong_reference_angle: computing trig from the wrong angle — in triangle ABC the adjacent and opposite sides swap when you move from angle A to angle C.",
+    "forgot_to_multiply: setting up the correct ratio correctly on paper but forgetting the multiplication step and reporting the hypotenuse as the answer.",
+    "tan_vs_sin: using tan = opposite/adjacent when sin = opposite/hypotenuse is needed, because both ratios involve the opposite side."
+  ],
+  "calculatorStrategy": "use_desmos_graph — type the trig expression directly into Desmos (e.g. sin(30)*20) for instant numeric results. Desmos defaults to degrees; no mode change needed. For ratio-from-sides problems (given both legs/hypotenuse), no calculator is required — simplify the fraction.",
   "problems": [
     {
       "id": "geo-rt-e1",
       "type": "mc",
       "difficulty": "Easy",
+      "scoreBand": "400-490",
       "domain": "Geometry & Trigonometry",
       "subSkill": "Right triangle trigonometry",
-      "calculatorStrategy": "avoid",
-      "question": "In a right triangle, the two legs have lengths 3 and 4, and the hypotenuse has length 5. What is the sine of the acute angle opposite the side of length 3?",
+      "calculatorStrategy": "use_desmos_graph — the ratio simplifies to a fraction; no calculator needed here. In Desmos you could type 3/5 to confirm.",
+      "question": "A loading dock ramp has a rise of 3 feet, a horizontal run of 4 feet, and a ramp length of 5 feet. What is the value of sin(θ), where θ is the angle the ramp makes with the ground?",
       "answer": "A",
       "choices": [
         {
@@ -23,19 +56,19 @@
           "label": "B",
           "text": "4/5",
           "value": "4/5",
-          "trap": "used_cos: took adjacent/hypotenuse (4/5) instead of opposite/hypotenuse (3/5)."
+          "trap": "sin_cos_swap: used adjacent/hypotenuse (cos θ) instead of opposite/hypotenuse (sin θ)."
         },
         {
           "label": "C",
           "text": "3/4",
           "value": "3/4",
-          "trap": "used_tan: computed opposite/adjacent (3/4) instead of opposite/hypotenuse."
+          "trap": "tan_vs_sin: used opposite/adjacent (tan θ) instead of opposite/hypotenuse."
         },
         {
           "label": "D",
           "text": "5/3",
           "value": "5/3",
-          "trap": "inverted_ratio: flipped opposite and hypotenuse (hyp/opp instead of opp/hyp)."
+          "trap": "inverted_ratio: flipped the ratio to hypotenuse/opposite."
         }
       ],
       "check": {
@@ -46,263 +79,283 @@
       },
       "explanation": [
         "SOH: sin = opposite/hypotenuse.",
-        "The side opposite the angle is 3; the hypotenuse is 5.",
+        "The side opposite θ (the angle at ground level) is the rise = 3. The hypotenuse (ramp length) = 5.",
         "sin(θ) = 3/5.",
-        "Trap 4/5: that is cos(θ) = adjacent/hypotenuse.",
-        "Trap 3/4: that is tan(θ) = opposite/adjacent.",
-        "Trap 5/3: the ratio is inverted."
+        "Trap B (4/5): 4/5 is cos(θ) — you used adjacent/hypotenuse, not opposite/hypotenuse.",
+        "Trap C (3/4): 3/4 is tan(θ) — opposite/adjacent, not opposite/hypotenuse.",
+        "Trap D (5/3): the ratio is inverted.",
+        "Desmos check: type 3/5 → 0.6. ✓"
       ]
     },
     {
       "id": "geo-rt-e2",
       "type": "spr",
       "difficulty": "Easy",
+      "scoreBand": "400-490",
       "domain": "Geometry & Trigonometry",
       "subSkill": "Right triangle trigonometry",
-      "calculatorStrategy": "avoid",
-      "question": "In a right triangle, two acute angles are complementary. If sin(28°) = cos(x°), what is the value of x?",
-      "answer": "62",
+      "calculatorStrategy": "use_desmos_graph — type sin(30)*20 into Desmos. Desmos defaults to degrees; answer appears instantly.",
+      "question": "A 20-foot ladder leans against a vertical wall. The ladder makes a 30° angle with the ground. Using sin(30°) = 0.5, how high up the wall does the ladder reach, in feet?",
+      "answer": "10",
       "check": {
         "kind": "evaluate",
-        "expression": "90 - 28"
+        "expression": "20 * Rational(1,2)"
       },
       "explanation": [
-        "The two acute angles of any right triangle sum to 90°.",
-        "The complementary angle identity: sin(θ) = cos(90° − θ).",
-        "sin(28°) = cos(90° − 28°) = cos(62°).",
-        "x = 62."
+        "The ladder is the hypotenuse (20 ft). The wall height is the side opposite the 30° angle.",
+        "SOH: sin(30°) = opposite/hypotenuse → opposite = hypotenuse × sin(30°).",
+        "Height = 20 × 0.5 = 10 feet.",
+        "Trap: 20 (full ladder length — forgot to multiply by sin).",
+        "Trap: 40 (divided instead of multiplied: 20 ÷ 0.5 = 40).",
+        "Desmos: type sin(30)*20 → 10. ✓"
       ]
     },
     {
       "id": "geo-rt-e3",
       "type": "mc",
       "difficulty": "Easy",
+      "scoreBand": "400-490",
       "domain": "Geometry & Trigonometry",
       "subSkill": "Right triangle trigonometry",
-      "calculatorStrategy": "avoid",
-      "question": "Right triangle ABC has a right angle at B. Side AC (the hypotenuse) has length 13, and side BC has length 5. What is cos(angle A)?",
+      "calculatorStrategy": "use_desmos_graph — not needed here; this is pure angle arithmetic (90 − 38). Desmos can confirm: type cos(38) and sin(52) and verify they match.",
+      "question": "A kite string makes a 38° angle with the ground. If sin(38°) = cos(x°), what is the value of x?",
       "answer": "A",
       "choices": [
         {
           "label": "A",
-          "text": "12/13",
-          "value": "12/13"
+          "text": "52",
+          "value": "52"
         },
         {
           "label": "B",
-          "text": "5/13",
-          "value": "5/13",
-          "trap": "used_sin: took opposite/hypotenuse (BC/AC = 5/13) instead of adjacent/hypotenuse."
+          "text": "38",
+          "value": "38",
+          "trap": "used_wrong_reference_angle: assumed cos(x°) = cos(38°), so x = 38 — ignored the complementary identity."
         },
         {
           "label": "C",
-          "text": "5/12",
-          "value": "5/12",
-          "trap": "used_tan: computed opposite/adjacent instead of adjacent/hypotenuse."
+          "text": "128",
+          "value": "128",
+          "trap": "added_to_90: computed 90 + 38 = 128 instead of 90 − 38."
         },
         {
           "label": "D",
-          "text": "13/12",
-          "value": "13/12",
-          "trap": "inverted_ratio: flipped adjacent and hypotenuse."
+          "text": "142",
+          "value": "142",
+          "trap": "added_to_180: subtracted 38 from 180 (supplementary, not complementary)."
         }
       ],
       "check": {
-        "kind": "trig_evaluate",
-        "func": "cos",
-        "adjacent": 12,
-        "hypotenuse": 13
+        "kind": "evaluate",
+        "expression": "90 - 38"
       },
       "explanation": [
-        "CAH: cos = adjacent/hypotenuse.",
-        "First find the missing leg AB using the Pythagorean theorem: AB = √(AC² − BC²) = √(169 − 25) = √144 = 12.",
-        "Angle A is at vertex A. The side adjacent to angle A (not the hypotenuse) is AB = 12.",
-        "cos(A) = adjacent/hypotenuse = 12/13.",
-        "Trap 5/13: BC is opposite angle A, not adjacent — that gives sin(A).",
-        "Trap 5/12: that is tan(A) = opposite/adjacent, not cos."
+        "The complementary angle identity: sin(θ) = cos(90° − θ) for any acute angle θ.",
+        "The two acute angles in a right triangle always add to 90°.",
+        "sin(38°) = cos(90° − 38°) = cos(52°).",
+        "x = 52.",
+        "Trap B (38): sin(θ) ≠ cos(θ) in general — that's only true at 45°.",
+        "Trap C (128): 90 + 38 goes the wrong direction.",
+        "Trap D (142): 180 − 38 is the supplementary angle, not the complementary one.",
+        "Desmos: type sin(38) and cos(52) side by side — both return the same value. ✓"
       ]
     },
     {
       "id": "geo-rt-m1",
       "type": "mc",
       "difficulty": "Medium",
+      "scoreBand": "560-630",
       "domain": "Geometry & Trigonometry",
       "subSkill": "Right triangle trigonometry",
-      "calculatorStrategy": "avoid",
-      "question": "A 20-foot ladder leans against a vertical wall. The ladder makes a 30° angle with the ground. Using sin(30°) = 1/2, how high up the wall does the ladder reach?",
+      "calculatorStrategy": "use_desmos_graph — type (3/5)*50 into Desmos for the multiplication. Or note sin(θ)=3/5=0.6, so 50×0.6=30 mentally.",
+      "question": "A kite is attached to a 50-foot string. The string makes an angle θ with the ground where sin(θ) = 3/5. How high above the ground is the kite, in feet?",
       "answer": "A",
       "choices": [
         {
           "label": "A",
-          "text": "10",
-          "value": "10"
+          "text": "30",
+          "value": "30"
         },
         {
           "label": "B",
-          "text": "20",
-          "value": "20",
-          "trap": "used_hypotenuse: mistook the ladder length for the height (forgot to multiply by sin)."
+          "text": "40",
+          "value": "40",
+          "trap": "sin_cos_swap: used cos(θ) = 4/5 instead of sin(θ) = 3/5 → 50 × (4/5) = 40."
         },
         {
           "label": "C",
-          "text": "5",
-          "value": "5",
-          "trap": "divided_instead: computed 20 ÷ (1/2) ÷ 2 = 5, or halved incorrectly."
+          "text": "50",
+          "value": "50",
+          "trap": "forgot_to_multiply: reported the full string length instead of multiplying by sin(θ)."
         },
         {
           "label": "D",
-          "text": "40",
-          "value": "40",
-          "trap": "inverted_sin: divided by sin(30°) instead of multiplying: 20 ÷ (1/2) = 40."
+          "text": "83",
+          "value": "83",
+          "trap": "inverted_ratio: divided 50 ÷ (3/5) = 83.3 ≈ 83, using hypotenuse-finding formula when a leg was wanted."
         }
       ],
       "check": {
         "kind": "evaluate",
-        "expression": "20 * Rational(1,2)"
+        "expression": "50 * Rational(3,5)"
       },
       "explanation": [
-        "The ladder is the hypotenuse (20 ft) and the height is the side opposite the 30° angle.",
-        "SOH: sin(30°) = opposite/hypotenuse → opposite = hypotenuse × sin(30°).",
-        "Height = 20 × sin(30°) = 20 × (1/2) = 10 feet.",
-        "Trap 20: the hypotenuse is not the height.",
-        "Trap 40: dividing by sin (20 ÷ 1/2 = 40) reverses the ratio.",
-        "Trap 5: mixing operations; the height is hyp × sin, not hyp × sin ÷ 2."
+        "The string is the hypotenuse (50 ft). The height of the kite is the side opposite θ.",
+        "SOH: sin(θ) = opposite/hypotenuse → opposite = hypotenuse × sin(θ).",
+        "Height = 50 × (3/5) = 30 feet.",
+        "Trap B (40): 4/5 is cos(θ) — you swapped sin and cos.",
+        "Trap C (50): you forgot to multiply; the full string length is the hypotenuse, not the height.",
+        "Trap D (83): dividing by sin finds the hypotenuse; you already have the hypotenuse and want the leg.",
+        "Desmos: type (3/5)*50 → 30. ✓"
       ]
     },
     {
       "id": "geo-rt-m2",
       "type": "spr",
       "difficulty": "Medium",
+      "scoreBand": "560-630",
       "domain": "Geometry & Trigonometry",
       "subSkill": "Right triangle trigonometry",
-      "calculatorStrategy": "avoid",
-      "question": "In a right triangle, the tangent of one acute angle θ is 2/5. The side adjacent to angle θ has length 15. What is the length of the side opposite angle θ?",
-      "answer": "6",
+      "calculatorStrategy": "use_desmos_graph — not needed; simplify 4/5 directly from the sides. Desmos can confirm: type 4/5 → 0.8.",
+      "question": "A 5-foot ladder leans against a wall and reaches exactly 3 feet up the wall. The ladder makes an acute angle θ with the ground. What is the value of cos(θ)?",
+      "answer": "4/5",
       "check": {
-        "kind": "evaluate",
-        "expression": "15 * Rational(2,5)"
+        "kind": "trig_evaluate",
+        "func": "cos",
+        "adjacent": 4,
+        "hypotenuse": 5
       },
       "explanation": [
-        "TOA: tan(θ) = opposite/adjacent.",
-        "2/5 = opposite/15.",
-        "opposite = 15 × (2/5) = 6."
+        "The ladder is the hypotenuse (5 ft). The wall height (3 ft) is the side opposite θ.",
+        "First find the adjacent side (horizontal distance from wall to base of ladder): by the Pythagorean theorem, adjacent = √(5² − 3²) = √(25 − 9) = √16 = 4.",
+        "CAH: cos(θ) = adjacent/hypotenuse = 4/5.",
+        "This is a 3-4-5 right triangle — the adjacent leg is 4.",
+        "Trap 3/5: that is sin(θ) = opposite/hypotenuse, not cos.",
+        "Trap 5/4: the ratio is inverted.",
+        "Desmos: type 4/5 → 0.8, or arccos(4/5) to verify the angle. ✓"
       ]
     },
     {
       "id": "geo-rt-m3",
       "type": "mc",
       "difficulty": "Medium",
+      "scoreBand": "560-630",
       "domain": "Geometry & Trigonometry",
       "subSkill": "Right triangle trigonometry",
-      "calculatorStrategy": "avoid",
-      "question": "In a right triangle, sin(A) = 5/13. What is cos(A)?",
+      "calculatorStrategy": "use_desmos_graph — type cos(60)*16 into Desmos. cos(60°)=0.5, so 16×0.5=8.",
+      "question": "A wheelchair ramp is 16 feet long and makes a 60° angle with the ground. Using cos(60°) = 0.5, what is the horizontal distance the ramp covers, in feet?",
       "answer": "A",
       "choices": [
         {
           "label": "A",
-          "text": "12/13",
-          "value": "12/13"
+          "text": "8",
+          "value": "8"
         },
         {
           "label": "B",
-          "text": "5/12",
-          "value": "5/12",
-          "trap": "used_tan: computed opposite/adjacent = 5/12 instead of adjacent/hypotenuse."
+          "text": "16",
+          "value": "16",
+          "trap": "forgot_to_multiply: reported the full ramp length instead of multiplying by cos(60°)."
         },
         {
           "label": "C",
-          "text": "13/12",
-          "value": "13/12",
-          "trap": "inverted_cos: flipped adjacent and hypotenuse."
+          "text": "32",
+          "value": "32",
+          "trap": "inverted_ratio: divided the ramp length by cos(60°): 16 ÷ 0.5 = 32, which finds the hypotenuse when hypotenuse is unknown."
         },
         {
           "label": "D",
-          "text": "8/13",
-          "value": "8/13",
-          "trap": "wrong_pythagorean: computed 13 − 5 = 8 (subtracted sides instead of squares)."
+          "text": "14",
+          "value": "14",
+          "trap": "sin_cos_swap: used sin(60°) ≈ 0.866 instead of cos(60°) = 0.5 → 16 × 0.866 ≈ 13.9 ≈ 14."
         }
       ],
       "check": {
         "kind": "evaluate",
-        "expression": "(1 - (5/13)**2)**Rational(1,2)"
+        "expression": "16 * Rational(1,2)"
       },
       "explanation": [
-        "sin(A) = 5/13 means opposite = 5 and hypotenuse = 13.",
-        "By the Pythagorean theorem: adjacent = √(13² − 5²) = √(169 − 25) = √144 = 12.",
-        "cos(A) = adjacent/hypotenuse = 12/13.",
-        "Equivalently: sin²(A) + cos²(A) = 1 → cos²(A) = 1 − 25/169 = 144/169 → cos(A) = 12/13.",
-        "Trap 5/12: that is tan(A), not cos(A).",
-        "Trap 8/13: subtracting sides directly (13 − 5 = 8) — must subtract squares."
+        "The ramp is the hypotenuse (16 ft). The horizontal distance is the side adjacent to the 60° angle at ground level.",
+        "CAH: cos(60°) = adjacent/hypotenuse → adjacent = hypotenuse × cos(60°).",
+        "Horizontal = 16 × 0.5 = 8 feet.",
+        "Trap B (16): the horizontal is never the full ramp length — that would require a 0° angle.",
+        "Trap C (32): dividing by cos finds a missing hypotenuse, but the hypotenuse (ramp) is already known.",
+        "Trap D (14): sin(60°) ≈ 0.866 gives the vertical height, not the horizontal distance.",
+        "Desmos: type cos(60)*16 → 8. ✓"
       ]
     },
     {
       "id": "geo-rt-h1",
-      "type": "mc",
+      "type": "spr",
       "difficulty": "Hard",
+      "scoreBand": "700-800",
       "domain": "Geometry & Trigonometry",
       "subSkill": "Right triangle trigonometry",
-      "calculatorStrategy": "avoid",
-      "question": "In right triangle ABC, the right angle is at B. If sin(A) = 3/5, what is tan(C)?",
-      "answer": "A",
-      "choices": [
-        {
-          "label": "A",
-          "text": "4/3",
-          "value": "4/3"
-        },
-        {
-          "label": "B",
-          "text": "3/4",
-          "value": "3/4",
-          "trap": "used_angle_A: computed tan(A) = opposite_A/adjacent_A = 3/4 instead of tan(C)."
-        },
-        {
-          "label": "C",
-          "text": "3/5",
-          "value": "3/5",
-          "trap": "same_as_sin_A: copied sin(A) = 3/5 without finding the perspective of angle C."
-        },
-        {
-          "label": "D",
-          "text": "4/5",
-          "value": "4/5",
-          "trap": "used_cos_A: computed cos(A) = adjacent_A/hypotenuse = 4/5 instead of tan(C)."
-        }
-      ],
+      "calculatorStrategy": "use_desmos_graph — type 600/sin(30) into Desmos. Desmos returns 1200 instantly. Watch the operation: this is division, not multiplication.",
+      "question": "An airplane descends along a straight path that makes a 30° angle with the ground. The airplane needs to lose 600 feet of altitude before landing. Using sin(30°) = 0.5, what is the total distance, in feet, the airplane travels along its descent path?",
+      "answer": "1200",
       "check": {
         "kind": "evaluate",
-        "expression": "4/3"
+        "expression": "600 / Rational(1,2)"
       },
       "explanation": [
-        "sin(A) = opposite_A/hypotenuse = BC/AC = 3/5.",
-        "So the sides are in ratio 3-4-5 (BC = 3k, AC = 5k, AB = 4k).",
-        "Angle C is at vertex C. From C: opposite side = AB = 4k, adjacent side = BC = 3k.",
-        "tan(C) = opposite_C/adjacent_C = AB/BC = 4k/3k = 4/3.",
-        "Trap 3/4: that is tan(A) = BC/AB = 3/4 — wrong vertex.",
-        "Trap 3/5: that is sin(A), not tan(C).",
-        "Trap 4/5: that is cos(A) = AB/AC — wrong ratio and wrong vertex."
+        "The descent path is the hypotenuse (unknown). The altitude lost (600 ft) is the side opposite the 30° angle.",
+        "SOH: sin(30°) = opposite/hypotenuse → hypotenuse = opposite/sin(30°).",
+        "Distance = 600 ÷ 0.5 = 1200 feet.",
+        "This is the reverse of the typical side-finding problem: you have the opposite leg and want the hypotenuse, so you DIVIDE by sin.",
+        "Trap 300: multiplied instead of divided (600 × 0.5 = 300). Multiplying finds the opposite leg when the hypotenuse is known — here the hypotenuse is the unknown.",
+        "Trap 600: reported the altitude directly, ignoring the trigonometry entirely.",
+        "Desmos: type 600/sin(30) → 1200. ✓"
       ]
     },
     {
       "id": "geo-rt-h2",
-      "type": "spr",
+      "type": "mc",
       "difficulty": "Hard",
+      "scoreBand": "700-800",
       "domain": "Geometry & Trigonometry",
       "subSkill": "Right triangle trigonometry",
-      "calculatorStrategy": "avoid",
-      "question": "In a right triangle, the hypotenuse has length 25 and sin(θ) = 7/25 for one acute angle θ. What is the length of the leg adjacent to θ?",
-      "answer": "24",
+      "calculatorStrategy": "use_desmos_graph — type tan(45)*60 + 10 into Desmos. Two operations in one expression; press Enter once.",
+      "question": "A photographer stands 60 feet from the base of a wall. Using tan(45°) = 1, he calculates the height of the top of the wall. The wall supports a flagpole that extends 10 feet above the top of the wall. What is the total height of the tip of the flagpole above the ground, in feet?",
+      "answer": "A",
+      "choices": [
+        {
+          "label": "A",
+          "text": "70",
+          "value": "70"
+        },
+        {
+          "label": "B",
+          "text": "60",
+          "value": "60",
+          "trap": "forgot_step_2: found the wall height (60 ft) but forgot to add the flagpole height (10 ft)."
+        },
+        {
+          "label": "C",
+          "text": "80",
+          "value": "80",
+          "trap": "wrong_reference_distance: added 10 to the distance (60 + 10 = 70) and then misapplied tan: tan(45°) × 70 = 70, then added again for 80, or other arithmetic confusion."
+        },
+        {
+          "label": "D",
+          "text": "50",
+          "value": "50",
+          "trap": "subtracted_instead_of_added: subtracted the flagpole height instead of adding: 60 − 10 = 50."
+        }
+      ],
       "check": {
         "kind": "evaluate",
-        "expression": "(25**2 - 7**2)**Rational(1,2)"
+        "expression": "60 * 1 + 10"
       },
       "explanation": [
-        "sin(θ) = opposite/hypotenuse = 7/25, so the leg opposite θ has length 7.",
-        "By the Pythagorean theorem: adjacent² = hypotenuse² − opposite² = 625 − 49 = 576.",
-        "adjacent = √576 = 24.",
-        "Verify: this is a 7-24-25 Pythagorean triple. ✓",
-        "Common trap: computing 25 − 7 = 18 (subtracting sides, not squares).",
-        "Common trap: reporting 7 (the opposite leg) instead of the adjacent leg."
+        "Step 1 — find the wall height using tan(45°).",
+        "The photographer is 60 feet from the base (adjacent). The wall height is opposite the 45° angle.",
+        "TOA: tan(45°) = opposite/adjacent = wall height/60 → wall height = 60 × tan(45°) = 60 × 1 = 60 feet.",
+        "Step 2 — add the flagpole.",
+        "Total height = wall height + flagpole = 60 + 10 = 70 feet.",
+        "Trap B (60): completed only step 1 — found the wall but ignored the flagpole.",
+        "Trap D (50): subtracted the flagpole from the wall height.",
+        "Desmos: type tan(45)*60 + 10 → 70. ✓"
       ]
     }
   ]
