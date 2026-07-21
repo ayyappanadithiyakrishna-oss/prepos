@@ -1,0 +1,214 @@
+{
+  "id": "geo-lines-angles",
+  "domain": "Geometry & Trigonometry",
+  "subSkill": "Lines, angles, and triangle properties",
+  "lessonNumber": "2.2",
+  "title": "Lines, Angles, and Triangle Properties",
+  "concept": "Most angle questions are solved with four facts and one warning. The facts: angles on a straight line add to 180° (supplementary); vertical angles — the pair across an X-shaped intersection — are equal; the three interior angles of a triangle add to 180°; and an exterior angle of a triangle equals the sum of the two non-adjacent interior angles (not all three). When two parallel lines are cut by a transversal, corresponding angles and alternate interior angles are EQUAL, while co-interior (same-side interior) angles are SUPPLEMENTARY — they add to 180°. The warning: only use a relationship the problem actually gives you. On the SAT you may not assume two angles are equal just because the picture looks that way; the lines must be marked parallel or the angles marked equal. Set the correct relationship equal (or summing to 180°), then solve — usually a single clean linear step.",
+  "workedExamples": [
+    {
+      "problem": "Lines l and m are parallel, cut by a transversal. One angle measures 110°. What is the measure of its co-interior (same-side interior) angle?",
+      "steps": [
+        "Co-interior angles between parallel lines are supplementary: they add to 180°.",
+        "So the co-interior angle is 180° − 110°.",
+        "Compute: 70°.",
+        "Check: alternate interior angles would instead be equal (110°) — pick the right pair."
+      ],
+      "answer": "70"
+    },
+    {
+      "problem": "A triangular truss has interior angles of 47° and 63°. What is the third angle?",
+      "steps": [
+        "The three interior angles of a triangle sum to 180°.",
+        "So the third angle is 180° − 47° − 63°.",
+        "Compute: 180 − 110 = 70°.",
+        "Check: 47 + 63 + 70 = 180."
+      ],
+      "answer": "70"
+    }
+  ],
+  "trapPatterns": [
+    "assumed_equal_without_label: treating two angles as equal because they look equal, when the figure never marks the lines parallel or the angles congruent.",
+    "confused_supplementary_complementary: using 180° when the angles are complementary (90°), or 90° when they are supplementary (180°).",
+    "exterior_angle_error: adding all three interior angles (or setting the exterior angle to one interior angle) instead of exterior = sum of the two non-adjacent interior angles.",
+    "parallel_line_confusion: mixing up alternate interior angles (equal) with co-interior angles (supplementary).",
+    "wrong_angle_pair: identifying the wrong pair — e.g. reading corresponding angles as supplementary, or vertical angles as supplementary."
+  ],
+  "calculatorStrategy": "solve_algebraically for every problem — angle chasing is a one- or two-step calculation by hand (set the correct relationship equal or summing to 180° and solve). Desmos adds nothing here.",
+  "problems": [
+    {
+      "id": "geo-la-e1",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Lines, angles, and triangle properties",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "A straight road is crossed by a fence, forming two angles on one side of the road that together make a straight line. One of the angles measures 125°. What is the measure of the other angle?",
+      "choices": [
+        { "label": "A", "text": "55", "value": "55" },
+        { "label": "B", "text": "125", "value": "125", "trap": "wrong_angle_pair: treated the two angles as vertical (equal) instead of a linear pair on a straight line." },
+        { "label": "C", "text": "35", "value": "35", "trap": "confused_supplementary_complementary: subtracted from 90° instead of 180°, treating the pair as complementary." },
+        { "label": "D", "text": "235", "value": "235", "trap": "wrong_angle_pair: added 125 to 180 instead of subtracting it from 180." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Angles that form a straight line are supplementary — they add to 180°.",
+        "So the other angle is 180° − 125°.",
+        "Compute: 55°.",
+        "Check: 125 + 55 = 180."
+      ],
+      "calculatorStrategy": "solve_algebraically — a linear pair sums to 180°, so the second angle is 180 − 125 = 55.",
+      "check": { "kind": "evaluate", "expression": "180 - 125" }
+    },
+    {
+      "id": "geo-la-e2",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Lines, angles, and triangle properties",
+      "difficulty": "Easy",
+      "type": "spr",
+      "scoreBand": "400-490",
+      "question": "A triangular roof truss has interior angles measuring 47° and 63°. What is the measure, in degrees, of the third interior angle?",
+      "answer": "70",
+      "explanation": [
+        "The three interior angles of a triangle add to 180°.",
+        "So the third angle is 180° − 47° − 63°.",
+        "Compute: 180 − 110 = 70°.",
+        "Check: 47 + 63 + 70 = 180."
+      ],
+      "calculatorStrategy": "solve_algebraically — triangle angles sum to 180°, so the third is 180 − 47 − 63 = 70.",
+      "check": { "kind": "evaluate", "expression": "180 - 47 - 63" }
+    },
+    {
+      "id": "geo-la-e3",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Lines, angles, and triangle properties",
+      "difficulty": "Easy",
+      "type": "mc",
+      "scoreBand": "400-490",
+      "question": "In the figure, lines l and m are parallel and are cut by a transversal. An angle at the upper intersection measures 72°. What is the measure of its corresponding angle at the lower intersection?",
+      "choices": [
+        { "label": "A", "text": "72", "value": "72" },
+        { "label": "B", "text": "108", "value": "108", "trap": "parallel_line_confusion: treated corresponding angles as supplementary (like co-interior angles) instead of equal." },
+        { "label": "C", "text": "18", "value": "18", "trap": "confused_supplementary_complementary: subtracted from 90° as if the angles were complementary." },
+        { "label": "D", "text": "36", "value": "36", "trap": "wrong_angle_pair: halved the 72° instead of recognizing corresponding angles are congruent." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "When parallel lines are cut by a transversal, corresponding angles are equal.",
+        "So the corresponding angle equals the given 72°.",
+        "The measure is 72°.",
+        "Check: corresponding and alternate interior angles are equal; only co-interior angles would be supplementary (108°)."
+      ],
+      "calculatorStrategy": "solve_algebraically — corresponding angles across parallel lines are congruent, so the angle is 72°.",
+      "check": { "kind": "evaluate", "expression": "72" }
+    },
+    {
+      "id": "geo-la-m1",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Lines, angles, and triangle properties",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "A road crosses two parallel streets, forming a transversal. At the first street the road makes a 65° angle. What is the measure of the co-interior (same-side interior) angle at the second street?",
+      "choices": [
+        { "label": "A", "text": "115", "value": "115" },
+        { "label": "B", "text": "65", "value": "65", "trap": "parallel_line_confusion: treated co-interior angles as equal (like alternate interior angles) instead of supplementary." },
+        { "label": "C", "text": "25", "value": "25", "trap": "confused_supplementary_complementary: used 90° − 65° instead of 180° − 65°." },
+        { "label": "D", "text": "295", "value": "295", "trap": "wrong_angle_pair: added 65 to 360 − ... reflex error, adding instead of subtracting from 180." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Co-interior (same-side interior) angles between parallel lines are supplementary — they add to 180°.",
+        "So the co-interior angle is 180° − 65°.",
+        "Compute: 115°.",
+        "Check: alternate interior angles would be 65° (equal); co-interior are supplementary (115°)."
+      ],
+      "calculatorStrategy": "solve_algebraically — co-interior angles sum to 180°, so the angle is 180 − 65 = 115.",
+      "check": { "kind": "evaluate", "expression": "180 - 65" }
+    },
+    {
+      "id": "geo-la-m2",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Lines, angles, and triangle properties",
+      "difficulty": "Medium",
+      "type": "spr",
+      "scoreBand": "500-590",
+      "question": "In a triangle, the second angle is twice the first and the third angle is 30° larger than the first. Using that the three angles sum to 180°, what is the measure, in degrees, of the first angle?",
+      "answer": "37.5",
+      "explanation": [
+        "Let x be the first angle. The angles are x, 2x, and x + 30.",
+        "They sum to 180°: x + 2x + (x + 30) = 180, so 4x + 30 = 180.",
+        "Subtract 30: 4x = 150, so x = 37.5°.",
+        "Check: 37.5 + 75 + 67.5 = 180."
+      ],
+      "calculatorStrategy": "solve_algebraically — write x + 2x + (x + 30) = 180, combine to 4x + 30 = 180, and solve for x.",
+      "check": { "kind": "solve_linear", "expression": "x + 2*x + (x + 30) - 180", "variable": "x" }
+    },
+    {
+      "id": "geo-la-m3",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Lines, angles, and triangle properties",
+      "difficulty": "Medium",
+      "type": "mc",
+      "scoreBand": "500-590",
+      "question": "Two fences cross, forming an X. One of the four angles at the crossing measures 40°. What is the measure of the angle directly across from it (its vertical angle)?",
+      "choices": [
+        { "label": "A", "text": "40", "value": "40" },
+        { "label": "B", "text": "140", "value": "140", "trap": "wrong_angle_pair: used the adjacent (supplementary) angle, 180 − 40, instead of the vertical angle." },
+        { "label": "C", "text": "50", "value": "50", "trap": "confused_supplementary_complementary: subtracted from 90° as if the vertical angle were complementary." },
+        { "label": "D", "text": "20", "value": "20", "trap": "assumed_equal_without_label: halved the angle on a hunch instead of using that vertical angles are congruent." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "Vertical angles — the pair directly across an X-shaped intersection — are always equal.",
+        "So the angle across from 40° also measures 40°.",
+        "The measure is 40°.",
+        "Check: the adjacent angles (140°) are supplementary, not the vertical one."
+      ],
+      "calculatorStrategy": "solve_algebraically — vertical angles are congruent, so the opposite angle is 40°.",
+      "check": { "kind": "evaluate", "expression": "40" }
+    },
+    {
+      "id": "geo-la-h1",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Lines, angles, and triangle properties",
+      "difficulty": "Hard",
+      "type": "mc",
+      "scoreBand": "600-700",
+      "question": "A triangular bracket has two remote (non-adjacent) interior angles measuring 55° and 65°. At the third vertex, the side is extended to form an exterior angle. What is the measure of that exterior angle?",
+      "choices": [
+        { "label": "A", "text": "120", "value": "120" },
+        { "label": "B", "text": "60", "value": "60", "trap": "exterior_angle_error: found the third interior angle (180 − 55 − 65 = 60), which is the angle adjacent to the exterior one, not the exterior angle itself." },
+        { "label": "C", "text": "180", "value": "180", "trap": "exterior_angle_error: added all three interior angles (55 + 65 + 60) instead of only the two non-adjacent ones." },
+        { "label": "D", "text": "125", "value": "125", "trap": "wrong_angle_pair: added just one remote interior angle to the adjacent interior angle (65 + 60) instead of the two remote angles." }
+      ],
+      "answer": "A",
+      "explanation": [
+        "The exterior angle theorem: an exterior angle equals the sum of the two non-adjacent (remote) interior angles.",
+        "The remote interior angles are 55° and 65°.",
+        "So the exterior angle is 55 + 65 = 120°.",
+        "Check: the adjacent interior angle is 180 − 120 = 60°, matching 180 − 55 − 65."
+      ],
+      "calculatorStrategy": "solve_algebraically — exterior angle = sum of the two remote interior angles = 55 + 65 = 120.",
+      "check": { "kind": "evaluate", "expression": "55 + 65" }
+    },
+    {
+      "id": "geo-la-h2",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Lines, angles, and triangle properties",
+      "difficulty": "Hard",
+      "type": "spr",
+      "scoreBand": "600-700",
+      "question": "In the figure, lines l and m are parallel and cut by a transversal. One interior angle on the same side as another is labeled (3x + 10)° and its co-interior angle is labeled (x + 50)°. Because these co-interior angles are supplementary, what is the value of x?",
+      "answer": "30",
+      "explanation": [
+        "Co-interior (same-side interior) angles between parallel lines are supplementary, so they sum to 180°.",
+        "Write the equation: (3x + 10) + (x + 50) = 180.",
+        "Combine: 4x + 60 = 180, so 4x = 120.",
+        "Divide by 4: x = 30. Check: the angles are 100° and 80°, and 100 + 80 = 180."
+      ],
+      "calculatorStrategy": "solve_algebraically — co-interior angles are supplementary, so (3x + 10) + (x + 50) = 180; solve 4x + 60 = 180 for x.",
+      "check": { "kind": "solve_linear", "expression": "(3*x + 10) + (x + 50) - 180", "variable": "x" }
+    }
+  ]
+}
