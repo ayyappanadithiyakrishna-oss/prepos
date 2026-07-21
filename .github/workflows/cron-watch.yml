@@ -1,13 +1,13 @@
 name: cron-watch
 
 # Nightly bulk generation, then an email report — back to back.
-# 02:00 UTC: `generate` fills every thin bank (batch 20). When it finishes,
-# `report` (needs: generate) emails the summary. GitHub Actions has no per-job
-# schedule, so the two run sequentially in one 02:00 trigger rather than at 02:00
-# and 03:00 separately. Also runs on manual dispatch.
+# 09:00 UTC (2am PDT): `generate` fills every thin bank (batch 20). When it
+# finishes, `report` (needs: generate) emails the summary. GitHub Actions has
+# no per-job schedule, so the two run sequentially in one trigger. Also runs
+# on manual dispatch.
 on:
   schedule:
-    - cron: "0 2 * * *"
+    - cron: "0 9 * * *"
   workflow_dispatch:
 
 jobs:
