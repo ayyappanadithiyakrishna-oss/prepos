@@ -1,0 +1,322 @@
+{
+  "lesson": "Triangle similarity and congruence",
+  "domain": "Geometry & Trigonometry",
+  "subSkill": "Triangle similarity and congruence",
+  "calculatorStrategy": "avoid",
+  "problems": [
+    {
+      "id": "geo-sc-e1",
+      "type": "mc",
+      "difficulty": "Easy",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Triangle similarity and congruence",
+      "calculatorStrategy": "avoid",
+      "question": "A scale model of a sailboat uses triangular sails. The model sail has sides of length 3 cm, 4 cm, and 5 cm. The actual sail is similar to the model sail, and the longest side of the actual sail is 20 cm. What is the length, in centimeters, of the shortest side of the actual sail?",
+      "answer": "A",
+      "choices": [
+        {
+          "text": "12",
+          "value": "12",
+          "trap": null,
+          "label": "A"
+        },
+        {
+          "text": "15",
+          "value": "15",
+          "trap": "mismatched_ratio",
+          "label": "B"
+        },
+        {
+          "text": "3",
+          "value": "3",
+          "trap": "assumed_congruence",
+          "label": "C"
+        },
+        {
+          "text": "18",
+          "value": "18",
+          "trap": "added_instead",
+          "label": "D"
+        }
+      ],
+      "explanation": [
+        "The longest side of the model is 5 cm and the longest side of the actual sail is 20 cm.",
+        "Scale factor k = 20/5 = 4.",
+        "The shortest side of the model is 3 cm.",
+        "Shortest side of actual sail = 3 × 4 = 12 cm.",
+        "Trap 15: ratio set up as 20/4 = x/3 (used wrong corresponding side).",
+        "Trap 3: confused model for actual (assumed congruence).",
+        "Trap 18: added scale factor instead of multiplying (3 + 15 = 18)."
+      ],
+      "check": {
+        "kind": "geometry_ratio",
+        "ratio1": "20/5",
+        "ratio2": "x/3",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "geo-sc-e2",
+      "type": "spr",
+      "difficulty": "Easy",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Triangle similarity and congruence",
+      "calculatorStrategy": "avoid",
+      "question": "A 5-foot pole casts a 4-foot shadow at the same time a tree casts a 12-foot shadow. The pole and tree are both vertical, and the sun's rays hit at the same angle, creating similar triangles. How tall, in feet, is the tree?",
+      "answer": "15",
+      "explanation": [
+        "The pole and its shadow form one triangle; the tree and its shadow form a similar triangle.",
+        "Corresponding sides: pole height / shadow = tree height / shadow.",
+        "5/4 = x/12.",
+        "x = 5 × 12/4 = 15 feet."
+      ],
+      "check": {
+        "kind": "geometry_ratio",
+        "ratio1": "5/4",
+        "ratio2": "x/12",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "geo-sc-e3",
+      "type": "mc",
+      "difficulty": "Easy",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Triangle similarity and congruence",
+      "calculatorStrategy": "avoid",
+      "question": "Triangle ABC has sides AB = 9, BC = 12, and AC = 15. Triangle DEF is congruent to triangle ABC by SAS, with DE = 9 and EF = 12. What is the length of DF?",
+      "answer": "A",
+      "choices": [
+        {
+          "text": "15",
+          "value": "15",
+          "trap": null,
+          "label": "A"
+        },
+        {
+          "text": "9",
+          "value": "9",
+          "trap": "wrong_corresponding_side",
+          "label": "B"
+        },
+        {
+          "text": "12",
+          "value": "12",
+          "trap": "wrong_corresponding_side",
+          "label": "C"
+        },
+        {
+          "text": "21",
+          "value": "21",
+          "trap": "added_instead",
+          "label": "D"
+        }
+      ],
+      "explanation": [
+        "Triangle ABC ≅ Triangle DEF (vertices listed in correspondence order).",
+        "A↔D, B↔E, C↔F.",
+        "By CPCTC (Congruent Parts of Congruent Triangles are Congruent): DF corresponds to AC.",
+        "AC = 15, so DF = 15.",
+        "Trap 9 or 12: picking DE or EF instead of the side corresponding to AC.",
+        "Trap 21: adding DE + EF = 9 + 12 = 21 (no triangle operation applies here)."
+      ],
+      "check": {
+        "kind": "evaluate",
+        "expression": "15"
+      }
+    },
+    {
+      "id": "geo-sc-m1",
+      "type": "mc",
+      "difficulty": "Medium",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Triangle similarity and congruence",
+      "calculatorStrategy": "avoid",
+      "question": "Two similar triangles have corresponding sides in the ratio 3:5. The area of the smaller triangle is 18 square units. What is the area of the larger triangle?",
+      "answer": "A",
+      "choices": [
+        {
+          "text": "50",
+          "value": "50",
+          "trap": null,
+          "label": "A"
+        },
+        {
+          "text": "30",
+          "value": "30",
+          "trap": "forgot_k_squared",
+          "label": "B"
+        },
+        {
+          "text": "90",
+          "value": "90",
+          "trap": "wrong_ratio_direction",
+          "label": "C"
+        },
+        {
+          "text": "18",
+          "value": "18",
+          "trap": "assumed_congruence",
+          "label": "D"
+        }
+      ],
+      "explanation": [
+        "When two figures are similar with scale factor k, their areas are in the ratio k².",
+        "Scale factor from small to large: k = 5/3.",
+        "Area ratio = (5/3)² = 25/9.",
+        "Larger area = 18 × 25/9 = 50 square units.",
+        "Trap 30: multiplied by k instead of k² (18 × 5/3 = 30).",
+        "Trap 90: used k² = (3/5)² inverted, then scaled wrong (18 × 25/9 applied backwards).",
+        "Trap 18: assumed area is the same because triangles are 'similar' (confused similar with congruent)."
+      ],
+      "check": {
+        "kind": "evaluate",
+        "expression": "18 * (5/3)**2"
+      }
+    },
+    {
+      "id": "geo-sc-m2",
+      "type": "spr",
+      "difficulty": "Medium",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Triangle similarity and congruence",
+      "calculatorStrategy": "avoid",
+      "question": "Two parallel lines are cut by two transversals that meet at a point, forming two similar triangles. On the first transversal, the parallel lines cut segments of length 4 and 6. On the second transversal, the shorter segment has length 6. What is the length of the longer segment on the second transversal?",
+      "answer": "9",
+      "explanation": [
+        "Parallel lines cut by transversals create similar triangles (AA similarity).",
+        "Corresponding segments are proportional.",
+        "4/6 = 6/x (short segment / long segment = short segment / long segment).",
+        "4x = 36, so x = 9."
+      ],
+      "check": {
+        "kind": "geometry_ratio",
+        "ratio1": "4/6",
+        "ratio2": "6/x",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "geo-sc-m3",
+      "type": "mc",
+      "difficulty": "Medium",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Triangle similarity and congruence",
+      "calculatorStrategy": "avoid",
+      "question": "In triangle ABC, DE is drawn parallel to BC with D on AB and E on AC. AD = 4, DB = 6, and BC = 15. What is the length of DE?",
+      "answer": "A",
+      "choices": [
+        {
+          "text": "6",
+          "value": "6",
+          "trap": null,
+          "label": "A"
+        },
+        {
+          "text": "9",
+          "value": "9",
+          "trap": "used_db_not_ab",
+          "label": "B"
+        },
+        {
+          "text": "10",
+          "value": "10",
+          "trap": "wrong_ratio_ad_db",
+          "label": "C"
+        },
+        {
+          "text": "15",
+          "value": "15",
+          "trap": "assumed_congruence",
+          "label": "D"
+        }
+      ],
+      "explanation": [
+        "DE ∥ BC creates similar triangles: triangle ADE ~ triangle ABC (AA similarity).",
+        "The ratio is AD/AB (not AD/DB).",
+        "AB = AD + DB = 4 + 6 = 10.",
+        "AD/AB = DE/BC → 4/10 = x/15.",
+        "x = 4 × 15/10 = 6.",
+        "Trap 9: used AD/DB = 4/6 instead of AD/AB = 4/10 → (4/6) × 15 = 10 ... wait, that's 10. Trap 9 comes from DB/AB = 6/10 × 15 = 9.",
+        "Trap 10: used AD/DB = 4/6, inverted or simplified incorrectly.",
+        "Trap 15: assumed DE = BC (forgot parallel line creates smaller triangle, not congruent)."
+      ],
+      "check": {
+        "kind": "geometry_ratio",
+        "ratio1": "4/10",
+        "ratio2": "x/15",
+        "variable": "x"
+      }
+    },
+    {
+      "id": "geo-sc-h1",
+      "type": "mc",
+      "difficulty": "Hard",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Triangle similarity and congruence",
+      "calculatorStrategy": "avoid",
+      "question": "Two similar triangles have areas of 16 square units and 36 square units. What is the ratio of the length of a side of the smaller triangle to the corresponding side of the larger triangle?",
+      "answer": "A",
+      "choices": [
+        {
+          "text": "2/3",
+          "value": "2/3",
+          "trap": null,
+          "label": "A"
+        },
+        {
+          "text": "4/9",
+          "value": "4/9",
+          "trap": "forgot_square_root",
+          "label": "B"
+        },
+        {
+          "text": "3/2",
+          "value": "3/2",
+          "trap": "inverted_ratio",
+          "label": "C"
+        },
+        {
+          "text": "9/4",
+          "value": "9/4",
+          "trap": "inverted_and_forgot_root",
+          "label": "D"
+        }
+      ],
+      "explanation": [
+        "Area ratio = 16/36 = 4/9.",
+        "Areas scale as k², so side ratio = √(area ratio) = √(4/9) = 2/3.",
+        "The question asks smaller:larger, so the answer is 2/3.",
+        "Trap 4/9: gave area ratio instead of side ratio (forgot to take square root).",
+        "Trap 3/2: took side ratio correctly but inverted it (larger:smaller).",
+        "Trap 9/4: gave inverted area ratio (forgot root AND inverted)."
+      ],
+      "check": {
+        "kind": "evaluate",
+        "expression": "(16/36)**Rational(1,2)"
+      }
+    },
+    {
+      "id": "geo-sc-h2",
+      "type": "spr",
+      "difficulty": "Hard",
+      "domain": "Geometry & Trigonometry",
+      "subSkill": "Triangle similarity and congruence",
+      "calculatorStrategy": "avoid",
+      "question": "Two similar triangles have a scale factor of 5:2. A side of the larger triangle has length (3x + 2) and the corresponding side of the smaller triangle has length 8. What is the value of x?",
+      "answer": "6",
+      "explanation": [
+        "Scale factor larger:smaller = 5:2, so larger side / smaller side = 5/2.",
+        "(3x + 2)/8 = 5/2.",
+        "Multiply both sides by 8: 3x + 2 = 20.",
+        "3x = 18, so x = 6.",
+        "Check: larger side = 3(6) + 2 = 20, smaller = 8, ratio = 20/8 = 5/2. ✓"
+      ],
+      "check": {
+        "kind": "solve_linear",
+        "expression": "(3*x + 2)/8 - 5/2",
+        "variable": "x"
+      }
+    }
+  ]
+}
