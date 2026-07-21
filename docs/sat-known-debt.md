@@ -164,3 +164,12 @@ and grades correctly at runtime:
 4. **Backward problems** (find a missing dimension from a given area/volume) use
    `calculatorStrategy: "use_desmos_graph"`. Direct/forward problems use
    `"solve_algebraically"`.
+5. **checkSpec field name:** use `"check"` not `"checkSpec"` — the schema and
+   verifier both require the key to be `"check"`. Using `"checkSpec"` causes every
+   problem in the file to fail with `check failed to evaluate: 'check'`.
+   (caught on geo-similarity build)
+6. **MC answer format:** `answer` must be the **label letter** (`"A"`, `"B"`,
+   `"C"`, `"D"`), not the value string (`"12"`, `"15"`, etc.). Every MC choice
+   object must include a `"label"` field (one of `"A"`–`"D"`); the verifier uses
+   `labels = [c["label"] for c in choices]` and matching fails without it.
+   (caught on geo-similarity build)
